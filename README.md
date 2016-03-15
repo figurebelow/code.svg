@@ -1,2 +1,2 @@
 # code.svg
-A Node.js library to generate beauty through SVG and javascript
+A JavaScript library to generate beauty through SVG and code
