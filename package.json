@@ -1,0 +1,32 @@
+{
+  "name": "code.svg",
+  "version": "1.0.0",
+  "description": "A JavaScript library to generate beauty through SVG and code",
+  "main": "codesvg-monitor.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "mocha ./tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/figurebelow/code.svg.git"
+  },
+  "keywords": [
+    "svg",
+    "nodejs",
+    "d3",
+    "art",
+    "generative"
+  ],
+  "author": "Ruben <ruben@figurebelow.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/figurebelow/code.svg/issues"
+  },
+  "devDependencies": {
+   "mocha": "2.4.5"
+  },
+  "homepage": "https://github.com/figurebelow/code.svg#readme"
+}

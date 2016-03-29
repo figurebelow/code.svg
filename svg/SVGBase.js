@@ -36,6 +36,7 @@ module.exports.SVGBase = class SVGBase {
     for (var style in this.style) {
       svgNode.style (style, this.style[style]);
     }
+    return svgNode;
   }
 
   genTransform (svgNode) {
@@ -131,7 +132,7 @@ module.exports.SVGBase = class SVGBase {
     this.transform.rotate.deg = deg;
   }
 
-  isRotated () { return this.transform.rotate != undefined; }
+  isRotated () { return this.transform.rotate.deg != undefined; }
   getRotate () { return this.transform.rotate };
 
   sca (xfactor, yfactor) {

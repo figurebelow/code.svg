@@ -34,4 +34,13 @@ module.exports.Rnd = class Rnd {
   colorIn (scale, start, end) {
     return D3.scale.linear().domain([1, 16^6]).range(["#000000","#FFFFFF"])(scale);
   }
+
+  getId () {
+    var id = "id-";
+    for (let i = 0; i < 8; i++)
+    {
+      id += String.fromCharCode(97 + Math.floor(Math.random() * 26))
+    }
+    return id;
+  }
 };

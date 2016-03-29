@@ -13,6 +13,7 @@ module.exports.Scene = class Scene {
     this.children = [];
     this.masks = {};
     this.attributes = {};
+    this.defs = [];
     var that = this;
     for (var attr in attrs) {
       this.attributes[attr] = attrs[attr];
@@ -35,6 +36,11 @@ module.exports.Scene = class Scene {
 
     var that = this;
     var defs = this.svg.append ("defs");
+
+    this.defs.forEach(function (def) {
+      def.append(defs)
+    });
+
     for (var maskId in this.masks) {
       var maskRoot = defs.append ("mask").attr ("id", maskId);
       var mask = this.masks[maskId];
@@ -63,12 +69,13 @@ module.exports.Scene = class Scene {
     this.append();
     var content = this.root.html();
     content = content.replace(/clippath/g, "clipPath");
+    content = content.replace(/lineargradient/g, "linearGradient");
+    content = content.replace(/radialgradient/g, "radialGradient");
     return content;
   };
 
   add (child) { this.children.push (child); }
-  addMask (id, def)
-  {
+  addMask (id, def) {
     if (this.masks[id] != undefined)
     {
       this.masks[id].push (def);
@@ -76,5 +83,9 @@ module.exports.Scene = class Scene {
     else {
       this.masks[id] = [def];
     }
+  }
+
+  addDef (def) {
+    this.defs.push(def);
   }
 }

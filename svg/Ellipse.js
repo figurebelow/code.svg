@@ -23,8 +23,8 @@ module.exports.Ellipse = class Ellipse extends SVGBase {
     return {x: this.attributes["cx"], y: this.attributes["cy"]};
   }
 
-  moveTo (xyPos) {
-    this.setAttr ({cx: xyPos.x, cy: xyPos.y});
+  moveTo (x, y) {
+    this.setAttr ({cx: x, cy: y});
     return this;
   }
 

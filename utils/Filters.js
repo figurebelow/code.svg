@@ -4,7 +4,21 @@
 * This source code is licensed under the Apache license (see LICENSE file)
 **/
 
-/* SVG Filters */
+"use strict";
+
+let SVGBase = require ("../svg/SVGBase.js").SVGBase;
+
+module.exports.Filter = class Filter extends SVGBase {
+
+  constructor (values, style) {
+    super ("filter", values, style);
+  }
+
+  clone () {
+    var newElem = new Filter (this.attributes, this.style);
+    return newElem;
+  }
+}
 
 DiffuseLight = function (color, result, x, y, z, intensity)
 {
