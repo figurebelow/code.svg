@@ -6,9 +6,7 @@
 
 "use strict";
 
-let SVGBase = require ("./SVGBase.js").SVGBase;
-
-module.exports.Group = class Group extends SVGBase {
+class Group extends SVGBase {
 
   constructor (values, style) {
     super ("g", values, style);

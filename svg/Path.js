@@ -5,9 +5,8 @@
 **/
 
 "use strict";
-let SVGBase = require ("./SVGBase.js").SVGBase;
 
-module.exports.Path = class Path extends SVGBase {
+class Path extends SVGBase {
 
   constructor (values, style) {
     super ("path", values, style);

@@ -8,7 +8,7 @@
 
 let SVGBase = require ("../svg/SVGBase.js").SVGBase;
 
-module.exports.Filter = class Filter extends SVGBase {
+class Filter extends SVGBase {
 
   constructor (values, style) {
     super ("filter", values, style);
@@ -44,5 +44,6 @@ LinearGradient = function (x1, y1, x2, y2, stops)
   return linearGradient;
 }
 
-exports.LinearGradient = LinearGradient;
-exports.DiffuseLight = DiffuseLight;
+module.exports.Filter = Filter;
+module.exports.LinearGradient = LinearGradient;
+module.exports.DiffuseLight = DiffuseLight;

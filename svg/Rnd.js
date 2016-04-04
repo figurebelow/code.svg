@@ -6,9 +6,9 @@
 
 "use strict";
 
-var D3 = require ("../d3/d3.v3.min.js");
+//var D3 = require ("../d3/d3.v3.min.js");
 
-module.exports.Rnd = class Rnd {
+class Rnd {
 
   constructor (seed) {
     this.seed = seed;

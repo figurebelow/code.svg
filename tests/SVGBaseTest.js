@@ -7,10 +7,9 @@
 **/
 
 var assert = require ("assert");
-var should = require ("should");
-var SVGBase = require ("../SVGBase.js").SVGBase;
-var Circle = require ("../Circle.js").Circle;
-var Rect = require ("../Rect.js").Rect;
+var SVGBase = require ("../svg/SVGBase.js").SVGBase;
+var Circle = require ("../svg/Circle.js").Circle;
+var Rect = require ("../svg/Rect.js").Rect;
 
 describe ("SVG", function () {
 

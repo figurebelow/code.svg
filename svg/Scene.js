@@ -5,7 +5,8 @@
 **/
 
 "use strict";
-module.exports.Scene = class Scene {
+
+class Scene {
 
   constructor (root, attrs) {
     this.svg = null;

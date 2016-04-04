@@ -5,12 +5,17 @@
 **/
 
 "use strict";
+
 let SVGBase = require ("./SVGBase.js").SVGBase;
 
-module.exports.Line = class Line extends SVGBase {
+class Line extends SVGBase {
 
-  constructor (values, style) {
-    super ("line", values, style);
+  constructor (x1, y1, x2, y2, style) {
+    super ("line", {}, style);
+    this.setAttr ({"x1":x1});
+    this.setAttr ({"y1": y1});
+    this.setAttr ({"x2": x2});
+    this.setAttr ({"y2": y2});
   }
 
   clone () {
@@ -19,6 +24,7 @@ module.exports.Line = class Line extends SVGBase {
   }
 
   getCenter () {
+    console.log(this)
     return ({x: (this.getAttr ("x1") + this.getAttr ("x2"))/2,
              y: (this.getAttr ("y1") + this.getAttr ("y2"))/2});
   }
@@ -34,3 +40,5 @@ module.exports.Line = class Line extends SVGBase {
     return this;
   }
 };
+
+module.exports.Line = Line;

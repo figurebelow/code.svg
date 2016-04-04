@@ -8,7 +8,7 @@
 
 let SVGBase = require ("./SVGBase.js").SVGBase;
 
-module.exports.Ellipse = class Ellipse extends SVGBase {
+class Ellipse extends SVGBase {
 
   constructor (values, style) {
     super ("ellipse", values, style);
@@ -34,3 +34,5 @@ module.exports.Ellipse = class Ellipse extends SVGBase {
     return this;
   }
 };
+
+module.exports.Ellipse = Ellipse;

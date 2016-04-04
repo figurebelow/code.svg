@@ -8,7 +8,7 @@
 
 var assert = require ("assert");
 var Filters = require ("../utils/Filters.js").Filters;
-
+console.log(Filters)
 describe ("DiffuseLight", function () {
 
   it ("returns a filter string", function () {

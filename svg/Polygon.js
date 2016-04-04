@@ -5,4 +5,3 @@
 **/
 
 "use strict";
-let SVGBase = require ("./SVGBase.js").SVGBase;

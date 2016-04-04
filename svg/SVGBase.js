@@ -8,7 +8,7 @@
 
 let Functions = require ("../utils/Functions.js").Functions;
 
-module.exports.SVGBase = class SVGBase {
+class SVGBase {
 
   constructor (type, values, style) {
     this.type = type;
@@ -147,3 +147,5 @@ module.exports.SVGBase = class SVGBase {
     return this;
   }
 };
+
+module.exports.SVGBase = SVGBase;

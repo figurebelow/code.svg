@@ -8,7 +8,7 @@
 
 let SVGBase = require ("./SVGBase.js").SVGBase;
 
-module.exports.Rect = class Rect extends SVGBase {
+class Rect extends SVGBase {
 
   constructor (values, style) {
     super ("rect", values, style);
@@ -42,3 +42,5 @@ module.exports.Rect = class Rect extends SVGBase {
     return this;
   }
 };
+
+module.exports.Rect = Rect;

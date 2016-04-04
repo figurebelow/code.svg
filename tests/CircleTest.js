@@ -6,6 +6,8 @@
 * LICENSE file in the root directory of this source tree.
 **/
 
+"use strict"
+
 var assert = require ("assert");
 var Circle = require ("../svg/Circle.js").Circle;
 

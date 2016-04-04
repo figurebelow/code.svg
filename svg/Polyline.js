@@ -5,9 +5,8 @@
 **/
 
 "use strict";
-let SVGBase = require ("./SVGBase.js").SVGBase;
 
-module.exports.Polyline = class Polyline extends SVGBase {
+class Polyline extends SVGBase {
 
   constructor (values, style) {
     super ("polyline", values, style);
@@ -19,7 +18,7 @@ module.exports.Polyline = class Polyline extends SVGBase {
   }
 
   getCenter () {
-    
+
   }
 
   moveTo (xyPos1, xyPos2) {

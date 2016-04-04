@@ -8,7 +8,7 @@
 
 let SVGBase = require ("./SVGBase.js").SVGBase;
 
-module.exports.Circle = class Circle extends SVGBase {
+class Circle extends SVGBase {
 
   constructor (values, style) {
     super ("circle", values, style);
@@ -28,3 +28,5 @@ module.exports.Circle = class Circle extends SVGBase {
     return this;
   }
 };
+
+module.exports.Circle = Circle;
