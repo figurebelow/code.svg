@@ -9,7 +9,7 @@
 /**
  * http://struct.cc/blog/2011/08/15/strange-attractors/
  */
-module.exports.Attractor = function Attractor (numPoints, entryString, width, height)
+function Attractor (numPoints, entryString, width, height)
 {
 
   // Fractal pattern and coefficients.
@@ -44,12 +44,14 @@ module.exports.Attractor = function Attractor (numPoints, entryString, width, he
   return res;
 }
 
+module.exports.Attractor = Attractor;
+
 /**
   Rossler Attractor code.
   http://paulbourke.net/fractals/rossler/
 */
 //function Rossler (numPoints, a, b, c, h, x0, y0, scale, width, height)
-module.exports.Rossler = function Rossler (params)
+function Rossler (params)
 {
   function rosslerPoint (x, y, z, a, b, c) {
     var dx = -(y + z);
@@ -80,12 +82,13 @@ module.exports.Rossler = function Rossler (params)
   }
   return res;
 }
+module.exports.Rossler = Rossler;
 
 /**
   Lorentz Attractor code.
   http://www.algosome.com/articles/lorenz-attractor-programming-code.html
 */
-module.exports.Lorentz = function Lorentz (params)
+function Lorentz (params)
 {
   function rosslerPoint (x, y, z, a, b, c) {
     var dx = a * (y - x);
@@ -113,7 +116,7 @@ module.exports.Lorentz = function Lorentz (params)
   }
   return res;
 }
-
+module.exports.Lorentz = Lorentz;
 /**
  * Returns a grid of x,y values
  * @param {number} xrows - number of points in x
@@ -122,7 +125,7 @@ module.exports.Lorentz = function Lorentz (params)
  * @param {number} height - total height
  * @return {array} list of values {x:val, y:val}
  */
-module.exports.Grid = function Grid (params)
+function Grid (params)
 {
   var points = [];
   var xspan = params.width / (params.xrows || 10);
@@ -134,6 +137,7 @@ module.exports.Grid = function Grid (params)
     }
   return points;
 }
+module.exports.Grid = Grid;
 
 /* Returns a Spiral of points centered at x,y
 * @param {number} points - number of points
@@ -144,7 +148,7 @@ module.exports.Grid = function Grid (params)
 * @param {number} chord - chord value
 * @return {array} list of values {x:val, y:val}
 */
-module.exports.Spiral = function Spiral (params)
+function Spiral (params)
 {
   var points = [];
   var centerX = params.x,
@@ -167,3 +171,4 @@ module.exports.Spiral = function Spiral (params)
   }
   return points;
 }
+module.exports.Spiral = Spiral;

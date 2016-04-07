@@ -22,7 +22,7 @@ class Path extends SVGBase {
   }
 
   moveTo (xyPos1, xyPos2) {
-    this.setAttr({x1: xyPos1.x, y1:xyPos1.y, x2:xyPos2.x, y2:xyPos2.y})
+    this.setAttr({x1: xyPos1.x, y1:xyPos1.y, x2:xyPos2.x, y2:xyPos2.y});
     return this;
   }
 

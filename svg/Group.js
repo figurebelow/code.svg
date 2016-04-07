@@ -5,6 +5,7 @@
 **/
 
 "use strict";
+let SVGBase = require ("./SVGBase.js").SVGBase;
 
 class Group extends SVGBase {
 

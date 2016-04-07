@@ -32,18 +32,5 @@ DiffuseLight = function (color, result, x, y, z, intensity)
   return filterString;
 }
 
-// stop ["0%", "rgb(255,255,0)", "1"]
-LinearGradient = function (x1, y1, x2, y2, stops)
-{
-  var linearGradient = "";
-  //<linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-  //    <stop offset="0%" style="stop-color:rgb(255,255,0);stop-opacity:1" />
-  //    <stop offset="100%" style="stop-color:rgb(255,0,0);stop-opacity:1" />
-  //  </linearGradient>
-
-  return linearGradient;
-}
-
 module.exports.Filter = Filter;
-module.exports.LinearGradient = LinearGradient;
 module.exports.DiffuseLight = DiffuseLight;

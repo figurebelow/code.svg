@@ -24,13 +24,12 @@ class Line extends SVGBase {
   }
 
   getCenter () {
-    console.log(this)
     return ({x: (this.getAttr ("x1") + this.getAttr ("x2"))/2,
              y: (this.getAttr ("y1") + this.getAttr ("y2"))/2});
   }
 
   moveTo (xyPos1, xyPos2) {
-    this.setAttr({x1: xyPos1.x, y1:xyPos1.y, x2:xyPos2.x, y2:xyPos2.y})
+    this.setAttr({x1: xyPos1.x, y1:xyPos1.y, x2:xyPos2.x, y2:xyPos2.y});
     return this;
   }
 

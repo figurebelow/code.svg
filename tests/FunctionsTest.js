@@ -7,8 +7,7 @@
 **/
 
 var assert = require ("assert");
-var should = require ("should");
-var Functions = require ("../Functions.js");
+var Functions = require ("../utils/Functions.js");
 
 describe ("Functions", function () {
 

@@ -11,7 +11,7 @@
  * as described in http://en.wikipedia.org/wiki/Centroid#Centroid_of_polygon
  * - parameters: vertices: {x,y} vertices list
  */
-module.exports.NonIntersecPolCenter = function NonIntersecPolCenter (points) {
+function NonIntersecPolCenter (points) {
   if (points != undefined)
     pts = points.slice(0);
   if (pts != undefined && pts.length)
@@ -41,16 +41,17 @@ module.exports.NonIntersecPolCenter = function NonIntersecPolCenter (points) {
   }
   throw ("Warning: return empty NonIntersecPolCenter");
 };
-
+module.exports.NonIntersecPolCenter = NonIntersecPolCenter;
 /*
  * Determines the angle of a straight line drawn between point one and two.
  * The number returned, which is a float in degrees, tells us how much we have
  * to rotate a horizontal line clockwise for it to match the line between the
  * two points.
  */
-module.exports.calculateAngle = function calculateAngle (point1, point2)
+function calculateAngle (point1, point2)
 {
   var xDiff = point2.x - point1.x;
   var yDiff = point2.y - point1.y;
   return Math.atan2 (yDiff, xDiff) * (180 / Math.PI);
 }
+module.exports.calculateAngle = calculateAngle;

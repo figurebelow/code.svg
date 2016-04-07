@@ -44,3 +44,5 @@ class Rnd {
     return id;
   }
 };
+
+module.exports.Rnd = Rnd;

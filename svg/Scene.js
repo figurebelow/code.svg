@@ -39,7 +39,7 @@ class Scene {
     var defs = this.svg.append ("defs");
 
     this.defs.forEach(function (def) {
-      def.append(defs)
+      def.append(defs);
     });
 
     for (var maskId in this.masks) {
@@ -63,7 +63,7 @@ class Scene {
   }
 
   getSvg() {
-    return this.svg
+    return this.svg;
   }
 
   exportContent () {
@@ -89,4 +89,6 @@ class Scene {
   addDef (def) {
     this.defs.push(def);
   }
-}
+};
+
+module.exports.Scene = Scene;
