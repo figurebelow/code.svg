@@ -6,6 +6,10 @@
 
 "use strict";
 
+var assert = require ("assert");
+var SVGBase = require ("../svg/SVGBase.js").SVGBase;
+var NonIntersecPolCenter = require ("../utils/Functions.js").NonIntersecPolCenter;
+
 class Path extends SVGBase {
 
   constructor (values, style) {
@@ -18,7 +22,7 @@ class Path extends SVGBase {
   }
 
   getCenter () {
-    return Functions.NonIntersecPolCenter ();
+    return NonIntersecPolCenter ();
   }
 
   moveTo (xyPos1, xyPos2) {
@@ -32,3 +36,5 @@ class Path extends SVGBase {
     return this;
   }
 };
+
+module.exports.Path = Path;

@@ -20,7 +20,7 @@ class Filter extends SVGBase {
   }
 }
 
-DiffuseLight = function (color, result, x, y, z, intensity)
+function DiffuseLight (color, result, x, y, z, intensity)
 {
   var filterString = "";
   filterString += "<filter id=\"id" + 33 + "\">";

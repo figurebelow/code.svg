@@ -7,12 +7,12 @@
 **/
 
 var assert = require ("assert");
-var Filters = require ("../utils/Filters.js").Filters;
-console.log(Filters)
+var Filters = require ("../utils/Filters.js").Filter;
+var DiffuseLight = require ("../utils/Filters.js").DiffuseLight;
 describe ("DiffuseLight", function () {
 
   it ("returns a filter string", function () {
-    var filter = Filters.DiffuseLight ("red", "result", 1, 2, 3, 1);
+    var filter = DiffuseLight ("red", "result", 1, 2, 3, 1);
     assert.notEqual (0, filter.length);
   });
 });

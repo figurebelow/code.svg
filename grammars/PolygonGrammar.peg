@@ -1,0 +1,15 @@
+/*
+ * This is a grammar to parse strings describing the polygon shape,
+ * basically a list of x,y pairs.
+ */
+
+start = p:(pairs)+ { return p[0] }
+
+int
+  = digits:[0-9]+{ return parseInt(digits.join(""), 10); }
+
+pairs
+  = val:([ ]* x:int [ ,] y:int { return {"x":x,"y":y} })+
+    { return val }
+
+ws = [ \t\r\n]

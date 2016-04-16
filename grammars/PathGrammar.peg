@@ -1,0 +1,55 @@
+/*
+ * This is a grammar to parse strings describing the path shape.
+ */
+
+start = (draws)+
+
+draws = moveTo / lineTo / horLineTo / verLineTo / curveTo / quadCurveTo / smoothTo / bezierTogetherTo / arcTo / close
+
+close =
+ "Z" { return { type:"z" }} / "z" { return { type:"z" } }
+
+number
+  = digits:[0-9]+ ((".") [0-9]+)? { return parseFloat(digits.join(""), 10); }
+
+quadCurveTo
+  = key:("q" / "Q") ws* val:([ ]* x1:number ws y1:number ws x:number ws y:number [ ]*
+                  { return {"x1": x1, "y1":y1, "x":x, "y":y }} )+
+  { return { type:"q", values: val }}
+
+moveTo
+  = key:("M" / "m") ws* val:([ ]* x:number [ ,] y:number [ ]* { return {"x":x,"y":y} })+
+    { return { type:"m", values: val }}
+
+lineTo
+  = key:("L" / "l") ws* val:([ ]* x:number [ ,] y:number [ ]* { return {"x":x,"y":y} })+
+    { return { type:"l", values: val }}
+
+horLineTo
+  = key:("H" / "h") ws* val:([ ]* x:number [ ]*)
+    { return { type:"h", values: val[1] }}
+
+verLineTo
+  = key:("V" / "v") ws* val:([ ]* x:number [ ]*)
+    { return { type:"v", values: val[1] }}
+
+curveTo
+  = key:("C" / "c") ws* val:([ ]* x1:number ws y1:number ws x2:number ws y2:number ws x:number ws y:number [ ]*
+                    { return {"x1": x1, "y1":y1, "x2":x2, "y2":y2, "x":x, "y":y }} )+
+    { return { type:"c", values: val }}
+
+smoothTo
+  = key:("S" / "s") ws* val:([ ]* x2:number ws y2:number ws x:number ws y:number [ ]* { return {"x2":x2, "y2":y2, "x":x, "y":y} } )+
+    { return { type: "s", values: val }}
+
+bezierTogetherTo
+  = key:("T" / "t") ws* val:([ ]* x1:number ws y1:number [ ]*
+                    { return {"x":x1, "y":y1} } )+
+    { return { type:"t", values: val }}
+
+arcTo
+  = key:("A" / "a") ws* val:([ ]* rx:number ws ry:number ws xrot:number ws arcflag:number ws sweep:number ws x:number ws y:number [ ]*
+                    { return { "rx":rx, "ry":ry, "xrot":xrot, "arcflag":arcflag, "sweep":sweep, "x":x, "y":y } } )+
+    { return { type:"a", values: val }}
+
+ws = [" "\t\r\n\,]
