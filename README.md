@@ -3,3 +3,7 @@
 [![npm version](https://badge.fury.io/js/code.svg.svg)](https://badge.fury.io/js/code.svg)
 # code.svg
 A JavaScript library to manipulate the SVG DOM in a object-oriented way.
+
+## Use
+
+TODO
