@@ -19,7 +19,7 @@ class Line extends SVGBase {
   }
 
   clone () {
-    var newElem = new Line (this.attributes, this.style);
+    var newElem = new Line (this.getAttr("x1"), this.getAttr("y1"), this.getAttr("x2"), this.getAttr("y2"), this.style);
     return newElem;
   }
 

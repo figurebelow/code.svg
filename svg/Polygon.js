@@ -5,4 +5,19 @@
 **/
 
 "use strict";
-let SVGBase = require ("./SVGBase.js").SVGBase;
+let Polyline = require ("./Polyline.js").Polyline;
+
+class Polygon extends Polyline {
+
+  constructor (values, style) {
+    super (values, style);
+    super.setAttr("type", "polygon");
+  }
+
+  clone () {
+    var newElem = new Polygon (this.attributes, this.style);
+    return newElem;
+  }
+};
+
+module.exports.Polygon = Polygon;

@@ -11,11 +11,6 @@ var Functions = require ("../utils/Functions.js");
 
 describe ("Functions", function () {
 
-  it ("Generates a number using RandomGem", function () {
-    assert.notEqual (null, Functions.RandomGen());
-    assert.notEqual (null, Functions.RandomGen(4));
-  });
-
   it ("gets the NonIntersecPolCenter of a bunch of figures", function () {
     // a line
     assert.deepEqual ({x:25, y:0}, Functions.NonIntersecPolCenter ([{x:0, y:0}, {x:50, y:0}]));

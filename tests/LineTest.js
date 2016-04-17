@@ -31,10 +31,10 @@ describe ("Line", function ()
     assert.deepEqual ({x:30,y:30}, line.getCenter());
   });
 
-  xit ("sets its position", function ()
+ it ("sets its position", function ()
   {
-    line.moveTo({x:60, y:90}, 0, 0);
-    assert.deepEqual ({x:60,y:90}, line.getCenter());
+    line.moveTo({x:60, y:90}, {x:0, y:0});
+    assert.deepEqual ({x:30,y:45}, line.getCenter());
   });
 
   it ("clones", function () {

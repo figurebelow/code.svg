@@ -6,14 +6,21 @@
 
 "use strict";
 
-var assert = require ("assert");
-var SVGBase = require ("../svg/SVGBase.js").SVGBase;
-var NonIntersecPolCenter = require ("../utils/Functions.js").NonIntersecPolCenter;
+let assert = require ("assert");
+let SVGBase = require ("../svg/SVGBase.js").SVGBase;
+let NonIntersecPolCenter = require ("../utils/Functions.js").NonIntersecPolCenter;
+let PointsParser = require ("../grammars/PathGrammar.js");
 
 class Path extends SVGBase {
 
   constructor (values, style) {
     super ("path", values, style);
+    if ("d" in values)
+      this.parsedPoints = PointsParser.parse (values["d"]);
+    else {
+      this.setAttr({d:""});
+      this.parsedPoints = [];
+    }
   }
 
   clone () {
@@ -22,7 +29,13 @@ class Path extends SVGBase {
   }
 
   getCenter () {
-    return NonIntersecPolCenter ();
+    var vertices = [];
+    this.parsedPoints.forEach (function (instruction) {
+      if (instruction.values != undefined) {
+         vertices = vertices.concat (instruction.values)
+       }
+     });
+     return NonIntersecPolCenter (vertices);
   }
 
   moveTo (xyPos1, xyPos2) {

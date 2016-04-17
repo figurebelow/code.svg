@@ -11,44 +11,42 @@ var Path = require ("../svg/Path.js").Path;
 
 describe ("Path", function () {
 
-  var path;
-  beforeEach(function() {
-    path = new Path ("", "fill:red", 3);
-  });
-
   it ("initializes a path with a line", function ()
   {
-    var path = new Path ("M0,0 L10,20Z", "", 1);
+    var path = new Path ({d:"M0,0 L10,20Z"}, {});
+    assert.equal (3, path.parsedPoints.length);
   })
 
   it ("initializes a path with a non-closed line", function ()
   {
-    var path = new Path ("M0,0 L10,20", "", 1);
+    var path = new Path ({d:"M0,0 L10,20"}, {});
+    assert.equal (2, path.parsedPoints.length);
   })
 
   it ("initializes a path with a multiline", function ()
   {
-    var path = new Path ("M0,0 L10,20 L30,50Z", "", 1);
+    var path = new Path ({d:"M0,0 L10,20 L30,50Z"}, {});
+    assert.equal (4, path.parsedPoints.length);
   })
 
-  xit ("gets the center of a square path correctly", function ()
+  it ("gets the center of a square path correctly", function ()
   {
-    var path = new Path ("M0,0 L20,0 20,20 0,20Z", "", 1);
+    var path = new Path ({d:"M0,0 L20,0 20,20 0,20Z"}, {});
     var center = path.getCenter();
     assert.deepEqual ({x:10, y:10}, center);
   })
 
-  xit ("gets the center of a line correctly", function ()
+  it ("gets the center of a line correctly", function ()
   {
-    var path = new Path ("M10,10 L20,10Z", "", 1);
+    var path = new Path ({d:"M10,10 L20,10Z"}, {});
     var center = path.getCenter();
     assert.deepEqual ({x:15, y:10}, center);
   })
 
-  xit ("clones", function ()
+  it ("clones", function ()
   {
-    var path = new Path ("M10,10 L20,10Z", "", 1);
-    path.setPos (40, 50);
+    var path = new Path ({d:"M10,10 L20,10Z"}, {});
+    path.moveTo (40, 50);
     var path2 = path.clone();
     assert.deepEqual (path, path2);
   })
