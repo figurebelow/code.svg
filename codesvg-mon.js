@@ -22,7 +22,7 @@ jsdom.env(
   function (err, window) {
 
     if (process.argv.length < 3) {
-      console.log ("Syntax: node codesvg-monitor.js mainFile");
+      console.log ("Syntax: node codesvg-mon.js mainFile");
       return;
     }
     var mainFile = process.argv[2];
@@ -36,10 +36,11 @@ jsdom.env(
           let Rect = require (\"./svg/Rect.js\").Rect; \
           let Circle = require (\"./svg/Circle.js\").Circle; \
           let Ellipse = require (\"./svg/Ellipse.js\").Ellipse; \
+          let Polyline = require (\"./svg/Polyline.js\").Polyline; \
           let Rnd = require (\"./svg/Rnd.js\").Rnd; \
           let Layout = require (\"./utils/Layout.js\"); \
-          let console = require (\"console\"); \
           let Gradients = require (\"./utils/Gradients.js\");\
+          let console = require (\"console\"); \
           let D3 = require (\"./d3/d3.v3.min.js\"); \
           results = function(){ \"use strict\"; "+ data + "\n}();";
       var sandbox = {require: require, root: window.d3.select("body>div"), results: null, e:null};

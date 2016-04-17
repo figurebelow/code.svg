@@ -126,6 +126,17 @@ class SVGBase {
     throw ("Missing moveTo() implementation in " + this.type);
   }
 
+  cloneToCoords (points) {
+    var elems = [];
+    var that = this;
+    points.forEach (function (point) {
+      var cloned = that.clone();
+      cloned.moveTo(point.x, point.y);
+      elems.push (cloned);
+    });
+    return elems;
+  }
+
   rotate (xyPos, deg) {
     this.transform.rotate.x = xyPos.x;
     this.transform.rotate.y = xyPos.y;
