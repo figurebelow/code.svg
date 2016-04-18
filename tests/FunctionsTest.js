@@ -7,7 +7,7 @@
 **/
 
 var assert = require ("assert");
-var Functions = require ("../utils/Functions.js");
+var Functions = require ("../svg/utils/Functions.js");
 
 describe ("Functions", function () {
 

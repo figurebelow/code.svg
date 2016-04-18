@@ -7,9 +7,9 @@
 "use strict";
 
 let assert = require ("assert");
-let SVGBase = require ("../svg/SVGBase.js").SVGBase;
-let NonIntersecPolCenter = require ("../utils/Functions.js").NonIntersecPolCenter;
-let PointsParser = require ("../grammars/PathGrammar.js");
+let SVGBase = require ("./SVGBase.js").SVGBase;
+let NonIntersecPolCenter = require ("./utils/Functions.js").NonIntersecPolCenter;
+let PointsParser = require ("./grammars/PathGrammar.js");
 
 class Path extends SVGBase {
 

@@ -8,8 +8,6 @@
 
 var assert = require ("assert");
 var SVGBase = require ("../svg/SVGBase.js").SVGBase;
-var Circle = require ("../svg/Circle.js").Circle;
-var Rect = require ("../svg/Rect.js").Rect;
 
 describe ("SVGBase", function () {
 

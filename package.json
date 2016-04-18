@@ -1,6 +1,6 @@
 {
   "name": "code.svg",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "A JavaScript library to manipulate the SVG DOM in a object-oriented way.",
   "main": "codesvg-monitor.js",
   "directories": {

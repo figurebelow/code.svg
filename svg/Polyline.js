@@ -6,8 +6,8 @@
 
 "use strict";
 let SVGBase = require ("./SVGBase.js").SVGBase;
-let NonIntersecPolCenter = require ("../utils/Functions.js").NonIntersecPolCenter;
-let PointsParser = require ("../grammars/PolygonGrammar.js");
+let NonIntersecPolCenter = require ("./utils/Functions.js").NonIntersecPolCenter;
+let PointsParser = require ("./grammars/PolygonGrammar.js");
 
 class Polyline extends SVGBase {
 

@@ -6,7 +6,7 @@
 
 "use strict";
 
-let Functions = require ("../utils/Functions.js").Functions;
+let Functions = require ("./utils/Functions.js").Functions;
 
 class SVGBase {
 

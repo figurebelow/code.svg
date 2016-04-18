@@ -7,7 +7,7 @@
 **/
 
 var assert = require ("assert");
-var PolygonGrammar = require ("../grammars/PolygonGrammar.js");
+var PolygonGrammar = require ("../svg/grammars/PolygonGrammar.js");
 
 describe ("PolygonGrammar", function () {
 

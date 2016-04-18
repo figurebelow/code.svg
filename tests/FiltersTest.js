@@ -7,8 +7,9 @@
 **/
 
 var assert = require ("assert");
-var Filters = require ("../utils/Filters.js").Filter;
-var DiffuseLight = require ("../utils/Filters.js").DiffuseLight;
+var Filters = require ("../svg/utils/Filters.js").Filter;
+var DiffuseLight = require ("../svg/utils/Filters.js").DiffuseLight;
+
 describe ("DiffuseLight", function () {
 
   it ("returns a filter string", function () {
