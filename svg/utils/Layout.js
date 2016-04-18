@@ -5,7 +5,9 @@
 **/
 
 //let Functions = require ("./Functions.js");
+
 "use strict";
+
 /**
  * http://struct.cc/blog/2011/08/15/strange-attractors/
  */
