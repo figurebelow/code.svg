@@ -16,7 +16,7 @@ node codesvg.js foo.js
 ```
 The second way generates a .svg taking the input filename as reference.
 
-Although you can just run node to get the .svg generated, a good choice is to use [nodemon](https://github.com/remy/nodemon) instead so changes in the input file will run codesvg.js automatically and generate the svg file on the fly.
+Although you can just run node to get the .svg generated, a good choice is to use [nodemon](https://github.com/remy/nodemon) instead so changes in the input file will run codesvg.js automatically and generate the svg file on the fly (in this case, input.svg)
 
 ```javascript
 nodemon codesvg.js input.js
