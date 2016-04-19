@@ -1,6 +1,6 @@
 {
   "name": "code.svg",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "A JavaScript library to manipulate the SVG DOM in a object-oriented way.",
   "main": "codesvg-monitor.js",
   "directories": {
@@ -10,6 +10,7 @@
     "test": "mocha ./tests",
     "test-travis": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec ./tests/"
   },
+  "readmeFilename": "README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/figurebelow/code.svg.git"
