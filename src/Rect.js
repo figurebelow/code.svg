@@ -8,6 +8,7 @@
 
 let SVGBase = require ("./SVGBase.js").SVGBase;
 
+
 class Rect extends SVGBase {
 
   constructor (values, style) {

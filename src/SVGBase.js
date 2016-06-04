@@ -8,8 +8,17 @@
 
 let Functions = require ("./utils/Functions.js").Functions;
 
+/**
+ * @description The SVGBase contains all the common SVG functionality inherited by the SVG elements
+ */
 class SVGBase {
-
+  
+  /**
+   * @constructor
+   * @param {type} String containig the type
+   * @param {values} map with the SVG attributes
+   * @param {style} map with the style attributes
+   */
   constructor (type, values, style) {
     this.type = type;
     this.attributes = {};
@@ -27,6 +36,12 @@ class SVGBase {
     }
   }
 
+  /**
+   * Appends the SVG content to the SVG DOM root
+   *
+   * @param {object} svg the SVG root
+   * @return {object} reference to this
+   */
   append (svg) {
     var svgNode = svg.append (this.type);
     for (var key in this.attributes) {
@@ -39,6 +54,12 @@ class SVGBase {
     return svgNode;
   }
 
+  /**
+   * Generates the SVG transform string 
+   *
+   * @param {object} svgNode the SVG root
+   * @return {object} string
+   */
   genTransform (svgNode) {
       var transformStr = "";
       var rotString = this.genRotate ();
@@ -51,6 +72,11 @@ class SVGBase {
       }
   }
 
+  /**
+   * Appends the SVG rotate to the SVG DOM root
+   *
+   * @param {object} svgNode the SVG root
+   */
   genRotate (svgNode) {
     if (this.isRotated())
     {
@@ -59,6 +85,11 @@ class SVGBase {
     return "";
   }
 
+  /**
+   * Appends the SVG scale to the SVG DOM root
+   *
+   * @param {object} svgNode the SVG root
+   */
   genScale (svgNode) {
     let xscale = 0, yscale = 0, scaleString = "";
     if (this.transform.scale.x != undefined) {
@@ -83,6 +114,11 @@ class SVGBase {
     return scaleString;
   }
 
+  /**
+   * Appends the SVG skew to the SVG DOM root
+   *
+   * @param {object} svgNode the SVG root
+   */
   genSkew (svgNode) {
     let skewStr = "";
     if (this.transform.skewX != undefined)
@@ -91,13 +127,20 @@ class SVGBase {
       skewStr += "skewY (" + this.transform.skewY + ") ";
     return skewStr;
   }
-  // public methods
 
+  /**
+   * Removes and attribute from the attributes map
+   * @parameter{object} attr attr string to be removed
+   */
   removeAttr (attr) {
     delete(this.attributes[attr]);
     return this;
   }
 
+  /**
+   * Set the value for a set of attributes
+   * @parameter{object} attrs key:value map with the attributes
+   */
   setAttr (attrs) {
     for (var attr in attrs) {
       this.attributes[attr] = attrs[attr];
@@ -105,11 +148,20 @@ class SVGBase {
     return this;
   }
 
+  /**
+   * Set the value for a style attribute
+   * @parameter{object} attr style attribute
+   * @paraneter{object} val value
+   */
   sty(attr, val) {
     this.style[attr] = val;
     return this;
   }
 
+  /**
+   * Returns the attribute value
+   * @parameter{object} attr style attribute
+   */
   getAttr(attr) {
     return this.attributes[attr];
   }

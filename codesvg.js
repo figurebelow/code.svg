@@ -17,7 +17,7 @@ function genRequires () {
 }
 
 jsdom.env(
-  "<html><body><div id=\"codesvg\"></div></body></html>", ['./svg/d3/d3.v3.min.js'],
+  "<html><body><div id=\"codesvg\"></div></body></html>", ['./src/d3/d3.v3.min.js'],
   function (err, window) {
      
   var mainFile = process.argv[2];
@@ -40,16 +40,16 @@ jsdom.env(
     var data = fs.readFileSync(process.argv[2]);
     var functionText = "\"use strict\"; \
     var results = null;  \
-    let Scene = require     (\"./svg/Scene.js\").Scene; \
-    let Rect = require      (\"./svg/Rect.js\").Rect; \
-    let Circle = require    (\"./svg/Circle.js\").Circle; \
-    let Ellipse = require   (\"./svg/Ellipse.js\").Ellipse; \
-    let Polyline = require  (\"./svg/Polyline.js\").Polyline; \
-    let Rnd = require       (\"./svg/utils/Rnd.js\").Rnd; \
-    let Layout = require    (\"./svg/utils/Layout.js\"); \
-    let Gradients = require (\"./svg/utils/Gradients.js\");\
+    let Scene = require     (\"./src/Scene.js\").Scene; \
+    let Rect = require      (\"./src/Rect.js\").Rect; \
+    let Circle = require    (\"./src/Circle.js\").Circle; \
+    let Ellipse = require   (\"./src/Ellipse.js\").Ellipse; \
+    let Polyline = require  (\"./src/Polyline.js\").Polyline; \
+    let Rnd = require       (\"./src/utils/Rnd.js\").Rnd; \
+    let Layout = require    (\"./src/utils/Layout.js\"); \
+    let Gradients = require (\"./src/utils/Gradients.js\");\
     let console = require   (\"console\"); \
-    let D3 = require        (\"./svg/d3/d3.v3.min.js\"); \
+    let D3 = require        (\"./src/d3/d3.v3.min.js\"); \
     results = function(){ \"use strict\"; "+ data + "\n}();";
     var sandbox = {require: require, root: window.d3.select("body>div"), results: null, e:null};
     vm.runInNewContext(functionText, sandbox, {columnOffset:true, lineOffset:true, displayErrors:true});
