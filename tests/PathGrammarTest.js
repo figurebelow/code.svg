@@ -7,7 +7,7 @@
 **/
 
 var assert = require ("assert");
-var PathGrammar = require ("../svg/grammars/PathGrammar.js");
+var PathGrammar = require ("../src/grammars/PathGrammar.js");
 
 describe ("PathGrammar", function () {
 

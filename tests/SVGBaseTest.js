@@ -7,7 +7,7 @@
 **/
 
 var assert = require ("assert");
-var SVGBase = require ("../svg/SVGBase.js").SVGBase;
+var SVGBase = require ("../src/SVGBase.js").SVGBase;
 
 describe ("SVGBase", function () {
 

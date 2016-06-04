@@ -7,7 +7,7 @@
 **/
 
 var assert = require ("assert");
-var Path = require ("../svg/Path.js").Path;
+var Path = require ("../src/Path.js").Path;
 
 describe ("Path", function () {
 

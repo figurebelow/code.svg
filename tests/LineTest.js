@@ -7,7 +7,7 @@
 **/
 
 var assert = require ("assert");
-var Line = require ("../svg/Line.js").Line;
+var Line = require ("../src/Line.js").Line;
 
 describe ("Line", function ()
 {

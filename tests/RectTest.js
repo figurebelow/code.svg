@@ -7,7 +7,7 @@
 **/
 
 var assert = require ("assert");
-var Rect = require ("../svg/Rect.js").Rect;
+var Rect = require ("../src/Rect.js").Rect;
 
 describe ("Rect", function ()
 {

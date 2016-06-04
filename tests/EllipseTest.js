@@ -7,7 +7,7 @@
 **/
 
 var assert = require ("assert");
-var Ellipse = require ("../svg/Ellipse.js").Ellipse;
+var Ellipse = require ("../src/Ellipse.js").Ellipse;
 
 describe ("Ellipse", function ()
 {

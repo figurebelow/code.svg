@@ -9,7 +9,7 @@
 "use strict"
 
 var assert = require ("assert");
-var Circle = require ("../svg/Circle.js").Circle;
+var Circle = require ("../src/Circle.js").Circle;
 
 describe ("Circle", function ()
 {

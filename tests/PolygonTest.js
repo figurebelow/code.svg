@@ -7,7 +7,7 @@
 **/
 
 var assert = require ("assert");
-var Polygon = require ("../svg/Polygon.js").Polygon;
+var Polygon = require ("../src/Polygon.js").Polygon;
 
 describe ("Polygon", function () {
 

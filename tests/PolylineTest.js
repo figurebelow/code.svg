@@ -7,7 +7,7 @@
 **/
 
 var assert = require ("assert");
-var Polyline = require ("../svg/Polyline.js").Polyline;
+var Polyline = require ("../src/Polyline.js").Polyline;
 
 describe ("Polyline", function () {
 
