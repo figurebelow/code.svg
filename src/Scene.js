@@ -6,6 +6,10 @@
 
 "use strict";
 
+const DEFAULT_WIDTH = 800;
+const DEFAULT_HEIGHT = 600;
+const DEFAULT_BACKGROUND_FILL = "#f0e9a4";
+
 class Scene {
 
   constructor (root, attrs) {
@@ -32,8 +36,8 @@ class Scene {
         .attr("version", "1.1")
         .attr("encoding", "UTF-8")
         .attr("standalone", "no")
-        .attr("width", 800)
-        .attr("height", 600);
+        .attr("width", this.attributes["width"] || DEFAULT_WIDTH)
+        .attr("height", this.attributes["height"] || DEFAULT_HEIGHT)
 
     var that = this;
     var defs = this.svg.append ("defs");
@@ -53,9 +57,9 @@ class Scene {
     this.svg.append("rect")
         .attr("x", 0)
         .attr("y", 0)
-        .attr("width", 800)
-        .attr("height", 600)
-        .style("fill", "#f0e9a4");
+        .attr("width", this.attributes["width"] || DEFAULT_WIDTH)
+        .attr("height", this.attributes["height"] || DEFAULT_HEIGHT)
+        .style("fill", this.attributes["fill"] || DEFAULT_BACKGROUND_FILL);
 
     this.children.forEach (function (child) {
         child.append (that.svg);
