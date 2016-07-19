@@ -10,7 +10,8 @@ close =
  "Z" { return { type:"z" }} / "z" { return { type:"z" } }
 
 number
-  = digits:[0-9]+ ((".") [0-9]+)? { return parseFloat(digits.join(""), 10); }
+  = digits:[0-9]+ ((".") [0-9]+)? { return parseFloat(digits.join(""), 10); } /
+    negDigit:[\-0-9]+ ((".") [0-9]+)? { return parseFloat(negDigit.join(""), 10); } 
 
 quadCurveTo
   = key:("q" / "Q") ws* val:([ ]* x1:number ws y1:number ws x:number ws y:number [ ]*

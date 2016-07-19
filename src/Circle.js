@@ -7,25 +7,31 @@
 "use strict";
 
 let SVGBase = require ("./SVGBase.js").SVGBase;
+let Path = require ("./Path.js").Path;
+let NonIntersecPolCenter = require ("./utils/Functions.js").NonIntersecPolCenter;
 
-class Circle extends SVGBase {
+class Circle extends Path {
 
   constructor (values, style) {
-    super ("circle", values, style);
-  }
-
-  clone () {
-    var newElem = new Circle (this.attributes, this.style);
-    return newElem;
+    var cx = values["cx"] || 0;
+    var cy = values["cy"] || 0;
+    var r = values["r"] || 5;
+    var p0 = "M" + cx + "," + cy + " ";
+    var p1 = "m" + (-r) + "," + 0 + " ";
+    var p2 = "a" + r + "," + r + " " + 0 + " " + "1,0 " + (r * 2) + ",0 ";
+    var p3 = "a" + r + "," + r + " " + 0 + " " + "1,0 " + -(r * 2) + ",0 ";
+    var d = p0 + " " + p1 + " " + p2 + " " + p3;
+    var procParams = {"d":d};
+    super (procParams, style);
   }
 
   getCenter () {
-    return {x: this.attributes["cx"], y: this.attributes["cy"]};
+    return this.parsedPoints[0].values[0];
   }
 
-  moveTo (x, y) {
-    this.setAttr ({cx: x, cy: y});
-    return this;
+  moveTo (xyPos) {
+    this.parsedPoints[0].values[0].x = xyPos.x;
+    this.parsedPoints[0].values[0].y = xyPos.y;
   }
 };
 

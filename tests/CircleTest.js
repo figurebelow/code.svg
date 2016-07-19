@@ -21,11 +21,7 @@ describe ("Circle", function ()
 
   it ("initializes with parameter", function ()
   {
-    assert.equal (10, circle.getAttr("r"));
-    assert.equal (100, circle.getAttr("cx"));
-    assert.equal (200, circle.getAttr("cy"));
     assert.equal ("red", circle.style["fill"]);
-    //assert.equal (3, circle.getZIndex());
   });
 
   it ("gets its own center", function ()
@@ -35,7 +31,7 @@ describe ("Circle", function ()
 
   it ("sets its position", function ()
   {
-    circle.moveTo(80, 90);
+    circle.moveTo({x:80, y:90});
     assert.deepEqual ({x:80,y:90}, circle.getCenter());
   });
 

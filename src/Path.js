@@ -38,8 +38,16 @@ class Path extends SVGBase {
      return NonIntersecPolCenter (vertices);
   }
 
-  moveTo (xyPos1, xyPos2) {
-    this.setAttr({x1: xyPos1.x, y1:xyPos1.y, x2:xyPos2.x, y2:xyPos2.y});
+  moveTo (xyPos) {
+    var currentCenter = this.getCenter();
+    var distance = {x: xyPos.x - currentCenter.x, y: xyPos.y - currentCenter.y};
+    this.parsedPoints.forEach (function (point) {
+      if (point.values != undefined) {
+        point.values[0].x += distance.x;
+        point.values[0].y += distance.y;
+      }
+    });
+    this.updateD();
     return this;
   }
 
@@ -47,6 +55,14 @@ class Path extends SVGBase {
     let center = this.getCenter ();
     super.rotate(center, deg);
     return this;
+  }
+
+  updateD () {
+    var newD = "";
+    this.parsedPoints.forEach (function (point) {
+      newD += point.type + point.values[0].x + "," + point.values[0].y + " ";
+    });
+    this.setAttr ({"d":newD});
   }
 };
 

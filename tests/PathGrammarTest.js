@@ -24,6 +24,15 @@ describe ("PathGrammar", function () {
     assert.equal ("z", points[1].type);
   });
 
+  it ("parses a list of negative points", function () {
+    var points = PathGrammar.parse("M-0,0 -5,-10 20,-20Z");
+    assert.equal (3, points[0].values.length);
+    assert.deepEqual ({x:0, y:0}, points[0].values[0]);
+    assert.deepEqual ({x:-5, y:-10}, points[0].values[1]);
+    assert.deepEqual ({x:20, y:-20}, points[0].values[2]);
+    assert.equal ("z", points[1].type);
+  });
+
   it ("parses a list of line points", function () {
     var points = PathGrammar.parse("M0,0 L5,10 L20,20Z");
     assert.equal (4, points.length);

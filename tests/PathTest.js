@@ -43,11 +43,31 @@ describe ("Path", function () {
     assert.deepEqual ({x:15, y:10}, center);
   })
 
+  it ("moves a path", function () {
+    var path = new Path ({d:'M10,10 L60,10 L60,30 L10,30'}, {});
+    path.moveTo({x:80, y:90});
+    assert.deepEqual ({x:80,y:90}, path.getCenter());
+    assert.equal (path.parsedPoints[0].values[0].x, 55);
+    assert.equal (path.parsedPoints[0].values[0].y, 80);
+    assert.equal (path.parsedPoints[1].values[0].x, 105);
+    assert.equal (path.parsedPoints[1].values[0].y, 80);
+    assert.equal (path.parsedPoints[2].values[0].x, 105);
+    assert.equal (path.parsedPoints[2].values[0].y, 100);
+    assert.equal (path.parsedPoints[3].values[0].x, 55);
+    assert.equal (path.parsedPoints[3].values[0].y, 100);
+  })
+
   it ("clones", function ()
   {
     var path = new Path ({d:"M10,10 L20,10Z"}, {});
-    path.moveTo (40, 50);
     var path2 = path.clone();
     assert.deepEqual (path, path2);
   })
+
+  it ("clones and moves", function () {
+    var path = new Path ({d:'M10,10 L60,10 L60,30 L10,30'}, {});
+    path.moveTo({x:80, y:90});
+    var path2 = path.clone();
+    assert.deepEqual (path, path2);
+  });
 });
