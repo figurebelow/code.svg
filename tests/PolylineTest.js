@@ -14,7 +14,6 @@ describe ("Polyline", function () {
   it ("initializes correctly", function () {
     var polyline = new Polyline ({points:"0,0 10,10 20,40"}, {stroke: "red"});
     assert.equal ("red", polyline.style["stroke"]);
-    assert.equal ("0,0 10,10 20,40", polyline.getAttr ("points"));
   });
 
   it ("stores the points correctly", function () {
@@ -36,13 +35,13 @@ describe ("Polyline", function () {
 
   it ("translates to a new position up in the coords (x2 > x1, y2 > y1)", function () {
     var polyline = new Polyline ({points:"0,0 10,0 10,10 0,10"}, {stroke: "red"}, 1);
-    polyline.moveTo (50, 50);
+    polyline.moveTo ({x:50, y:50});
     assert.deepEqual ({x:50, y:50}, polyline.getCenter());
   });
 
   it ("translates to a new position down in the coords (x2 < x1, y2 < y1)", function () {
     var polyline = new Polyline ({points:"50,50 70,50 70,70 50,70"}, {stroke: "red"});
-    polyline.moveTo (20, 20);
+    polyline.moveTo ({x:20, y:20});
     assert.deepEqual ({x:20, y:20}, polyline.getCenter());
   });
 

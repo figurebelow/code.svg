@@ -12,7 +12,7 @@ let Functions = require ("./utils/Functions.js").Functions;
  * @description The SVGBase contains all the common SVG functionality inherited by the SVG elements
  */
 class SVGBase {
-  
+
   /**
    * @constructor
    * @param {type} String containig the type
@@ -55,7 +55,7 @@ class SVGBase {
   }
 
   /**
-   * Generates the SVG transform string 
+   * Generates the SVG transform string
    *
    * @param {object} svgNode the SVG root
    * @return {object} string
@@ -183,7 +183,7 @@ class SVGBase {
     var that = this;
     points.forEach (function (point) {
       var cloned = that.clone();
-      cloned.moveTo(point.x, point.y);
+      cloned.moveTo({x:point.x, y:point.y});
       elems.push (cloned);
     });
     return elems;

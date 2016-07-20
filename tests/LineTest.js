@@ -19,10 +19,6 @@ describe ("Line", function ()
 
   it ("initializes with parameter", function ()
   {
-    assert.equal (10, line.getAttr("x1"));
-    assert.equal (10, line.getAttr("y1"));
-    assert.equal (50, line.getAttr("x2"));
-    assert.equal (50, line.getAttr("y2"));
     assert.equal ("red", line.style["fill"]);
   });
 
@@ -31,11 +27,17 @@ describe ("Line", function ()
     assert.deepEqual ({x:30,y:30}, line.getCenter());
   });
 
- it ("sets its position", function ()
+ it ("sets its position given the center", function ()
   {
-    line.moveTo({x:60, y:90}, {x:0, y:0});
+    line.moveTo({x:30,y:45});
     assert.deepEqual ({x:30,y:45}, line.getCenter());
   });
+
+  it ("sets its position given two points", function ()
+   {
+     line.moveTo({x:60, y:90}, {x:0, y:0});
+     assert.deepEqual ({x:30,y:45}, line.getCenter());
+   });
 
   it ("clones", function () {
       line = new Line (10, 10, 50, 50, {fill:"red"});

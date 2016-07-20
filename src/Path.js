@@ -60,7 +60,9 @@ class Path extends SVGBase {
   updateD () {
     var newD = "";
     this.parsedPoints.forEach (function (point) {
-      newD += point.type + point.values[0].x + "," + point.values[0].y + " ";
+      newD += point.type;
+      if (point.type != 'z')
+        newD += point.values[0].x + "," + point.values[0].y + " ";
     });
     this.setAttr ({"d":newD});
   }

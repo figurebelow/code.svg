@@ -26,7 +26,7 @@ describe ("Polygon", function () {
   it ("sets the position", function ()
   {
     var polygon = new Polygon ({points:"0,0 40,0 40,40 0,40"}, {});
-    polygon.moveTo (60, 60);
+    polygon.moveTo ({x:60, y:60});
     var center = polygon.getCenter();
     assert.deepEqual ({x:60, y:60}, center);
   });

@@ -6,37 +6,30 @@
 
 "use strict";
 
-let SVGBase = require ("./SVGBase.js").SVGBase;
+let Path = require ("./Path.js").Path;
+let PointsParser = require ("./grammars/PathGrammar.js");
 
-class Line extends SVGBase {
+class Line extends Path {
 
   constructor (x1, y1, x2, y2, style) {
-    super ("line", {}, style);
-    this.setAttr ({"x1":x1});
-    this.setAttr ({"y1": y1});
-    this.setAttr ({"x2": x2});
-    this.setAttr ({"y2": y2});
-  }
-
-  clone () {
-    var newElem = new Line (this.getAttr("x1"), this.getAttr("y1"), this.getAttr("x2"), this.getAttr("y2"), this.style);
-    return newElem;
-  }
-
-  getCenter () {
-    return ({x: (this.getAttr ("x1") + this.getAttr ("x2"))/2,
-             y: (this.getAttr ("y1") + this.getAttr ("y2"))/2});
-  }
-
-  moveTo (xyPos1, xyPos2) {
-    this.setAttr({x1: xyPos1.x, y1:xyPos1.y, x2:xyPos2.x, y2:xyPos2.y});
-    return this;
+    var d = "M" + x1 + "," + y1 + " " + "L" + x2 + "," + y2;
+    var procParams = {"d":d};
+    super (procParams, style);
   }
 
   rot (deg) {
     let center = this.getCenter ();
     super.rotate(center, deg);
     return this;
+  }
+
+  moveTo (p1, p2) {
+    if (p2 == undefined)
+      super.moveTo(p1);
+    else {
+      var d = "M" + p1.x + "," + p1.y + " " + "L" + p2.x + "," + p2.y;
+      this.parsedPoints = PointsParser.parse (d);
+    }
   }
 };
 

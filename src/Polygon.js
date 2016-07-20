@@ -5,18 +5,24 @@
 **/
 
 "use strict";
-let Polyline = require ("./Polyline.js").Polyline;
 
-class Polygon extends Polyline {
+let PointsParser = require ("./grammars/PolygonGrammar.js");
+let Path = require ("./Path.js").Path;
+
+class Polygon extends Path {
 
   constructor (values, style) {
-    super (values, style);
-    super.setAttr("type", "polygon");
-  }
-
-  clone () {
-    var newElem = new Polygon (this.attributes, this.style);
-    return newElem;
+    var points  = PointsParser.parse(values["points"]);
+    var d = "";
+    d += "M" + points[0].x + "," + points[0].y + " ";
+    points.forEach (function (point, i) {
+      if (i > 0) {
+        d += "L" + point.x + "," + point.y + " "
+      }
+    });
+    d += "z";
+    var procParams = {"d":d};
+    super (procParams, style);
   }
 };
 
