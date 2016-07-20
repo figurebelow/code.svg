@@ -18,12 +18,7 @@ describe ("Ellipse", function ()
 
   it ("initializes with parameter", function ()
   {
-    assert.equal (50, ellipse.getAttr("cx"));
-    assert.equal (60, ellipse.getAttr("cy"));
-    assert.equal (10, ellipse.getAttr("rx"));
-    assert.equal (15, ellipse.getAttr("ry"));
     assert.equal ("red", ellipse.style["fill"]);
-    //assert.equal (3, ellipse.getZIndex());
   });
 
   it ("gets its own center", function ()
@@ -33,7 +28,7 @@ describe ("Ellipse", function ()
 
   it ("sets its position", function ()
   {
-    ellipse.moveTo(80, 90);
+    ellipse.moveTo({x:80, y:90});
     assert.deepEqual ({x:80,y:90}, ellipse.getCenter());
   });
 
@@ -41,15 +36,4 @@ describe ("Ellipse", function ()
     var newEllipse = ellipse.clone();
     assert.deepEqual (ellipse, newEllipse);
   });
-
-  // it ("clones to coords", function () {
-  //   var coords = [{x:100, y:100, r:45}, {x:200, y:200, r:90}];
-  //   var ellipses = ellipse.cloneToCoords(coords);
-  //   assert.equal (ellipses.length, 2);
-  //   ellipse.setPos (100, 100);
-  //   assert.deepEqual ({x:100, y:100}, ellipse.getCenter());
-  //   ellipse.setPos (200, 200);
-  //   assert.deepEqual ({x:200, y:200}, ellipse.getCenter());
-  // });
-
 });

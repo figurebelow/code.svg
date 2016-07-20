@@ -6,32 +6,31 @@
 
 "use strict";
 
-let SVGBase = require ("./SVGBase.js").SVGBase;
+let Path = require ("./Path.js").Path;
 
-class Ellipse extends SVGBase {
+class Ellipse extends Path {
 
   constructor (values, style) {
-    super ("ellipse", values, style);
-  }
-
-  clone () {
-    var newElem = new Ellipse (this.attributes, this.style);
-    return newElem;
+    var cx = values["cx"] || 0;
+    var cy = values["cy"] || 0;
+    var rx = values["rx"] || 5;
+    var ry = values["ry"] || 5;
+    var p0 = "M" + cx + "," + cy + " ";
+    var p1 = "m" + (-rx) + "," + 0 + " ";
+    var p2 = "a" + rx + "," + ry + " " + 0 + " " + "1,0 " + (rx * 2) + ",0 ";
+    var p3 = "a" + rx + "," + ry + " " + 0 + " " + "1,0 " + -(rx * 2) + ",0 ";
+    var d = p0 + " " + p1 + " " + p2 + " " + p3;
+    var procParams = {"d":d};
+    super (procParams, style);
   }
 
   getCenter () {
-    return {x: this.attributes["cx"], y: this.attributes["cy"]};
+    return this.parsedPoints[0].values[0];
   }
 
-  moveTo (x, y) {
-    this.setAttr ({cx: x, cy: y});
-    return this;
-  }
-
-  rot (deg) {
-    let center = this.getCenter ();
-    super.rotate(center, deg);
-    return this;
+  moveTo (xyPos) {
+    this.parsedPoints[0].values[0].x = xyPos.x;
+    this.parsedPoints[0].values[0].y = xyPos.y;
   }
 };
 

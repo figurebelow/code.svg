@@ -8,7 +8,6 @@
 
 let SVGBase = require ("./SVGBase.js").SVGBase;
 let Path = require ("./Path.js").Path;
-let NonIntersecPolCenter = require ("./utils/Functions.js").NonIntersecPolCenter;
 
 class Circle extends Path {
 
