@@ -6,7 +6,6 @@
 
 "use strict";
 
-let SVGBase = require ("./SVGBase.js").SVGBase;
 let Path = require ("./Path.js").Path;
 
 class Circle extends Path {

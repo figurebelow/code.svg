@@ -5,7 +5,7 @@
 **/
 
 "use strict";
-let NonIntersecPolCenter = require ("./utils/Functions.js").NonIntersecPolCenter;
+
 let PointsParser = require ("./grammars/PolygonGrammar.js");
 let Path = require ("./Path.js").Path;
 
