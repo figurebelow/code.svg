@@ -20,7 +20,7 @@ class Polygon extends Path {
         d += "L" + point.x + "," + point.y + " "
       }
     });
-    d += "z";
+    d += " z";
     var procParams = {"d":d};
     super (procParams, style);
   }

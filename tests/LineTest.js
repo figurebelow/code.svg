@@ -44,4 +44,11 @@ describe ("Line", function ()
     var newLine = line.clone();
     assert.deepEqual (line, newLine);
   });
+
+  it ("subdivides", function () {
+    line.subdivide(1);
+    assert.equal (line.parsedPoints.length, 3);
+    line.subdivide(1);
+    assert.equal (line.parsedPoints.length, 5);
+  });
 });

@@ -54,4 +54,10 @@ describe ("Polyline", function () {
       assert.deepEqual (elem.getCenter(), coords[i]);
     });
   });
+
+  it ("subdivides", function () {
+    var polyline = new Polyline ({points:"50,50 70,50 70,70 50,70"}, {stroke: "red"});
+    polyline.subdivide(1);
+    assert.equal (polyline.parsedPoints.length, 7);
+  });
 });

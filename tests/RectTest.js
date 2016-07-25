@@ -37,4 +37,9 @@ describe ("Rect", function ()
     var newRect = rect.clone();
     assert.deepEqual (newRect, rect);
   });
+
+  it ("subdivides", function () {
+    rect.subdivide(1);
+    assert.equal (rect.parsedPoints.length, 9);
+  });
 });

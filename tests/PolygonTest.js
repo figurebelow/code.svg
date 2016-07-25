@@ -46,4 +46,10 @@ describe ("Polygon", function () {
       assert.deepEqual (elem.getCenter(), coords[i]);
     });
   });
+
+  it ("subdivides", function () {
+    var polygon = new Polygon ({points:"0,0 40,0 40,40 0,40"}, {});
+    polygon.subdivide(1);
+    assert.equal (polygon.parsedPoints.length, 9);
+  });
 });

@@ -6,7 +6,6 @@
 
 "use strict";
 
-let assert = require ("assert");
 let SVGBase = require ("./SVGBase.js").SVGBase;
 let NonIntersecPolCenter = require ("./utils/Functions.js").NonIntersecPolCenter;
 let PointsParser = require ("./grammars/PathGrammar.js");
@@ -65,6 +64,30 @@ class Path extends SVGBase {
         newD += point.values[0].x + "," + point.values[0].y + " ";
     });
     this.setAttr ({"d":newD});
+  }
+
+  subdivide (its) {
+    var iterations = its || 1;
+    while (iterations > 0) {
+      var clonedPoints = this.parsedPoints.slice(0);
+      var interpolated = 0;
+      for (var i  = 1; i < clonedPoints.length; i++) {
+        if (clonedPoints[i].type == "L") {
+          var intermediatePoint = NonIntersecPolCenter ([clonedPoints[i].values[0], clonedPoints[i-1].values[0]]);
+          this.parsedPoints.splice (i,0,{type:'L', values:[{x:intermediatePoint.x, y:intermediatePoint.y}]});
+          interpolated++;
+        }
+        if (clonedPoints[i].type == "z") {
+          var intermediatePoint = NonIntersecPolCenter ([clonedPoints[0].values[0], clonedPoints[i-1].values[0]]);
+          this.parsedPoints.splice (i,0,{type:'L', values:[{x:intermediatePoint.x, y:intermediatePoint.y}]});
+        }
+      }
+      iterations--;
+    }
+  }
+
+  noise (fun) {
+    var values = fun ();
   }
 };
 
