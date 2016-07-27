@@ -41,5 +41,11 @@ describe ("Rect", function ()
   it ("subdivides", function () {
     rect.subdivide(1);
     assert.equal (rect.parsedPoints.length, 9);
+    assert.equal(rect.parsedPoints[0].values[0].x, 10);
+    assert.equal(rect.parsedPoints[0].values[0].y, 10);
+    assert.equal(rect.parsedPoints[1].values[0].x, 35);
+    assert.equal(rect.parsedPoints[1].values[0].y, 10);
+    assert.equal(rect.parsedPoints[2].values[0].x, 60);
+    assert.equal(rect.parsedPoints[2].values[0].y, 10);
   });
 });

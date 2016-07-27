@@ -58,10 +58,14 @@ class Path extends SVGBase {
 
   updateD () {
     var newD = "";
-    this.parsedPoints.forEach (function (point) {
+
+    this.parsedPoints.forEach (function (point, i, sourceList) {
       newD += point.type;
-      if (point.type != 'z')
-        newD += point.values[0].x + "," + point.values[0].y + " ";
+      if (point.type != 'z') {
+        newD += point.values[0].x + "," + point.values[0].y;
+        if (i < sourceList.length-1)
+          newD += " ";
+      }
     });
     this.setAttr ({"d":newD});
   }
@@ -74,20 +78,42 @@ class Path extends SVGBase {
       for (var i  = 1; i < clonedPoints.length; i++) {
         if (clonedPoints[i].type == "L") {
           var intermediatePoint = NonIntersecPolCenter ([clonedPoints[i].values[0], clonedPoints[i-1].values[0]]);
-          this.parsedPoints.splice (i,0,{type:'L', values:[{x:intermediatePoint.x, y:intermediatePoint.y}]});
+          this.parsedPoints.splice (i + interpolated,0,{type:'L', values:[{x:intermediatePoint.x, y:intermediatePoint.y}]});
           interpolated++;
         }
         if (clonedPoints[i].type == "z") {
           var intermediatePoint = NonIntersecPolCenter ([clonedPoints[0].values[0], clonedPoints[i-1].values[0]]);
-          this.parsedPoints.splice (i,0,{type:'L', values:[{x:intermediatePoint.x, y:intermediatePoint.y}]});
+          this.parsedPoints.splice (i + interpolated,0,{type:'L', values:[{x:intermediatePoint.x, y:intermediatePoint.y}]});
         }
       }
       iterations--;
     }
+    this.updateD();
+    return this;
   }
 
-  noise (fun) {
-    var values = fun ();
+  noise (xyFun) {
+    var that = this;
+    for (var i = 0; i < this.parsedPoints.length; i++) {
+      var values = xyFun ();
+      if (!Array.isArray(values)) {
+        values = [values];
+      }
+      var mapped = (values == this.parsedPoints.length) || false;
+      var point = this.parsedPoints[i];
+      if (point.type != 'z') {
+        if (mapped) {
+          point.values[0].x += values[i].x;
+          point.values[0].y += values[i].y;
+        }
+        else {
+          point.values[0].x += values[0].x;
+          point.values[0].y += values[0].y;
+        }
+      }
+    }
+    this.updateD();
+    return this;
   }
 };
 

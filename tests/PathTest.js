@@ -70,4 +70,14 @@ describe ("Path", function () {
     var path2 = path.clone();
     assert.deepEqual (path, path2);
   });
+
+  it ("noise applies a constant value", function () {
+    var path = new Path ({d:'M10,10 L60,10 L60,30 L10,30'}, {});
+    var originalPath = path.clone();
+    function addNoise () { return {x:10,y:10}};
+    path.noise(addNoise);
+    function removeNoise () { return {x:-10,y:-10}};
+    path.noise(removeNoise);
+    assert.deepEqual (path,originalPath);
+  });
 });
