@@ -11,6 +11,12 @@
 class Rnd {
 
   constructor (seed) {
+    if (typeof(seed) === "string") {
+      var i = seed.length;
+      while (i--) {
+        this.seed += seed[i];
+      }
+    }
     this.seed = seed;
   }
 

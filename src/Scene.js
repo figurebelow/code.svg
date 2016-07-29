@@ -33,6 +33,7 @@ class Scene {
         .attr("xmlns:svg", "http://www.w3.org/2000/svg")
         .attr("xmlns", "http://www.w3.org/2000/svg")
         .attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
+        .attr("xmlns:description", this.attributes["desc"] || "")
         .attr("version", "1.1")
         .attr("encoding", "UTF-8")
         .attr("standalone", "no")
