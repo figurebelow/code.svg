@@ -12,11 +12,6 @@ var fs = require ("fs");
 var vm = require("vm");
 var compressjs = require('compressjs');
 
-// Generates all the requires to be injected to the final script
-function genRequires () {
-  // TODO
-}
-
 function compressSource (src) {
   var algorithm = compressjs.Bzip2;
   var data = new Buffer(src, 'utf8');

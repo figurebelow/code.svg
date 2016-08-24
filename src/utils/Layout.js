@@ -156,18 +156,18 @@ function Spiral (params)
   var centerX = params.x,
       centerY = params.y,
       radius = params.radius,
-      coils = params.coils;
+      coils = params.coils,
       chord = params.chord;
 
   var rotation = 2 * Math.PI;
   var thetaMax = coils * 2 * Math.PI;
   var awayStep = radius / thetaMax;
 
-  for (theta = chord / awayStep, i = 0; theta <= thetaMax && i < params.points; i++) {
-    away = awayStep * theta;
-    around = theta + rotation;
-    x = centerX + Math.cos ( around ) * away;
-    y = centerY + Math.sin ( around ) * away;
+  for (var theta = chord / awayStep, i = 0; theta <= thetaMax && i < params.points; i++) {
+    var away = awayStep * theta;
+    var around = theta + rotation;
+    var x = centerX + Math.cos ( around ) * away;
+    var y = centerY + Math.sin ( around ) * away;
     theta += chord / away;
     points.push({x: x, y: y, r: theta});
   }
