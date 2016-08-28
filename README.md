@@ -34,11 +34,11 @@ var rect = new Rect ({width:100, height:80},
                      {stroke:"#2a240f", "stroke-width":"3px", opacity:0.6})
                     .moveTo({x:250, y:250});
 scene.add (rect);
-return scene.exportContent();
+return scene;
 ```
 
 The input file has basically three requirements:
 
 1. The Scene object is mandatory as it's the base generator of the SVG document and contains all the references to the SVG objects.
 2. The first parameter of the Scene object must be 'root'.
-3. The input file must return with a call to the exportContent() method.
+3. The input file must returns a Scene reference.
