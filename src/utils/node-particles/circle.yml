@@ -1,0 +1,4 @@
+test:
+  post:
+      - ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec ./tests/
+      - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js

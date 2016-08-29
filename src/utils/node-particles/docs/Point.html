@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Point.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page_wrapper">
+            <div id="jump_page">
+              
+                
+                <a class="source" href="Emitter.html">
+                  Emitter.js
+                </a>
+              
+                
+                <a class="source" href="Field.html">
+                  Field.js
+                </a>
+              
+                
+                <a class="source" href="Particle.html">
+                  Particle.js
+                </a>
+              
+                
+                <a class="source" href="ParticleSystem.html">
+                  ParticleSystem.js
+                </a>
+              
+                
+                <a class="source" href="Point.html">
+                  Point.js
+                </a>
+              
+                
+                <a class="source" href="example.html">
+                  example.js
+                </a>
+              
+            </div>
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>Point.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-meta">  "use strict"</span>;
+
+
+  <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Point</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Instantiates a new Point given x and y</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>   <span class="hljs-keyword">constructor</span> (x,y) {
+    <span class="hljs-keyword">this</span>.x = x || <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">this</span>.y = y || <span class="hljs-number">0</span>;
+   }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Returns the magnitude of a point considering it a vector starting from (0,0)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>   getMagnitude () {  
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.sqrt(<span class="hljs-keyword">this</span>.x * <span class="hljs-keyword">this</span>.x + <span class="hljs-keyword">this</span>.y * <span class="hljs-keyword">this</span>.y);
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Multiplies the point</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    multiply (scaleFactor) {
+      <span class="hljs-keyword">this</span>.x *= scaleFactor;
+      <span class="hljs-keyword">this</span>.y *= scaleFactor;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Translates the point</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    add (increased) {
+      <span class="hljs-keyword">this</span>.x += increased.x;
+      <span class="hljs-keyword">this</span>.y += increased.y;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Returns a new Point</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    vectorTo(vector) {
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Point(vector.x - <span class="hljs-keyword">this</span>.x, vector.y - <span class="hljs-keyword">this</span>.y);
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Given a point, checks if it’s within the bounds of this vector</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    withinBounds (point, size) {
+      <span class="hljs-keyword">var</span> radius = ~~(size/<span class="hljs-number">2</span>)  + <span class="hljs-number">1</span>;
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.x &gt;= point.x - radius &amp;&amp;
+             <span class="hljs-keyword">this</span>.x &lt;= point.x + radius &amp;&amp;
+             <span class="hljs-keyword">this</span>.y &gt;= point.y - radius &amp;&amp;
+             <span class="hljs-keyword">this</span>.y &lt;= point.y + radius ;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Calculates the angle of this point relative to (0,0)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    getAngle() {
+      <span class="hljs-keyword">var</span> ratio = <span class="hljs-number">0</span>;
+      <span class="hljs-keyword">var</span> offset = <span class="hljs-number">0</span>;
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.x &gt; <span class="hljs-number">0</span>) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.y &gt; <span class="hljs-number">0</span>) {
+          offset = <span class="hljs-number">0</span>;
+          ratio = <span class="hljs-keyword">this</span>.y / <span class="hljs-keyword">this</span>.x;
+        } <span class="hljs-keyword">else</span> {
+          offset = (<span class="hljs-number">3</span> * <span class="hljs-built_in">Math</span>.PI)/<span class="hljs-number">2</span>;
+          ratio = <span class="hljs-keyword">this</span>.x / <span class="hljs-keyword">this</span>.y;
+        }
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.y &gt; <span class="hljs-number">0</span>) {
+          offset = <span class="hljs-built_in">Math</span>.PI / <span class="hljs-number">2</span>;
+          ratio = <span class="hljs-keyword">this</span>.x / <span class="hljs-keyword">this</span>.y;
+        } <span class="hljs-keyword">else</span> {
+          offset = <span class="hljs-built_in">Math</span>.PI;
+          ratio = <span class="hljs-keyword">this</span>.y / <span class="hljs-keyword">this</span>.x;
+        }
+      }
+      <span class="hljs-keyword">var</span> angle = <span class="hljs-built_in">Math</span>.atan(<span class="hljs-built_in">Math</span>.abs(ratio)) + offset;
+      <span class="hljs-keyword">return</span> angle;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Returns the angle degrees of this point relative to (0,0)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    getAngleDegrees() {
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getAngle() * <span class="hljs-number">180</span> / <span class="hljs-built_in">Math</span>.PI;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Returns a jittered point around the current one</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    jitter(jitterAmount) {
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Point(
+        <span class="hljs-keyword">this</span>.x + <span class="hljs-keyword">this</span>.x * jitterAmount * <span class="hljs-built_in">Math</span>.random(),
+        <span class="hljs-keyword">this</span>.y + <span class="hljs-keyword">this</span>.y * jitterAmount * <span class="hljs-built_in">Math</span>.random()
+      );
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Copies a Point</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    copy() {
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Point(<span class="hljs-keyword">this</span>.x,<span class="hljs-keyword">this</span>.y);
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Returns a new point given the angle from (0,0) and a certain magnitude</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">static</span> fromAngle (angle, magnitude) {
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Point(magnitude * <span class="hljs-built_in">Math</span>.cos(angle), magnitude * <span class="hljs-built_in">Math</span>.sin(angle));
+    }
+};
+<span class="hljs-built_in">module</span>.exports.Point = Point;</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

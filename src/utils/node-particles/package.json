@@ -1,0 +1,41 @@
+{
+  "name": "node-particles",
+  "version": "1.0.3",
+  "description": "A simple particle system for NodeJs",
+  "main": "./js/ParticleSystem.js",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "name": "node-particles",
+    "type": "git",
+    "url": "git+https://github.com/figurebelow/node-particles.git"
+  },
+  "keywords": [
+    "particle-system",
+    "particles",
+    "physics"
+  ],
+  "author": "Ruben <ruben@figurebelow.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/figurebelow/node-particles/issues"
+  },
+  "homepage": "https://github.com/figurebelow/node-particles#readme",
+  "scripts": {
+    "gendoc": "docco ./js/*.js",
+    "test": "mocha ./tests"
+  },
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "coveralls": "^2.11.6",
+    "istanbul": "^0.4.2",
+    "mocha": "2.4.5",
+    "docco": "0.7"
+  },
+  "engines": {
+    "node": ">=0.10.15"
+  },
+  "dependencies": {
+  }
+}
