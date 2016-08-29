@@ -12,16 +12,20 @@ const DEFAULT_BACKGROUND_FILL = "#f0e9a4";
 
 class Scene {
 
-  constructor (root, attrs) {
+  constructor (root, attrs, style) {
     this.svg = null;
     this.root = root;
     this.children = [];
     this.masks = {};
     this.attributes = {};
+    this.style = {};
     this.defs = [];
     var that = this;
     for (var attr in attrs) {
       this.attributes[attr] = attrs[attr];
+    }
+    for (var sty in style) {
+      this.style[sty] = style[sty];
     }
   }
 
@@ -60,7 +64,7 @@ class Scene {
         .attr("y", 0)
         .attr("width", this.attributes["width"] || DEFAULT_WIDTH)
         .attr("height", this.attributes["height"] || DEFAULT_HEIGHT)
-        .style("fill", this.attributes["fill"] || DEFAULT_BACKGROUND_FILL);
+        .style("fill", this.style["fill"] || DEFAULT_BACKGROUND_FILL);
 
     this.children.forEach (function (child) {
         child.append (that.svg);

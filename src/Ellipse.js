@@ -8,8 +8,17 @@
 
 let Path = require ("./Path.js").Path;
 
+/**
+ * Class Ellipse
+ * @extends Path
+ */
 class Ellipse extends Path {
 
+  /**
+   * Class constructor
+   * @param {map} values - initial values
+   * @param {map} style - default initial style values
+   */
   constructor (values, style) {
     var cx = values["cx"] || 0;
     var cy = values["cy"] || 0;
@@ -24,13 +33,22 @@ class Ellipse extends Path {
     super (procParams, style);
   }
 
+  /**
+   * Returns the center of the Ellipse
+   * @return {map} xy position
+   */
   getCenter () {
     return this.parsedPoints[0].values[0];
   }
 
+  /**
+   * Moves the Ellipse to the given position
+   * @param {ma} xyPos - xy position to move the Ellipse to
+   */
   moveTo (xyPos) {
     this.parsedPoints[0].values[0].x = xyPos.x;
     this.parsedPoints[0].values[0].y = xyPos.y;
+    return this;
   }
 };
 
