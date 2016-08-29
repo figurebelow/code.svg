@@ -19,8 +19,8 @@ class ParticleSystem {
   };
 
   // Adds a new Emitter, given a point in space and a velocity
-  addEmitter(point, velocity) {
-    this.emitters.push(new Emitter(point, velocity));
+  addEmitter(point, velocity, size, particleLife, spread, emissionRate) {
+    this.emitters.push(new Emitter(point, velocity, size, particleLife, spread, emissionRate));
   }
 
   // Adds a new Field, given a point in space and its mass
@@ -64,10 +64,7 @@ class ParticleSystem {
   evolve (steps) {
     var fields = this.fields;
     for (var step = 0; step < steps; step++) {
-      if (this.gen == false) {
-        this.addNewParticles();
-        this.gen = true;
-      }
+      this.addNewParticles();
       //this.particles.forEach (function (part, i, sourcePartList) {
         //if (part.ttl > 0 && ++part.lived >= part.ttl)
         //  sourcePartList = sourcePartList.splice(i,1);

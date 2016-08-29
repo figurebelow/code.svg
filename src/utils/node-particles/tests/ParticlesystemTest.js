@@ -26,12 +26,12 @@ describe ("ParticleSystem", function () {
     assert.equal(ps.fields.length, 1);
   });
 
-  it ("Evolves given one emitter", function () {
+  it ("Evolves given one emitter returns 1 particle", function () {
     var ps = new ParticleSystem ();
     ps.addEmitter (new Point(10,10), Point.fromAngle(30,30));
     ps.addField (new Point(10,10), 20);
     ps.evolve(1);
-    assert.equal(ps.getParticleCount(), 4);
+    assert.equal(ps.getParticleCount(), 1);
   });
 
 });
