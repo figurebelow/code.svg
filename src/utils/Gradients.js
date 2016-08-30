@@ -25,11 +25,11 @@ class LinearGradient extends SVGBase {
 
   constructor (values, style) {
     var defaultValues = values || {};
-    defaultValues.x1 = (values && values.x1) || "0%";
-    defaultValues.y1 = (values && values.y1) || "0%";
-    defaultValues.x2 = (values && values.y1) || "100%";
-    defaultValues.y2 = (values && values.y2) || "0%";
-    defaultValues["stop-opacity"] = (values && values["stop-opacity"]) || 1;
+    defaultValues.x1 = (values && values.x1) ? values.x1 : "0%";
+    defaultValues.y1 = (values && values.y1) ? values.y1 : "0%";
+    defaultValues.x2 = (values && values.y1) ? values.x2 : "100%";
+    defaultValues.y2 = (values && values.y2) ? values.y2 : "0%";
+    defaultValues["stop-opacity"] = (values && values["stop-opacity"]) ? values["stop-opacity"] : 1;
     super ("linearGradient", defaultValues, style);
     this.stops = [];
   }

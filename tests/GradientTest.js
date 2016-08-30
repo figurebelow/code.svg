@@ -35,8 +35,13 @@ describe ("Gradients", function () {
   });
 
   it ("creates a simple gradient given two colors", function () {
-    var lg = new LinearGradient().addPairStops("red", "blue");
+    var lg = new LinearGradient({x1:10, y1:10, x2:50, y2:50}, {"stop-opacity": "#ffffff"}).addPairStops("red", "blue");
     assert (lg.stops.length, 2);
+    assert (lg.getAttr("x1"), 10);
+    assert (lg.getAttr("y1"), 10);
+    assert (lg.getAttr("x2"), 50);
+    assert (lg.getAttr("y2"), 50);
+    assert (lg.style["stop-opacity"], "#ffffff");
     assert (lg.stops[0].style["offset"] = "0%");
     assert (lg.stops[1].style["offset"] = "100%");
     assert (lg.stops[0].style["stop-color"] = "red");

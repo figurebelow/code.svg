@@ -28,7 +28,6 @@ class SVGBase {
     this.transform.rotate = {}; // {x,y,deg}
     this.transform.scale = {};  // {x:xdegs, y:ydegs}
     this.transform.skew = {};
-    this.id = Rnd.genId();
     for (var attr in values) {
       this.attributes[attr] = values[attr];
     }
@@ -180,7 +179,9 @@ class SVGBase {
   }
 
   getRef () {
-    return "url(#" + this.id + ")";
+    if (!this.attributes.id)
+      this.attributes.id = Rnd.genId();
+    return "url(#" + this.attributes.id + ")";
   }
 
   equals (obj) {
