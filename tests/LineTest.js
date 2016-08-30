@@ -40,9 +40,9 @@ describe ("Line", function ()
    });
 
   it ("clones", function () {
-      line = new Line (10, 10, 50, 50, {fill:"red"});
+    line = new Line (10, 10, 50, 50, {fill:"red"});
     var newLine = line.clone();
-    assert.deepEqual (line, newLine);
+    assert (line.equals(newLine));
   });
 
   it ("subdivides", function () {

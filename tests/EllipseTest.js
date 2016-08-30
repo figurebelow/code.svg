@@ -34,6 +34,6 @@ describe ("Ellipse", function ()
 
   it ("clones", function () {
     var newEllipse = ellipse.clone();
-    assert.deepEqual (ellipse, newEllipse);
+    assert (newEllipse.equals(ellipse));
   });
 });

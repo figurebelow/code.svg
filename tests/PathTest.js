@@ -61,14 +61,14 @@ describe ("Path", function () {
   {
     var path = new Path ({d:"M10,10 L20,10Z"}, {});
     var path2 = path.clone();
-    assert.deepEqual (path, path2);
+    assert (path.equals(path2));
   })
 
   it ("clones and moves", function () {
     var path = new Path ({d:'M10,10 L60,10 L60,30 L10,30'}, {});
     path.moveTo({x:80, y:90});
     var path2 = path.clone();
-    assert.deepEqual (path, path2);
+    assert (path.equals(path2));
   });
 
   it ("noise applies a constant value", function () {
@@ -78,6 +78,6 @@ describe ("Path", function () {
     path.noise(addNoise);
     function removeNoise () { return {x:-10,y:-10}};
     path.noise(removeNoise);
-    assert.deepEqual (path,originalPath);
+    assert (path.equals(originalPath));
   });
 });

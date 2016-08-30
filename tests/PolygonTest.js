@@ -34,7 +34,7 @@ describe ("Polygon", function () {
   it ("clones", function () {
     var polygon = new Polygon ({points:"0,0 40,0 40,40 0,40"}, {});
     var pol2 = polygon.clone();
-    assert.deepEqual (polygon, pol2);
+    assert (polygon.equals(pol2));
   });
 
   it ("clones to coords", function () {

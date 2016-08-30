@@ -30,7 +30,7 @@ describe ("Polyline", function () {
   it ("clones itself", function () {
     var polyline = new Polyline ({points:"0,0 10,0 10,10 0,10"}, {stroke: "red"});
     var poly2 = polyline.clone();
-    assert.deepEqual (poly2, polyline);
+    assert (polyline.equals(poly2));
   });
 
   it ("translates to a new position up in the coords (x2 > x1, y2 > y1)", function () {

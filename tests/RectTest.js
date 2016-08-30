@@ -35,7 +35,7 @@ describe ("Rect", function ()
 
   it ("clones", function () {
     var newRect = rect.clone();
-    assert.deepEqual (newRect, rect);
+    assert (newRect.equals(rect));
   });
 
   it ("subdivides", function () {

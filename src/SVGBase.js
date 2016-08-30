@@ -7,6 +7,7 @@
 "use strict";
 
 let Functions = require ("./utils/Functions.js").Functions;
+let Rnd = require ("./utils/Rnd.js").Rnd;
 
 /**
  * @description The SVGBase contains all the common SVG functionality inherited by the SVG elements
@@ -27,7 +28,7 @@ class SVGBase {
     this.transform.rotate = {}; // {x,y,deg}
     this.transform.scale = {};  // {x:xdegs, y:ydegs}
     this.transform.skew = {};
-    var that = this;
+    this.id = Rnd.genId();
     for (var attr in values) {
       this.attributes[attr] = values[attr];
     }
@@ -178,6 +179,28 @@ class SVGBase {
     throw ("Missing moveTo() implementation in " + this.type);
   }
 
+  getRef () {
+    return "url(#" + this.id + ")";
+  }
+
+  equals (obj) {
+    var equals = false;
+    if (this.type == obj.type && this.attributes.length == obj.attributes.length &&
+        this.style.length == obj.style.length) 
+    {
+      for (var key in this.attributes) {
+        if (this.attributes[key] != obj.attributes[key])
+          break;
+      };
+      for (var key in this.style) {
+        if (this.style[key] != obj.style[key])
+          break;
+      };
+      equals = true;
+    }
+    return equals;
+  }
+  
   cloneToCoords (points) {
     var elems = [];
     var that = this;

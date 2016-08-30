@@ -11,8 +11,12 @@ var SVGBase = require ("../src/SVGBase.js").SVGBase;
 
 describe ("SVGBase", function () {
 
-  it ("", function () {
-
+  it ("instantiates an empty object", function () {
+    var svgBase = new SVGBase();
+    assert.notEqual (svgBase.getAttr("id"), "");
   });
 
+  it ("two different objects get different Id", function () {
+    assert.notEqual (new SVGBase().getRef(), new SVGBase().getRef())
+  });
 });
