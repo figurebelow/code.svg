@@ -94,6 +94,7 @@ jsdom.env(
     let console = require   (\"console\"); \
     let D3 = require        (\"./src/d3/d3.v3.min.js\"); \
     let PS = require (\"./src/utils/node-particles/js/ParticleSystem.js\");\
+    let Colors = require (\"./src/utils/Colors.js\").Colors; \
     var scene  = function(){ \"use strict\"; "+ data + "\n}(); \
     scene.attributes[\"desc\"] = \"" + comp +"\";\
     results = scene.exportContent()";
