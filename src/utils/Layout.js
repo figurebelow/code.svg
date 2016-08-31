@@ -46,7 +46,6 @@ function Attractor (numPoints, entryString, width, height)
   return res;
 }
 
-module.exports.Attractor = Attractor;
 
 /**
   Rossler Attractor code.
@@ -84,7 +83,6 @@ function Rossler (params)
   }
   return res;
 }
-module.exports.Rossler = Rossler;
 
 /**
   Lorentz Attractor code.
@@ -118,7 +116,7 @@ function Lorentz (params)
   }
   return res;
 }
-module.exports.Lorentz = Lorentz;
+
 /**
  * Returns a grid of x,y values
  * @param {number} xrows - number of points in x
@@ -139,7 +137,6 @@ function Grid (params)
     }
   return points;
 }
-module.exports.Grid = Grid;
 
 /* Returns a Spiral of points centered at x,y
 * @param {number} points - number of points
@@ -173,4 +170,30 @@ function Spiral (params)
   }
   return points;
 }
+
+/**
+ * Returns the intersecting points after dividing the input area in three sections,
+ * following the principles of the Rule Of Thirds.
+ * @param {number} x0 - top leftmost x coord
+ * @param {number} y0 - top leftmost y coord
+ * @param {number} width - width of the area
+ * @param {number} length - length of the area
+ * @return {array} list containg the four {x,y} points of the intersections
+ */
+function RuleOfThirds (x0, y0, width, height) {
+  var rulePoints = [];
+  var thirdWidth = width / 3;
+  var thirdHeight = height / 3;
+  rulePoints.push ({x: thirdWidth + x0, y: thirdHeight + y0});
+  rulePoints.push ({x: thirdWidth * 2 + x0, y: thirdHeight + y0});
+  rulePoints.push ({x: thirdWidth * 2 + x0, y: thirdHeight * 2 + y0});
+  rulePoints.push ({x: thirdWidth + x0, y: thirdHeight * 2 + y0});
+  return rulePoints;
+}
+
 module.exports.Spiral = Spiral;
+module.exports.Attractor = Attractor;
+module.exports.Grid = Grid;
+module.exports.Lorentz = Lorentz;
+module.exports.Rossler = Rossler;
+module.exports.RuleOfThirds = RuleOfThirds;
