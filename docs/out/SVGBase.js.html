@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Source: SVGBase.js</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="scripts/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/jaguar.css">
+    
+    
+    <script>
+    var config = {"monospaceLinks":false,"cleverLinks":false,"default":{"outputSourceFiles":true}};
+    </script>
+    
+
+    
+</head>
+<body>
+<div id="wrap" class="clearfix">
+    
+<div class="navigation">
+    <h3 class="applicationName"><a href="index.html"></a></h3>
+
+    <div class="search">
+        <input id="search" type="text" class="form-control input-sm" placeholder="Search Documentations">
+    </div>
+    <ul class="list">
+    
+        <li class="item" data-name="Circle">
+            <span class="title">
+                <a href="Circle.html">Circle</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Circle#getCenter"><a href="Circle.html#getCenter">getCenter</a></li>
+            
+                <li data-name="Circle#moveTo"><a href="Circle.html#moveTo">moveTo</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Colors">
+            <span class="title">
+                <a href="Colors.html">Colors</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Ellipse">
+            <span class="title">
+                <a href="Ellipse.html">Ellipse</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Ellipse#getCenter"><a href="Ellipse.html#getCenter">getCenter</a></li>
+            
+                <li data-name="Ellipse#moveTo"><a href="Ellipse.html#moveTo">moveTo</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Line">
+            <span class="title">
+                <a href="Line.html">Line</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Line#moveTo"><a href="Line.html#moveTo">moveTo</a></li>
+            
+                <li data-name="Line#rot"><a href="Line.html#rot">rot</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="SVGBase">
+            <span class="title">
+                <a href="SVGBase.html">SVGBase</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="SVGBase#append"><a href="SVGBase.html#append">append</a></li>
+            
+                <li data-name="SVGBase#genRotate"><a href="SVGBase.html#genRotate">genRotate</a></li>
+            
+                <li data-name="SVGBase#genScale"><a href="SVGBase.html#genScale">genScale</a></li>
+            
+                <li data-name="SVGBase#genSkew"><a href="SVGBase.html#genSkew">genSkew</a></li>
+            
+                <li data-name="SVGBase#genTransform"><a href="SVGBase.html#genTransform">genTransform</a></li>
+            
+                <li data-name="SVGBase#getAttr"><a href="SVGBase.html#getAttr">getAttr</a></li>
+            
+                <li data-name="SVGBase#removeAttr"><a href="SVGBase.html#removeAttr">removeAttr</a></li>
+            
+                <li data-name="SVGBase#setAttr"><a href="SVGBase.html#setAttr">setAttr</a></li>
+            
+                <li data-name="SVGBase#sty"><a href="SVGBase.html#sty">sty</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+    </ul>
+</div>
+    <div class="main">
+        <h1 class="page-title" data-filename="SVGBase.js.html">Source: SVGBase.js</h1>
+        
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source "><code>/**
+* @license
+* Copyright 2016 Ruben Afonso, ruben@figurebelow.com
+* This source code is licensed under the Apache license (see LICENSE file)
+**/
+
+"use strict";
+
+let Functions = require ("./utils/Functions.js").Functions;
+let Rnd = require ("./utils/Rnd.js").Rnd;
+
+/**
+ * @description The SVGBase contains all the common SVG functionality inherited by the SVG elements
+ */
+class SVGBase {
+
+  /**
+   * @constructor
+   * @param {type} String containig the type
+   * @param {values} map with the SVG attributes
+   * @param {style} map with the style attributes
+   */
+  constructor (type, values, style) {
+    this.type = type;
+    this.attributes = {};
+    this.style = {};
+    this.transform = {};
+    this.transform.rotate = {}; // {x,y,deg}
+    this.transform.scale = {};  // {x:xdegs, y:ydegs}
+    this.transform.skew = {};
+    for (var attr in values) {
+      this.attributes[attr] = values[attr];
+    }
+    for (var opt in style) {
+      this.style[opt] = style[opt];
+    }
+  }
+
+  /**
+   * Appends the SVG content to the SVG DOM root
+   *
+   * @param {object} svg the SVG root
+   * @return {object} reference to this
+   */
+  append (svg) {
+    var svgNode = svg.append (this.type);
+    for (var key in this.attributes) {
+      svgNode.attr (key, this.attributes[key])
+    }
+    this.genTransform (svgNode);
+    for (var style in this.style) {
+      svgNode.style (style, this.style[style]);
+    }
+    return svgNode;
+  }
+
+  /**
+   * Generates the SVG transform string
+   *
+   * @param {object} svgNode the SVG root
+   * @return {object} string
+   */
+  genTransform (svgNode) {
+      var transformStr = "";
+      var rotString = this.genRotate ();
+      var scaleString = this.genScale ();
+      var skeString = this.genSkew ();
+      if (!rotString.length &amp;&amp; !scaleString.length &amp;&amp; !skeString.length)
+        return; // do nothing
+      else {
+        svgNode.attr("transform", rotString + " " + scaleString + " " + skeString);
+      }
+  }
+
+  /**
+   * Appends the SVG rotate to the SVG DOM root
+   *
+   * @param {object} svgNode the SVG root
+   */
+  genRotate (svgNode) {
+    if (this.isRotated())
+    {
+      return "rotate(" + this.transform.rotate.deg + " " + this.transform.rotate.x + " " + this.transform.rotate.y + ")";
+    }
+    return "";
+  }
+
+  /**
+   * Appends the SVG scale to the SVG DOM root
+   *
+   * @param {object} svgNode the SVG root
+   */
+  genScale (svgNode) {
+    let xscale = 0, yscale = 0, scaleString = "";
+    if (this.transform.scale.x != undefined) {
+      xscale = this.transform.scale.x;
+    }
+    if (this.transform.scale.y != undefined) {
+      yscale = this.transform.scale.y;
+    }
+    if (!xscale &amp;&amp; !yscale)
+      return scaleString; // skip the rest
+    if (xscale &amp;&amp; yscale) {
+      scaleString = "scale(" + xscale + "," + yscale + ")";
+    }
+    else {
+      if (xscale)
+        scaleString = "scale(" + xscale + ")";
+      else {
+          if (yscale)
+            scaleString = "scale(" + yscale + ")";
+        }
+    }
+    return scaleString;
+  }
+
+  /**
+   * Appends the SVG skew to the SVG DOM root
+   *
+   * @param {object} svgNode the SVG root
+   */
+  genSkew (svgNode) {
+    let skewStr = "";
+    if (this.transform.skewX != undefined)
+      skewStr = "skewX (" + this.transform.skewX + ") ";
+    if (this.skewY != undefined)
+      skewStr += "skewY (" + this.transform.skewY + ") ";
+    return skewStr;
+  }
+
+  /**
+   * Removes and attribute from the attributes map
+   * @parameter{object} attr attr string to be removed
+   */
+  removeAttr (attr) {
+    delete(this.attributes[attr]);
+    return this;
+  }
+
+  /**
+   * Set the value for a set of attributes
+   * @parameter{object} attrs key:value map with the attributes
+   */
+  setAttr (attrs) {
+    for (var attr in attrs) {
+      this.attributes[attr] = attrs[attr];
+    }
+    return this;
+  }
+
+  /**
+   * Set the value for a style attribute
+   * @parameter{object} attr style attribute
+   * @paraneter{object} val value
+   */
+  sty(attr, val) {
+    this.style[attr] = val;
+    return this;
+  }
+
+  /**
+   * Returns the attribute value
+   * @parameter{object} attr style attribute
+   */
+  getAttr(attr) {
+    return this.attributes[attr];
+  }
+
+  clone () {
+    throw ("Missing clone() implementation in " + this.type);
+  }
+
+  getCenter () {
+    throw ("Missing center() implementation in " + this.type);
+  }
+
+  moveTo (xyPos, xdif, ydif) {
+    throw ("Missing moveTo() implementation in " + this.type);
+  }
+
+  getRef () {
+    if (!this.attributes.id)
+      this.attributes.id = Rnd.genId();
+    return "url(#" + this.attributes.id + ")";
+  }
+
+  equals (obj) {
+    var equals = false;
+    if (this.type == obj.type &amp;&amp; this.attributes.length == obj.attributes.length &amp;&amp;
+        this.style.length == obj.style.length) 
+    {
+      for (var key in this.attributes) {
+        if (this.attributes[key] != obj.attributes[key])
+          break;
+      };
+      for (var key in this.style) {
+        if (this.style[key] != obj.style[key])
+          break;
+      };
+      equals = true;
+    }
+    return equals;
+  }
+  
+  cloneToCoords (points) {
+    var elems = [];
+    var that = this;
+    points.forEach (function (point) {
+      var cloned = that.clone();
+      cloned.moveTo({x:point.x, y:point.y});
+      elems.push (cloned);
+    });
+    return elems;
+  }
+
+  rotate (xyPos, deg) {
+    this.transform.rotate.x = xyPos.x;
+    this.transform.rotate.y = xyPos.y;
+    this.transform.rotate.deg = deg;
+  }
+
+  isRotated () { return this.transform.rotate.deg != undefined; }
+  getRotate () { return this.transform.rotate };
+
+  sca (xfactor, yfactor) {
+    this.transform.scale.x = xfactor;
+    this.transform.scale.y = yfactor;
+    return this;
+  }
+
+  ske (xfactor, yfactor) {
+    this.transform.skewX = xfactor;
+    this.transform.skewY = yfactor;
+    return this;
+  }
+};
+
+module.exports.SVGBase = SVGBase;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+
+
+        
+
+        <footer>
+            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Aug 31 2016 16:37:37 GMT+0100 (GMT Daylight Time)
+        </footer>
+    </div>
+</div>
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+<script src="scripts/main.js"></script>
+</body>
+</html>

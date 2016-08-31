@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Source: utils/Layout.js</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="scripts/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/jaguar.css">
+    
+    
+    <script>
+    var config = {"monospaceLinks":false,"cleverLinks":false,"default":{"outputSourceFiles":true}};
+    </script>
+    
+
+    
+</head>
+<body>
+<div id="wrap" class="clearfix">
+    
+<div class="navigation">
+    <h3 class="applicationName"><a href="index.html"></a></h3>
+
+    <div class="search">
+        <input id="search" type="text" class="form-control input-sm" placeholder="Search Documentations">
+    </div>
+    <ul class="list">
+    
+        <li class="item" data-name="Circle">
+            <span class="title">
+                <a href="Circle.html">Circle</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Circle#getCenter"><a href="Circle.html#getCenter">getCenter</a></li>
+            
+                <li data-name="Circle#moveTo"><a href="Circle.html#moveTo">moveTo</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Colors">
+            <span class="title">
+                <a href="Colors.html">Colors</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Ellipse">
+            <span class="title">
+                <a href="Ellipse.html">Ellipse</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Ellipse#getCenter"><a href="Ellipse.html#getCenter">getCenter</a></li>
+            
+                <li data-name="Ellipse#moveTo"><a href="Ellipse.html#moveTo">moveTo</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Line">
+            <span class="title">
+                <a href="Line.html">Line</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Line#moveTo"><a href="Line.html#moveTo">moveTo</a></li>
+            
+                <li data-name="Line#rot"><a href="Line.html#rot">rot</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="SVGBase">
+            <span class="title">
+                <a href="SVGBase.html">SVGBase</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="SVGBase#append"><a href="SVGBase.html#append">append</a></li>
+            
+                <li data-name="SVGBase#genRotate"><a href="SVGBase.html#genRotate">genRotate</a></li>
+            
+                <li data-name="SVGBase#genScale"><a href="SVGBase.html#genScale">genScale</a></li>
+            
+                <li data-name="SVGBase#genSkew"><a href="SVGBase.html#genSkew">genSkew</a></li>
+            
+                <li data-name="SVGBase#genTransform"><a href="SVGBase.html#genTransform">genTransform</a></li>
+            
+                <li data-name="SVGBase#getAttr"><a href="SVGBase.html#getAttr">getAttr</a></li>
+            
+                <li data-name="SVGBase#removeAttr"><a href="SVGBase.html#removeAttr">removeAttr</a></li>
+            
+                <li data-name="SVGBase#setAttr"><a href="SVGBase.html#setAttr">setAttr</a></li>
+            
+                <li data-name="SVGBase#sty"><a href="SVGBase.html#sty">sty</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+    </ul>
+</div>
+    <div class="main">
+        <h1 class="page-title" data-filename="utils_Layout.js.html">Source: utils/Layout.js</h1>
+        
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source "><code>/**
+* @license
+* Copyright 2016 Ruben Afonso, ruben@figurebelow.com
+* This source code is licensed under the Apache license (see LICENSE file)
+**/
+
+//let Functions = require ("./Functions.js");
+
+"use strict";
+
+/**
+ * http://struct.cc/blog/2011/08/15/strange-attractors/
+ */
+function Attractor (numPoints, entryString, width, height)
+{
+
+  // Fractal pattern and coefficients.
+  var a = [];
+  var res = [];
+
+  // Parameters.
+  var x = 0.1, y = 0.1;
+  var r = 360 % entryString.length;
+
+  // Initialize coefficients.
+  for (i = 0; i &lt; entryString.length; i++)
+  {
+    a[i] = (entryString.charCodeAt(i) - 65 - 12) / 10;
+  }
+  res.push ({x:(width/2) + 50 * Math.cos(r),y:(height/2) + 58 * Math.sin(r), r:0});
+  for (i = 0; i &lt; numPoints; i++)
+  {
+    var nx = a[0] + a[1]  * x + a[2]  * x * x
+            + a[3] * x * y + a[4]  * y + a[5]  * y * y;
+    var ny = a[6] + a[7]  * x + a[8]  * x * x
+            + a[9] * x * y + a[10] * y + a[11] * y * y;
+    x = nx; y = ny;
+    var xvalue = (width/2)*x;
+    xvalue += width/2;
+    var yvalue = (height/2)*y;
+    yvalue += height/2;
+    var previousPoint = res[res.length-1];
+    res.push ({x:xvalue, y:yvalue,
+               r: Functions.calculateAngle (previousPoint, {x:xvalue, y:yvalue})});
+  }
+  return res;
+}
+
+
+/**
+  Rossler Attractor code.
+  http://paulbourke.net/fractals/rossler/
+*/
+//function Rossler (numPoints, a, b, c, h, x0, y0, scale, width, height)
+function Rossler (params)
+{
+  function rosslerPoint (x, y, z, a, b, c) {
+    var dx = -(y + z);
+    var dy = x + a * y;
+    var dz = b + z * (x - c);
+    return {x:dx, y:dy, z:dz};
+  };
+
+  var x0 = params.x0 || params.width/2;
+  var y0 = params.y0 || params.height/2;
+  var center = {x: x0, y: y0};   // center in the screen
+  var x = 0.1;
+  var y = 0.1;
+  var z = 0.1;
+  var tmpx = 0, tmpy = 0, tmpz =0;
+  var res = [];
+  for (var i = 0; i &lt; params.points; i++)
+  {
+    var dt = rosslerPoint (x, y, z, params.a, params.b, params.c);
+    tmpx = x + params.h * dt.x;
+    tmpy = y + params.h * dt.y;
+    tmpz = z + params.h * dt.z;
+    //if (Math.abs(tmpx*20 - x*20) > 5 || Math.abs(tmpy*20 - y*20) > 5)
+    res.push ({x: tmpx * params.scale + center.x, y: tmpy * params.scale + center.y, z:tmpz});
+    x = tmpx;
+    y = tmpy;
+    z = tmpz;
+  }
+  return res;
+}
+
+/**
+  Lorentz Attractor code.
+  http://www.algosome.com/articles/lorenz-attractor-programming-code.html
+*/
+function Lorentz (params)
+{
+  function rosslerPoint (x, y, z, a, b, c) {
+    var dx = a * (y - x);
+    var dy = x * (b - z) - y;
+    var dz = x * y - c * z;
+    return {x:dx, y:dy, z:dz};
+  };
+
+  var center = {x: params.width/2, y: params.height/2};   // center in the screen
+  var x = params.x0 || 0.1;
+  var y = params.y0 || 0.1;
+  var z = 0.1;
+  var tmpx = 0, tmpy = 0, tmpz =0;
+  var res = [];
+  for (var i = 0; i &lt; params.points; i++)
+  {
+    var dt = rosslerPoint (x, y, z, params.a, params.b, params.c);
+    tmpx = x + params.h * dt.x;
+    tmpy = y + params.h * dt.y;
+    tmpz = z + params.h * dt.z;
+    res.push ({x: tmpx * params.scale + center.x, y: tmpy * params.scale + center.y, z:tmpz});
+    x = tmpx;
+    y = tmpy;
+    z = tmpz;
+  }
+  return res;
+}
+
+/**
+ * Returns a grid of x,y values
+ * @param {number} xrows - number of points in x
+ * @param {number} yrows - number of points in y
+ * @param {number} width - total width
+ * @param {number} height - total height
+ * @return {array} list of values {x:val, y:val}
+ */
+function Grid (params)
+{
+  var points = [];
+  var xspan = params.width / (params.xrows || 10);
+  var yspan = params.height / (params.yrows || 10);
+  for (var ypoints = 1; ypoints &lt; params.yrows ; ypoints++)
+    for (var xpoints = 1;  xpoints &lt; params.xrows; xpoints++)
+    {
+      points.push ({x: xpoints * xspan, y: ypoints * yspan});
+    }
+  return points;
+}
+
+/* Returns a Spiral of points centered at x,y
+* @param {number} points - number of points
+* @param {number} x - initial x coord
+* @param {number} y - initial y
+* @param {number} radius - radio
+* @param {number} coils - number of coils
+* @param {number} chord - chord value
+* @return {array} list of values {x:val, y:val}
+*/
+function Spiral (params)
+{
+  var points = [];
+  var centerX = params.x,
+      centerY = params.y,
+      radius = params.radius,
+      coils = params.coils,
+      chord = params.chord;
+
+  var rotation = 2 * Math.PI;
+  var thetaMax = coils * 2 * Math.PI;
+  var awayStep = radius / thetaMax;
+
+  for (var theta = chord / awayStep, i = 0; theta &lt;= thetaMax &amp;&amp; i &lt; params.points; i++) {
+    var away = awayStep * theta;
+    var around = theta + rotation;
+    var x = centerX + Math.cos ( around ) * away;
+    var y = centerY + Math.sin ( around ) * away;
+    theta += chord / away;
+    points.push({x: x, y: y, r: theta});
+  }
+  return points;
+}
+
+/**
+ * Returns the intersecting points after dividing the input area in three sections,
+ * following the principles of the Rule Of Thirds.
+ * @param {number} x0 - top leftmost x coord
+ * @param {number} y0 - top leftmost y coord
+ * @param {number} width - width of the area
+ * @param {number} length - length of the area
+ * @return {array} list containg the four {x,y} points of the intersections
+ */
+function RuleOfThirds (x0, y0, width, height) {
+  var rulePoints = [];
+  var thirdWidth = width / 3;
+  var thirdHeight = height / 3;
+  rulePoints.push ({x: thirdWidth + x0, y: thirdHeight + y0});
+  rulePoints.push ({x: thirdWidth * 2 + x0, y: thirdHeight + y0});
+  rulePoints.push ({x: thirdWidth * 2 + x0, y: thirdHeight * 2 + y0});
+  rulePoints.push ({x: thirdWidth + x0, y: thirdHeight * 2 + y0});
+  return rulePoints;
+}
+
+module.exports.Spiral = Spiral;
+module.exports.Attractor = Attractor;
+module.exports.Grid = Grid;
+module.exports.Lorentz = Lorentz;
+module.exports.Rossler = Rossler;
+module.exports.RuleOfThirds = RuleOfThirds;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+
+
+        
+
+        <footer>
+            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Aug 31 2016 16:37:37 GMT+0100 (GMT Daylight Time)
+        </footer>
+    </div>
+</div>
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+<script src="scripts/main.js"></script>
+</body>
+</html>
