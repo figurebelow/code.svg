@@ -41,7 +41,8 @@ class Colors {
       if (err)
         throw err;
       else {
-        console.log(data.map (function(elem) { return {id:elem.id, colors:elem.colors} }));
+        console.log(data.map (function(elem) { 
+                      return {id:elem.id, colors:elem.colors} }));
         return data;
       }
     });
@@ -50,5 +51,3 @@ class Colors {
 };
 
 module.exports.Colors = Colors;
-
-Colors.getTopColors5();
