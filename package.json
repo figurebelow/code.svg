@@ -37,7 +37,7 @@
   "homepage": "https://github.com/figurebelow/code.svg#readme",
   "dependencies": {
     "compressjs": "^1.0.3",
-    "colourlovers": "^0.1.1",
+    "sync-request": "^3.0.1",
     "jsdom": "^9.4.5",
     "xmldom":"^0.1.22"
   }
