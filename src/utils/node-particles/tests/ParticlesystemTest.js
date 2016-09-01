@@ -33,5 +33,4 @@ describe ("ParticleSystem", function () {
     ps.evolve(1);
     assert.equal(ps.getParticleCount(), 1);
   });
-
 });

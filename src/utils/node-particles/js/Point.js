@@ -85,7 +85,9 @@
 
     // Returns a new point given the angle from (0,0) and a certain magnitude
     static fromAngle (angle, magnitude) {
-      return new Point(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
+      
+      var p = new Point(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
+      return p;
     }
 };
 module.exports.Point = Point;
