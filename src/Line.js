@@ -17,30 +17,19 @@ class Line extends Path {
 
   /**
    * Class constructor
-   * @param {x1} x1 - initial x coord
-   * @param {y1} y1 - initial y coord 
-   * @param {x2} x2 - end x coord
-   * @param {y2} y2 - end y coord
+   * @param {xy1} x1 initial xypoint
+   * @param {xy2} x2 end xypoint
+   * @param {object} style style attributes
    */
-  constructor (x1, y1, x2, y2, style) {
-    var d = "M" + x1 + "," + y1 + " " + "L" + x2 + "," + y2;
+  constructor (xy1, xy2, style) {
+    var d = "M" + xy1.x + "," + xy1.y + " " + "L" + xy2.x + "," + xy2.y;
     var procParams = {"d":d};
     super (procParams, style);
   }
 
   /**
-   * Rotates the Line
-   * @param {number} deg - degrees to rotate the Line
-   */ 
-  rot (deg) {
-    let center = this.getCenter ();
-    super.rotate(center, deg);
-    return this;
-  }
-
-  /**
    * Moves the Line.
-   * If only p1 is provided the line is moved to that point. 
+   * If only p1 is provided the line is moved to that point.
    * Otherwise the Line is redefined to start, end parameters
    * @param {number} p1 - initial point to move the Line to
    * @param {number} p2 - end point to move the Line to

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Source: Ellipse.js</title>
+    <title>Source: Scene.js</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -556,7 +556,7 @@
     </ul>
 </div>
     <div class="main">
-        <h1 class="page-title" data-filename="Ellipse.js.html">Source: Ellipse.js</h1>
+        <h1 class="page-title" data-filename="Scene.js.html">Source: Scene.js</h1>
         
 
 
@@ -571,53 +571,131 @@
 
 "use strict";
 
-let Path = require ("./Path.js").Path;
+const DEFAULT_WIDTH = 800;
+const DEFAULT_HEIGHT = 600;
+const DEFAULT_BACKGROUND_FILL = "#f0e9a4";
 
-/**
- * Class Ellipse
- * @extends Path
- */
-class Ellipse extends Path {
+class Scene {
 
-  /**
-   * Class constructor
-   * @param {map} values - initial values
-   * @param {map} style - default initial style values
-   */
-  constructor (values, style) {
-    var cx = values["cx"] || 0;
-    var cy = values["cy"] || 0;
-    var rx = values["rx"] || 5;
-    var ry = values["ry"] || 5;
-    var p0 = "M" + cx + "," + cy + " ";
-    var p1 = "m" + (-rx) + "," + 0 + " ";
-    var p2 = "a" + rx + "," + ry + " " + 0 + " " + "1,0 " + (rx * 2) + ",0 ";
-    var p3 = "a" + rx + "," + ry + " " + 0 + " " + "1,0 " + -(rx * 2) + ",0 ";
-    var d = p0 + " " + p1 + " " + p2 + " " + p3;
-    var procParams = {"d":d};
-    super (procParams, style);
+  constructor (root, attrs, style) {
+    this.svg = null;
+    this.root = root;
+    this.children = [];
+    this.masks = {};
+    this.attributes = {};
+    this.style = {};
+    this.defs = [];
+    var that = this;
+    for (var attr in attrs) {
+      this.attributes[attr] = attrs[attr];
+    }
+    for (var sty in style) {
+      this.style[sty] = style[sty];
+    }
+  }
+
+  append () {
+    this.svg = this.root.append("svg")
+        .attr("xmlns:dc", "http://purl.org/dc/elements/1.1/")
+        .attr("xmlns:cc", "http://creativecommons.org/ns#")
+        .attr("xmlns:rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+        .attr("xmlns:svg", "http://www.w3.org/2000/svg")
+        .attr("xmlns", "http://www.w3.org/2000/svg")
+        .attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
+        .attr("xmlns:description", this.attributes["desc"] || "")
+        .attr("version", "1.1")
+        .attr("encoding", "UTF-8")
+        .attr("standalone", "no")
+        .attr("width", this.attributes["width"] || DEFAULT_WIDTH)
+        .attr("height", this.attributes["height"] || DEFAULT_HEIGHT)
+
+    var that = this;
+    var defs = this.svg.append ("defs");
+
+    this.defs.forEach(function (def) {
+      def.append(defs);
+    });
+
+    for (var maskId in this.masks) {
+      var maskRoot = defs.append ("mask").attr ("id", maskId);
+      var mask = this.masks[maskId];
+      mask.forEach (function (maskElems) {
+        maskElems.append (maskRoot);
+      });
+    }
+
+    this.svg.append("rect")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", this.attributes["width"] || DEFAULT_WIDTH)
+        .attr("height", this.attributes["height"] || DEFAULT_HEIGHT)
+        .attr("filter", this.attributes["filter"] || "")
+        .style("fill", this.style["fill"] || DEFAULT_BACKGROUND_FILL);
+
+    this.children.forEach (function (child) {
+        child.append (that.svg);
+    });
+  }
+
+  getSvg() {
+    return this.svg;
+  }
+
+  exportContent () {
+    this.append();
+    var content = this.root.html();
+    content = content.replace(/clippath/g, "clipPath");
+    content = content.replace(/lineargradient/g, "linearGradient");
+    content = content.replace(/radialgradient/g, "radialGradient");
+    content = content.replace(/feturbulence/g, "feTurbulence");
+    content = content.replace(/fediffuselighting/g, "feDiffuseLighting");
+    content = content.replace(/fedistantlight/g, "feDistantLight");
+    content = content.replace(/fefunca/g, "feFuncA");
+    content = content.replace(/fecomponenttransfer/g, "feComponentTransfer");
+    return content;
+  };
+
+  // This function takes arguments, so the real parameters are irrelevant
+  add (_) {
+    for (var i = 0; i &lt; arguments.length; i++) {
+      this.children.push(arguments[i]);
+    }
+  }
+
+  addMask (id, def) {
+    if (this.masks[id] != undefined)
+    {
+      this.masks[id].push (def);
+    }
+    else {
+      this.masks[id] = [def];
+    }
+  }
+
+  addDef (def) {
+    this.defs.push(def);
   }
 
   /**
-   * Returns the center of the Ellipse
-   * @return {map} xy position
+   * Set the value for a set of attributes
+   * @param {object} attrs key:value map with the attributes
    */
-  getCenter () {
-    return this.parsedPoints[0].values[0];
+  setAttr (attrs) {
+    for (var attr in attrs) {
+      this.attributes[attr] = attrs[attr];
+    }
+    return this;
   }
 
-  /**
-   * Moves the Ellipse to the given position
-   * @param {ma} xyPos - xy position to move the Ellipse to
-   */
-  moveTo (xyPos) {
-    this.parsedPoints[0].values[0].x = xyPos.x;
-    this.parsedPoints[0].values[0].y = xyPos.y;
+  sty(style) {
+    for (var attr in style) {
+      this.style[attr] = style[attr];
+    }
     return this;
   }
 };
 
-module.exports.Ellipse = Ellipse;
+module.exports.Scene = Scene;
 </code></pre>
         </article>
     </section>

@@ -7,7 +7,7 @@
 **/
 
 var assert = require ("assert");
-var Layout = require ("../src/utils/Layout.js");
+var Layout = require ("../src/utils/Layout.js").Layout;
 
 describe ("Layout tests", function () {
   

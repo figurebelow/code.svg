@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Source: Ellipse.js</title>
+    <title>Source: Path.js</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -556,7 +556,7 @@
     </ul>
 </div>
     <div class="main">
-        <h1 class="page-title" data-filename="Ellipse.js.html">Source: Ellipse.js</h1>
+        <h1 class="page-title" data-filename="Path.js.html">Source: Path.js</h1>
         
 
 
@@ -571,53 +571,173 @@
 
 "use strict";
 
-let Path = require ("./Path.js").Path;
+let SVGBase = require ("./SVGBase.js").SVGBase;
+let NonIntersecPolCenter = require ("./utils/Functions.js").NonIntersecPolCenter;
+let PointsParser = require ("./grammars/PathGrammar.js");
 
 /**
- * Class Ellipse
- * @extends Path
+ * Class Path
+ * @extends SVGBase
  */
-class Ellipse extends Path {
+class Path extends SVGBase {
 
   /**
-   * Class constructor
-   * @param {map} values - initial values
-   * @param {map} style - default initial style values
+   * Path constructor
+   * @override
    */
   constructor (values, style) {
-    var cx = values["cx"] || 0;
-    var cy = values["cy"] || 0;
-    var rx = values["rx"] || 5;
-    var ry = values["ry"] || 5;
-    var p0 = "M" + cx + "," + cy + " ";
-    var p1 = "m" + (-rx) + "," + 0 + " ";
-    var p2 = "a" + rx + "," + ry + " " + 0 + " " + "1,0 " + (rx * 2) + ",0 ";
-    var p3 = "a" + rx + "," + ry + " " + 0 + " " + "1,0 " + -(rx * 2) + ",0 ";
-    var d = p0 + " " + p1 + " " + p2 + " " + p3;
-    var procParams = {"d":d};
-    super (procParams, style);
+    super ("path", values, style);
+    if ("d" in values)
+      this.parsedPoints = PointsParser.parse (values["d"]);
+    else {
+      this.setAttr({d:""});
+      this.parsedPoints = [];
+    }
   }
 
   /**
-   * Returns the center of the Ellipse
-   * @return {map} xy position
+   * Clones a Path
+   * @override
+   * @return the new object
+   */
+  clone () {
+    var newElem = new Path (this.attributes, this.style);
+    return newElem;
+  }
+
+  /**
+   * Returns the Path's center
+   * @return {object} {x:val,y:val} position of the Path's center
+   * @override
    */
   getCenter () {
-    return this.parsedPoints[0].values[0];
+    var vertices = [];
+    this.parsedPoints.forEach (function (instruction) {
+      if (instruction.values != undefined) {
+         vertices = vertices.concat (instruction.values)
+       }
+     });
+     return NonIntersecPolCenter (vertices);
   }
 
   /**
-   * Moves the Ellipse to the given position
-   * @param {ma} xyPos - xy position to move the Ellipse to
+   * Moves the object to the given xy point
+   * @param {object} {x:va;,y:val} position to move the Path's center to.
+   * @return the object
+   * @example
+   * path.moveTo({x:10,y:10});
    */
   moveTo (xyPos) {
-    this.parsedPoints[0].values[0].x = xyPos.x;
-    this.parsedPoints[0].values[0].y = xyPos.y;
+    var currentCenter = this.getCenter();
+    var distance = {x: xyPos.x - currentCenter.x, y: xyPos.y - currentCenter.y};
+    this.parsedPoints.forEach (function (point) {
+      if (point.values != undefined) {
+        point.values[0].x += distance.x;
+        point.values[0].y += distance.y;
+      }
+    });
+    this.updateD();
+    return this;
+  }
+
+  /**
+   * Rotates the object
+   * @param {number} deg degrees to rotate, clockwise
+   * @param {number} x (optional) x-position center of the rotation
+   * @param {number} y (optional) y-position center of the rotation
+   * @override
+   * @returns the object
+   */
+  rot (deg, x, y) {
+    let center = this.getCenter ();
+    if (x !== undefined)
+      center.x = x;
+    if (y !== undefined)
+      center.y = y;
+    super.rotate(center, deg);
+    return this;
+  }
+
+  /**
+   * Updates the 'd' coordinate of the Path.
+   * @ignore
+   */
+  updateD () {
+    var newD = "";
+    this.parsedPoints.forEach (function (point, i, sourceList) {
+      newD += point.type;
+      if (point.type != 'z') {
+        newD += point.values[0].x + "," + point.values[0].y;
+        if (i &lt; sourceList.length-1)
+          newD += " ";
+      }
+    });
+    this.setAttr ({"d":newD});
+  }
+
+  /**
+   * Subdivides the Path by adding a new point between each pair of coordinates
+   * @param {number} its number of subdivision operations, 1 by default
+   * @return the object
+   * @example
+   * line.subdivide(2); // subdivide twice
+   */
+  subdivide (its) {
+    var iterations = its || 1;
+    while (iterations > 0) {
+      var clonedPoints = this.parsedPoints.slice(0);
+      var interpolated = 0;
+      for (var i  = 1; i &lt; clonedPoints.length; i++) {
+        if (clonedPoints[i].type == "L") {
+          var intermediatePoint = NonIntersecPolCenter ([clonedPoints[i].values[0], clonedPoints[i-1].values[0]]);
+          this.parsedPoints.splice (i + interpolated,0,{type:'L', values:[{x:intermediatePoint.x, y:intermediatePoint.y}]});
+          interpolated++;
+        }
+        if (clonedPoints[i].type == "z") {
+          var intermediatePoint = NonIntersecPolCenter ([clonedPoints[0].values[0], clonedPoints[i-1].values[0]]);
+          this.parsedPoints.splice (i + interpolated,0,{type:'L', values:[{x:intermediatePoint.x, y:intermediatePoint.y}]});
+        }
+      }
+      iterations--;
+    }
+    this.updateD();
+    return this;
+  }
+
+  /**
+   * Apply the given noise function to each point.
+   * The noise function must return a pair of {xy} values when invoked.
+   * @param {xyFun} xyFun the function to Apply
+   * @return the object
+   * @example
+   * mymultiline.noise(function f () { return x: Math.random(), y:Math.random()});
+   */
+  noise (xyFun) {
+    var that = this;
+    for (var i = 0; i &lt; this.parsedPoints.length; i++) {
+      var values = xyFun ();
+      if (!Array.isArray(values)) {
+        values = [values];
+      }
+      var mapped = (values == this.parsedPoints.length) || false;
+      var point = this.parsedPoints[i];
+      if (point.type != 'z') {
+        if (mapped) {
+          point.values[0].x += values[i].x;
+          point.values[0].y += values[i].y;
+        }
+        else {
+          point.values[0].x += values[0].x;
+          point.values[0].y += values[0].y;
+        }
+      }
+    }
+    this.updateD();
     return this;
   }
 };
 
-module.exports.Ellipse = Ellipse;
+module.exports.Path = Path;
 </code></pre>
         </article>
     </section>

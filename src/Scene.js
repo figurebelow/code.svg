@@ -64,6 +64,7 @@ class Scene {
         .attr("y", 0)
         .attr("width", this.attributes["width"] || DEFAULT_WIDTH)
         .attr("height", this.attributes["height"] || DEFAULT_HEIGHT)
+        .attr("filter", this.attributes["filter"] || "")
         .style("fill", this.style["fill"] || DEFAULT_BACKGROUND_FILL);
 
     this.children.forEach (function (child) {
@@ -81,10 +82,21 @@ class Scene {
     content = content.replace(/clippath/g, "clipPath");
     content = content.replace(/lineargradient/g, "linearGradient");
     content = content.replace(/radialgradient/g, "radialGradient");
+    content = content.replace(/feturbulence/g, "feTurbulence");
+    content = content.replace(/fediffuselighting/g, "feDiffuseLighting");
+    content = content.replace(/fedistantlight/g, "feDistantLight");
+    content = content.replace(/fefunca/g, "feFuncA");
+    content = content.replace(/fecomponenttransfer/g, "feComponentTransfer");
     return content;
   };
 
-  add (child) { this.children.push (child); }
+  // This function takes arguments, so the real parameters are irrelevant
+  add (_) {
+    for (var i = 0; i < arguments.length; i++) {
+      this.children.push(arguments[i]);
+    }
+  }
+
   addMask (id, def) {
     if (this.masks[id] != undefined)
     {
@@ -97,6 +109,24 @@ class Scene {
 
   addDef (def) {
     this.defs.push(def);
+  }
+
+  /**
+   * Set the value for a set of attributes
+   * @param {object} attrs key:value map with the attributes
+   */
+  setAttr (attrs) {
+    for (var attr in attrs) {
+      this.attributes[attr] = attrs[attr];
+    }
+    return this;
+  }
+
+  sty(style) {
+    for (var attr in style) {
+      this.style[attr] = style[attr];
+    }
+    return this;
   }
 };
 

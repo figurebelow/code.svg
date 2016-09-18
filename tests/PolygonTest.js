@@ -37,16 +37,6 @@ describe ("Polygon", function () {
     assert (polygon.equals(pol2));
   });
 
-  it ("clones to coords", function () {
-    var polygon = new Polygon ({points:"50,50 70,50 70,70 50,70"}, {stroke: "red"});
-    var coords = [{x:20, y:30}, {x:0, y:0}, {x:10, y:10}];
-    var polys = polygon.cloneToCoords (coords);
-    assert.equal (3, polys.length);
-    polys.forEach (function (elem, i) {
-      assert.deepEqual (elem.getCenter(), coords[i]);
-    });
-  });
-
   it ("subdivides", function () {
     var polygon = new Polygon ({points:"0,0 40,0 40,40 0,40"}, {});
     polygon.subdivide(1);

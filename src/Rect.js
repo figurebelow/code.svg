@@ -8,8 +8,15 @@
 
 let Path = require ("./Path.js").Path;
 
+/**
+ * Rect class
+ * @extends Path
+ */
 class Rect extends Path {
 
+  /**
+   * Class constructor
+   */
   constructor (values, style) {
     var x = values["x"] || 0;
     var y = values["y"] || 0;

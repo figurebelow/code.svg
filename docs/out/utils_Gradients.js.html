@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Source: Ellipse.js</title>
+    <title>Source: utils/Gradients.js</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -556,7 +556,7 @@
     </ul>
 </div>
     <div class="main">
-        <h1 class="page-title" data-filename="Ellipse.js.html">Source: Ellipse.js</h1>
+        <h1 class="page-title" data-filename="utils_Gradients.js.html">Source: utils/Gradients.js</h1>
         
 
 
@@ -571,53 +571,93 @@
 
 "use strict";
 
-let Path = require ("./Path.js").Path;
+let SVGBase = require ("../SVGBase.js").SVGBase;
 
 /**
- * Class Ellipse
- * @extends Path
+ * @class
+ * @classdesc Defines a BaseGradient object
+ * @extends SVGBase
+ * @abstract
  */
-class Ellipse extends Path {
+class BaseGradient extends SVGBase {
 
-  /**
-   * Class constructor
-   * @param {map} values - initial values
-   * @param {map} style - default initial style values
-   */
-  constructor (values, style) {
-    var cx = values["cx"] || 0;
-    var cy = values["cy"] || 0;
-    var rx = values["rx"] || 5;
-    var ry = values["ry"] || 5;
-    var p0 = "M" + cx + "," + cy + " ";
-    var p1 = "m" + (-rx) + "," + 0 + " ";
-    var p2 = "a" + rx + "," + ry + " " + 0 + " " + "1,0 " + (rx * 2) + ",0 ";
-    var p3 = "a" + rx + "," + ry + " " + 0 + " " + "1,0 " + -(rx * 2) + ",0 ";
-    var d = p0 + " " + p1 + " " + p2 + " " + p3;
-    var procParams = {"d":d};
-    super (procParams, style);
+  constructor (type, values, style) {
+    var defaultValues = values || {};
+    defaultValues.x1 = (values &amp;&amp; values.x1) ? values.x1 : "0%";
+    defaultValues.y1 = (values &amp;&amp; values.y1) ? values.y1 : "0%";
+    defaultValues.x2 = (values &amp;&amp; values.y1) ? values.x2 : "100%";
+    defaultValues.y2 = (values &amp;&amp; values.y2) ? values.y2 : "0%";
+    defaultValues["stop-opacity"] = (values &amp;&amp; values["stop-opacity"]) ? values["stop-opacity"] : 1;
+    super (type, defaultValues, style);
+    this.stops = [];
   }
 
   /**
-   * Returns the center of the Ellipse
-   * @return {map} xy position
+   * Adds a Stop to the gradient
+   * @param {string} offset - offset string (percentage)
+   * @param {string} stopColor - color string
+   * @param {number} opacity - opacity
+   * @return {Object} returns a reference to the LinearGradient
    */
-  getCenter () {
-    return this.parsedPoints[0].values[0];
-  }
-
-  /**
-   * Moves the Ellipse to the given position
-   * @param {ma} xyPos - xy position to move the Ellipse to
-   */
-  moveTo (xyPos) {
-    this.parsedPoints[0].values[0].x = xyPos.x;
-    this.parsedPoints[0].values[0].y = xyPos.y;
+  addStop (offset, stopColor, stopOpacity) {
+    var offset = offset || "50%";
+    var stopColor = stopColor || "red";
+    var stopOpacity = stopOpacity || 1;
+    var newStop = new LinearGradient.Stop ({offset:offset, "stop-color":stopColor, "stop-opacity": stopOpacity});
+    this.stops.push (newStop);
     return this;
+  }
+
+   // Appends the svg element, for internal use so not documented
+  /** @ignore  */
+  append (svg) {
+    var newNode = super.append(svg);
+    this.stops.forEach (function (stop) {
+        stop.append (newNode);
+    });
+  };
+};
+
+// Private class, there are not nested classes, this is a workaround in ES6
+BaseGradient.Stop = class Stop extends SVGBase {
+
+  constructor (values, style) {
+    super ("stop", values, style);
   }
 };
 
-module.exports.Ellipse = Ellipse;
+// Class LinearGradient
+
+/**
+ * @class
+ * @augments BaseGradient
+ * @classdesc Defines a LinearGradient object
+ */
+class LinearGradient extends BaseGradient {
+
+  constructor (values, style) {
+    super ("linearGradient", values, style);
+  }
+};
+
+// Class RadialGradient
+
+/**
+ * @class
+ * @augments BaseGradient
+ * @example
+ * var gradient = new RadialGradient ({cx:"50%", cy:"50%", fx:0, fy:0, r:1, spreadMethod:"pad"});   // spreadMethod:pad|repeat|reflect
+ * @classdesc Defines a RadialGradient object
+ */
+class RadialGradient extends BaseGradient {
+
+  constructor (values, style) {
+    super ("radialGradient", values, style);
+  }
+};
+
+module.exports.LinearGradient = LinearGradient;
+module.exports.RadialGradient = RadialGradient;
 </code></pre>
         </article>
     </section>

@@ -4,16 +4,24 @@
 * This source code is licensed under the Apache license (see LICENSE file)
 **/
 
-//let Functions = require ("./Functions.js");
-
 "use strict";
 
 /**
- * http://struct.cc/blog/2011/08/15/strange-attractors/
+ * @classdesc This module contains functions to generate layout points
+ * @class
  */
-function Attractor (numPoints, entryString, width, height)
+class Layout {
+/**
+ * Returns the points from an attractor
+ * http://struct.cc/blog/2011/08/15/strange-attractors/
+ * @param {number} numPoints number of points to generate
+ * @param {string} entryString initial configuration string
+ * @param {number} width maximum width
+ * @param {number} height maximum height
+ * @return a list of xy points
+ */
+static Attractor (numPoints, entryString, width, height)
 {
-
   // Fractal pattern and coefficients.
   var a = [];
   var res = [];
@@ -48,11 +56,24 @@ function Attractor (numPoints, entryString, width, height)
 
 
 /**
-  Rossler Attractor code.
-  http://paulbourke.net/fractals/rossler/
-*/
+ * Returns the points from the Rossler attractor
+ * @param {number} numPoints number of points to generate
+ * @param {string} a a value
+ * @param {number} b b value
+ * @param {number} c c value
+ * @param {number} h h value
+ * @param {number} x0 initial point x
+ * @param {number} y0 initial point y
+ * @param {number} scale scale value
+ * @param {number} width maximum width
+ * @param {number} height maximum height
+ * @return a list of xy points
+ *
+ *  Rossler Attractor code.
+ *  http://paulbourke.net/fractals/rossler/
+ */
 //function Rossler (numPoints, a, b, c, h, x0, y0, scale, width, height)
-function Rossler (params)
+static Rossler (params)
 {
   function rosslerPoint (x, y, z, a, b, c) {
     var dx = -(y + z);
@@ -85,10 +106,20 @@ function Rossler (params)
 }
 
 /**
+ * Returns the Lorent attractor points
+ * @param {number} x numerical value
+ * @param {number} y numerical value
+ * @param {number} z numerical value
+ * @param {number} a numerical value
+ * @param {number} b numerical value
+ * @param {number} c numerical value
+ * @param {number} width maximum width
+ * @param {number} height maximum height
+ * @return a list of xypoints
   Lorentz Attractor code.
   http://www.algosome.com/articles/lorenz-attractor-programming-code.html
 */
-function Lorentz (params)
+static Lorentz (params)
 {
   function rosslerPoint (x, y, z, a, b, c) {
     var dx = a * (y - x);
@@ -123,31 +154,34 @@ function Lorentz (params)
  * @param {number} yrows - number of points in y
  * @param {number} width - total width
  * @param {number} height - total height
- * @return {array} list of values {x:val, y:val}
+ * @return {array} list of xy values {x:val, y:val}
  */
-function Grid (params)
+static Grid (xrows, yrows, width, height)
 {
   var points = [];
-  var xspan = params.width / (params.xrows || 10);
-  var yspan = params.height / (params.yrows || 10);
-  for (var ypoints = 1; ypoints < params.yrows ; ypoints++)
-    for (var xpoints = 1;  xpoints < params.xrows; xpoints++)
+  var xrows = xrows || 10;
+  var yrows = yrows || 10;
+  var xspan = width / xrows;
+  var yspan = height / yrows;
+  for (var ypoints = 1; ypoints < yrows ; ypoints++)
+    for (var xpoints = 1;  xpoints < xrows; xpoints++)
     {
       points.push ({x: xpoints * xspan, y: ypoints * yspan});
     }
   return points;
 }
 
-/* Returns a Spiral of points centered at x,y
+/**
+*  Returns a Spiral of points centered at x,y
 * @param {number} points - number of points
 * @param {number} x - initial x coord
 * @param {number} y - initial y
 * @param {number} radius - radio
 * @param {number} coils - number of coils
 * @param {number} chord - chord value
-* @return {array} list of values {x:val, y:val}
+* @return {array} list of xy values {x:val, y:val}
 */
-function Spiral (params)
+static Spiral (params)
 {
   var points = [];
   var centerX = params.x,
@@ -180,7 +214,7 @@ function Spiral (params)
  * @param {number} length - length of the area
  * @return {array} list containg the four {x,y} points of the intersections
  */
-function RuleOfThirds (x0, y0, width, height) {
+static RuleOfThirds (x0, y0, width, height) {
   var rulePoints = [];
   var thirdWidth = width / 3;
   var thirdHeight = height / 3;
@@ -191,9 +225,26 @@ function RuleOfThirds (x0, y0, width, height) {
   return rulePoints;
 }
 
-module.exports.Spiral = Spiral;
-module.exports.Attractor = Attractor;
-module.exports.Grid = Grid;
-module.exports.Lorentz = Lorentz;
-module.exports.Rossler = Rossler;
-module.exports.RuleOfThirds = RuleOfThirds;
+/**
+ * Returns a list of points along x-axis
+ * @param {number}
+ */
+static Cols (x0, y0, distance, width) {
+  var points = [];
+  for (var i = x0; i < width; i += distance) {
+    points.push({x:i, y:y0});
+  }
+  return points;
+}
+
+static Rows (x0, y0, distance, height) {
+  var points = [];
+  for (var i = y0; i < height; i += distance) {
+    points.push({x: x0, y: i});
+  }
+  return points;
+}
+
+}; // end Layout
+
+module.exports.Layout = Layout;

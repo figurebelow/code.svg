@@ -15,6 +15,8 @@ let request = require("sync-request");
  */
 class Colors {
 
+  static setColor (i) { return '#' + i };
+
   constructor () {
     // static class
   };
@@ -27,13 +29,17 @@ class Colors {
     var res = request ("GET", "http://www.colourlovers.com/api/palettes/random", {
       qs: {"format":"json"}
     });
-    var jsonRes = JSON.parse(res.getBody('utf8'));
-    return jsonRes.map(function (i) { return {id:i.id, colors:i.colors }});
+    var jsonRes = JSON.parse(res.getBody('utf8'))[0];
+    return {id:jsonRes.id,
+            colors: jsonRes.colors.map (function(elem) {
+                          return '#' + elem
+                       })
+             }
   };
 
   /**
    * Returns the n top palettes
-   * @parameter{number} n - number of palettes to retrieve
+   * @param {number} n - number of palettes to retrieve
    * @return {array} a list of {id,colors} objects containing the Palettes Id and colors
    */
   static getTopPalettes (n) {
@@ -43,12 +49,12 @@ class Colors {
           }
     });
     var jsonRes = JSON.parse(res.getBody('utf8'));
-    return jsonRes.map(function (i) { return {id:i.id, colors:i.colors }});
+    return jsonRes.map(function (i) { return {id:i.id, colors:i.colors.map(Colors.setColor) }});
   };
 
   /**
    * Returns the n lates palettes added to colourlovers.com
-   * @parameter{number} n - number of palettes to retrieve
+   * @param{number} n - number of palettes to retrieve
    * @return {array} a list of {id,colors} objects containing the Palettes Id and colors
    */
   static getLatestPalettes (n) {
@@ -58,20 +64,20 @@ class Colors {
           }
     });
     var jsonRes = JSON.parse(res.getBody('utf8'));
-    return jsonRes.map(function (i) { return {id:i.id, colors:i.colors }});
+    return jsonRes.map(function (i) { return {id:i.id, colors:i.colors.map(Colors.setColor) }});
   };
 
   /**
    * Returns a palette given its Id
-   * @parameter{string} id - string Id 
+   * @param {string} id - string Id
    * @return {array} a list of {id,colors} objects containing the Palettes Id and colors
    */
   static getPalette (id) {
     var res = request ("GET", "http://www.colourlovers.com/api/palette/" + id, {
       qs: {"format":"json"}
     });
-    var jsonRes = JSON.parse(res.getBody('utf8'));
-    return {id: jsonRes[0].id, colors: jsonRes[0].colors};
+    var jsonRes = JSON.parse(res.getBody('utf8'))[0];
+    return {id: jsonRes.id, colors: jsonRes.colors.map(Colors.setColor)};
   };
 };
 

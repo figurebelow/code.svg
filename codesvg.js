@@ -89,8 +89,9 @@ jsdom.env(
     let Ellipse = require   (\"./src/Ellipse.js\").Ellipse; \
     let Polyline = require  (\"./src/Polyline.js\").Polyline; \
     let Rnd = require       (\"./src/utils/Rnd.js\").Rnd; \
-    let Layout = require    (\"./src/utils/Layout.js\"); \
+    let Layout = require    (\"./src/utils/Layout.js\").Layout; \
     let Gradients = require (\"./src/utils/Gradients.js\");\
+    let Filters = require   (\"./src/utils/Filters.js\");\
     let console = require   (\"console\"); \
     let D3 = require        (\"./src/d3/d3.v3.min.js\"); \
     let PS = require (\"./src/utils/node-particles/js/ParticleSystem.js\");\

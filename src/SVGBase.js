@@ -10,13 +10,15 @@ let Functions = require ("./utils/Functions.js").Functions;
 let Rnd = require ("./utils/Rnd.js").Rnd;
 
 /**
+ * @class
+ * @abstract
  * @description The SVGBase contains all the common SVG functionality inherited by the SVG elements
  */
 class SVGBase {
 
   /**
    * @constructor
-   * @param {type} String containig the type
+   * @param {type} type containig the type
    * @param {values} map with the SVG attributes
    * @param {style} map with the style attributes
    */
@@ -28,17 +30,23 @@ class SVGBase {
     this.transform.rotate = {}; // {x,y,deg}
     this.transform.scale = {};  // {x:xdegs, y:ydegs}
     this.transform.skew = {};
-    for (var attr in values) {
-      this.attributes[attr] = values[attr];
-    }
-    for (var opt in style) {
-      this.style[opt] = style[opt];
-    }
+    if (values !== undefined)
+      for (var attr in values) {
+        this.attributes[attr] = values[attr];
+      }
+    if (values != undefined)
+      for (var opt in style) {
+        if (typeof(style[opt]) === 'object')
+          this.style[opt] = style[opt].getRef();
+        else
+          this.style[opt] = style[opt];
+      }
   }
 
   /**
    * Appends the SVG content to the SVG DOM root
    *
+   * @ignore
    * @param {object} svg the SVG root
    * @return {object} reference to this
    */
@@ -57,6 +65,7 @@ class SVGBase {
   /**
    * Generates the SVG transform string
    *
+   * @ignore
    * @param {object} svgNode the SVG root
    * @return {object} string
    */
@@ -75,6 +84,7 @@ class SVGBase {
   /**
    * Appends the SVG rotate to the SVG DOM root
    *
+   * @ignore
    * @param {object} svgNode the SVG root
    */
   genRotate (svgNode) {
@@ -88,6 +98,7 @@ class SVGBase {
   /**
    * Appends the SVG scale to the SVG DOM root
    *
+   * @ignore
    * @param {object} svgNode the SVG root
    */
   genScale (svgNode) {
@@ -117,6 +128,7 @@ class SVGBase {
   /**
    * Appends the SVG skew to the SVG DOM root
    *
+   * @ignore
    * @param {object} svgNode the SVG root
    */
   genSkew (svgNode) {
@@ -129,17 +141,10 @@ class SVGBase {
   }
 
   /**
-   * Removes and attribute from the attributes map
-   * @parameter{object} attr attr string to be removed
-   */
-  removeAttr (attr) {
-    delete(this.attributes[attr]);
-    return this;
-  }
-
-  /**
    * Set the value for a set of attributes
-   * @parameter{object} attrs key:value map with the attributes
+   * @param {object} attrs {key:value} map with the attributes
+   * @example
+   * circle.setAttr({fill:"red"});
    */
   setAttr (attrs) {
     for (var attr in attrs) {
@@ -150,8 +155,11 @@ class SVGBase {
 
   /**
    * Set the value for a style attribute
-   * @parameter{object} attr style attribute
-   * @paraneter{object} val value
+   * @param {string} attr style attribute
+   * @param {object} val value
+   * @return the object
+   * @example
+   * circle.sty("fill", "red");
    */
   sty(attr, val) {
     this.style[attr] = val;
@@ -159,35 +167,56 @@ class SVGBase {
   }
 
   /**
-   * Returns the attribute value
-   * @parameter{object} attr style attribute
+   * Returns the attribute's value
+   * @param {object} attr style attribute
+   * @return the value for 'attr' key
+   * @example
+   * var color = circle.getAttr("fill");
    */
   getAttr(attr) {
     return this.attributes[attr];
   }
 
+  /**
+   * @ignore
+   */
   clone () {
     throw ("Missing clone() implementation in " + this.type);
   }
 
+  /**
+   * @ignore
+   */
   getCenter () {
     throw ("Missing center() implementation in " + this.type);
   }
 
+  /**
+   * @ignore
+   */
   moveTo (xyPos, xdif, ydif) {
     throw ("Missing moveTo() implementation in " + this.type);
   }
 
+  /**
+   * Returns a url(#<id>) reference to the object
+   * @return url(#<id>) string.
+   * @ignore
+   */
   getRef () {
     if (!this.attributes.id)
       this.attributes.id = Rnd.genId();
     return "url(#" + this.attributes.id + ")";
   }
 
+  /**
+   * Checks whether two objects contains the same type, attribues and style
+   * @ignore
+   */
   equals (obj) {
     var equals = false;
     if (this.type == obj.type && this.attributes.length == obj.attributes.length &&
-        this.style.length == obj.style.length) 
+        this.style.length == obj.style.length)
     {
       for (var key in this.attributes) {
         if (this.attributes[key] != obj.attributes[key])
@@ -201,33 +230,55 @@ class SVGBase {
     }
     return equals;
   }
-  
-  cloneToCoords (points) {
-    var elems = [];
-    var that = this;
-    points.forEach (function (point) {
-      var cloned = that.clone();
-      cloned.moveTo({x:point.x, y:point.y});
-      elems.push (cloned);
-    });
-    return elems;
-  }
 
+  /**
+   * Rotates the object
+   * @param {map} xyPos XY position center of the rotation
+   * @param {number} deg degrees to rotate, clockwise
+   * @returns the object
+   * @ignore
+   */
   rotate (xyPos, deg) {
     this.transform.rotate.x = xyPos.x;
     this.transform.rotate.y = xyPos.y;
     this.transform.rotate.deg = deg;
+    return this;
   }
 
-  isRotated () { return this.transform.rotate.deg != undefined; }
-  getRotate () { return this.transform.rotate };
+  /**
+   * Returns whether the object has been rotated
+   * @ignore
+   */
+  isRotated () {
+    return this.transform.rotate.deg != undefined;
+  }
 
+  /**
+   * Returns the rotate info
+   * @ignore
+   */
+  getRotate () {
+    return this.transform.rotate
+  };
+
+  /**
+   * Scales the object
+   * @param {number} xfactor x-axis scale factor
+   * @param {number} yfactor y-axis scale factor
+   * @return the object
+   */
   sca (xfactor, yfactor) {
     this.transform.scale.x = xfactor;
     this.transform.scale.y = yfactor;
     return this;
   }
 
+  /**
+   * Skews the object
+   * @param {number} xfactor x-axis skew factor
+   * @param {number} yfactor y-axis skew factor
+   * @return the object
+   */
   ske (xfactor, yfactor) {
     this.transform.skewX = xfactor;
     this.transform.skewY = yfactor;

@@ -10,8 +10,16 @@ let SVGBase = require ("./SVGBase.js").SVGBase;
 let NonIntersecPolCenter = require ("./utils/Functions.js").NonIntersecPolCenter;
 let PointsParser = require ("./grammars/PathGrammar.js");
 
+/**
+ * Class Path
+ * @extends SVGBase
+ */
 class Path extends SVGBase {
 
+  /**
+   * Path constructor
+   * @override
+   */
   constructor (values, style) {
     super ("path", values, style);
     if ("d" in values)
@@ -22,11 +30,21 @@ class Path extends SVGBase {
     }
   }
 
+  /**
+   * Clones a Path
+   * @override
+   * @return the new object
+   */
   clone () {
     var newElem = new Path (this.attributes, this.style);
     return newElem;
   }
 
+  /**
+   * Returns the Path's center
+   * @return {object} {x:val,y:val} position of the Path's center
+   * @override
+   */
   getCenter () {
     var vertices = [];
     this.parsedPoints.forEach (function (instruction) {
@@ -37,6 +55,13 @@ class Path extends SVGBase {
      return NonIntersecPolCenter (vertices);
   }
 
+  /**
+   * Moves the object to the given xy point
+   * @param {object} {x:va;,y:val} position to move the Path's center to.
+   * @return the object
+   * @example
+   * path.moveTo({x:10,y:10});
+   */
   moveTo (xyPos) {
     var currentCenter = this.getCenter();
     var distance = {x: xyPos.x - currentCenter.x, y: xyPos.y - currentCenter.y};
@@ -50,15 +75,30 @@ class Path extends SVGBase {
     return this;
   }
 
-  rot (deg) {
+  /**
+   * Rotates the object
+   * @param {number} deg degrees to rotate, clockwise
+   * @param {number} x (optional) x-position center of the rotation
+   * @param {number} y (optional) y-position center of the rotation
+   * @override
+   * @returns the object
+   */
+  rot (deg, x, y) {
     let center = this.getCenter ();
+    if (x !== undefined)
+      center.x = x;
+    if (y !== undefined)
+      center.y = y;
     super.rotate(center, deg);
     return this;
   }
 
+  /**
+   * Updates the 'd' coordinate of the Path.
+   * @ignore
+   */
   updateD () {
     var newD = "";
-
     this.parsedPoints.forEach (function (point, i, sourceList) {
       newD += point.type;
       if (point.type != 'z') {
@@ -70,6 +110,13 @@ class Path extends SVGBase {
     this.setAttr ({"d":newD});
   }
 
+  /**
+   * Subdivides the Path by adding a new point between each pair of coordinates
+   * @param {number} its number of subdivision operations, 1 by default
+   * @return the object
+   * @example
+   * line.subdivide(2); // subdivide twice
+   */
   subdivide (its) {
     var iterations = its || 1;
     while (iterations > 0) {
@@ -92,6 +139,14 @@ class Path extends SVGBase {
     return this;
   }
 
+  /**
+   * Apply the given noise function to each point.
+   * The noise function must return a pair of {xy} values when invoked.
+   * @param {xyFun} xyFun the function to Apply
+   * @return the object
+   * @example
+   * mymultiline.noise(function f () { return x: Math.random(), y:Math.random()});
+   */
   noise (xyFun) {
     var that = this;
     for (var i = 0; i < this.parsedPoints.length; i++) {

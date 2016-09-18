@@ -9,8 +9,15 @@
 let PointsParser = require ("./grammars/PolygonGrammar.js");
 let Path = require ("./Path.js").Path;
 
+/**
+ * Polyline class
+ * @extends Path
+ */
 class Polyline extends Path {
 
+  /**
+   * Class constructor
+   */
   constructor (values, style) {
     var points  = PointsParser.parse(values["points"]);
     var d = "";
@@ -22,12 +29,6 @@ class Polyline extends Path {
     });
     var procParams = {"d":d};
     super (procParams, style);
-  }
-
-  rot (deg) {
-    let center = this.getCenter ();
-    super.rotate(center, deg);
-    return this;
   }
 };
 

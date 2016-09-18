@@ -8,63 +8,88 @@
 
 let SVGBase = require ("../SVGBase.js").SVGBase;
 
-// Private class
-class Stop extends SVGBase {
+/**
+ * @class
+ * @classdesc Defines a BaseGradient object
+ * @extends SVGBase
+ * @abstract
+ */
+class BaseGradient extends SVGBase {
 
-  constructor (values, style) {
-    super ("stop", values, style);
-  }
-
-  clone () {
-    var newElem = new Stop (this.attributes, this.style);
-    return newElem;
-  }
-};
-
-class LinearGradient extends SVGBase {
-
-  constructor (values, style) {
+  constructor (type, values, style) {
     var defaultValues = values || {};
     defaultValues.x1 = (values && values.x1) ? values.x1 : "0%";
     defaultValues.y1 = (values && values.y1) ? values.y1 : "0%";
     defaultValues.x2 = (values && values.y1) ? values.x2 : "100%";
     defaultValues.y2 = (values && values.y2) ? values.y2 : "0%";
     defaultValues["stop-opacity"] = (values && values["stop-opacity"]) ? values["stop-opacity"] : 1;
-    super ("linearGradient", defaultValues, style);
+    super (type, defaultValues, style);
     this.stops = [];
   }
 
-  clone () {
-    return new LinearGradient (this.attributes, this.style);
-  }
-
-  addStop (values, style) {
-    var newStop = new Stop (values, style);
+  /**
+   * Adds a Stop to the gradient
+   * @param {string} offset - offset string (percentage)
+   * @param {string} stopColor - color string
+   * @param {number} opacity - opacity
+   * @return {Object} returns a reference to the LinearGradient
+   */
+  addStop (offset, stopColor, stopOpacity) {
+    var offset = offset || "50%";
+    var stopColor = stopColor || "red";
+    var stopOpacity = stopOpacity || 1;
+    var newStop = new LinearGradient.Stop ({offset:offset, "stop-color":stopColor, "stop-opacity": stopOpacity});
     this.stops.push (newStop);
     return this;
   }
 
-  addPairStops (startColor, endColor) {
-    var stop1 = new Stop ({offset:"0%"}, {"stop-color": startColor});
-    this.stops.push(stop1);
-    var stop2 = new Stop ({offset:"100%"}, {"stop-color": endColor});
-    this.stops.push(stop2);
-    return this;
-  }
-
+   // Appends the svg element, for internal use so not documented
+  /** @ignore  */
   append (svg) {
     var newNode = super.append(svg);
     this.stops.forEach (function (stop) {
         stop.append (newNode);
     });
   };
+};
 
-  //<linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-  //    <stop offset="0%" style="stop-color:rgb(255,255,0);stop-opacity:1" />
-  //    <stop offset="100%" style="stop-color:rgb(255,0,0);stop-opacity:1" />
-  //  </linearGradient>
+// Private class, there are not nested classes, this is a workaround in ES6
+BaseGradient.Stop = class Stop extends SVGBase {
 
+  constructor (values, style) {
+    super ("stop", values, style);
+  }
+};
+
+// Class LinearGradient
+
+/**
+ * @class
+ * @augments BaseGradient
+ * @classdesc Defines a LinearGradient object
+ */
+class LinearGradient extends BaseGradient {
+
+  constructor (values, style) {
+    super ("linearGradient", values, style);
+  }
+};
+
+// Class RadialGradient
+
+/**
+ * @class
+ * @augments BaseGradient
+ * @example
+ * var gradient = new RadialGradient ({cx:"50%", cy:"50%", fx:0, fy:0, r:1, spreadMethod:"pad"});   // spreadMethod:pad|repeat|reflect
+ * @classdesc Defines a RadialGradient object
+ */
+class RadialGradient extends BaseGradient {
+
+  constructor (values, style) {
+    super ("radialGradient", values, style);
+  }
 };
 
 module.exports.LinearGradient = LinearGradient;
-module.exports.Stop = Stop;
+module.exports.RadialGradient = RadialGradient;

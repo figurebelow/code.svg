@@ -9,8 +9,15 @@
 let PointsParser = require ("./grammars/PolygonGrammar.js");
 let Path = require ("./Path.js").Path;
 
+/**
+ * Polygon class
+ * @extends Path
+ */
 class Polygon extends Path {
 
+  /**
+   * Class constructor
+   */
   constructor (values, style) {
     var points  = PointsParser.parse(values["points"]);
     var d = "";

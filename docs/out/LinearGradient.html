@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Source: Ellipse.js</title>
+    <title>Class: LinearGradient</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -556,72 +556,1038 @@
     </ul>
 </div>
     <div class="main">
-        <h1 class="page-title" data-filename="Ellipse.js.html">Source: Ellipse.js</h1>
+        <h1 class="page-title" data-filename="LinearGradient.html">Class: LinearGradient</h1>
         
 
 
+
+<section>
     
-    <section>
-        <article>
-            <pre class="prettyprint source "><code>/**
-* @license
-* Copyright 2016 Ruben Afonso, ruben@figurebelow.com
-* This source code is licensed under the Apache license (see LICENSE file)
-**/
+<header>
+    <h2>
+    LinearGradient
+    </h2>
+    
+        <div class="class-description">Defines a LinearGradient object</div>
+    
+</header>  
 
-"use strict";
+<article>
+    <div class="container-overview">
+    
+    
+    
+        
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="LinearGradient">
+            
+            new LinearGradient<span class="signature">()</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            <a href="utils_Gradients.js.html">utils/Gradients.js</a>, <a href="utils_Gradients.js.html#line71">line 71</a>
+        </div>
+        
+    </div>
 
-let Path = require ("./Path.js").Path;
+    
+</dt>
+<dd>
+    
+    
 
-/**
- * Class Ellipse
- * @extends Path
- */
-class Ellipse extends Path {
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
 
-  /**
-   * Class constructor
-   * @param {map} values - initial values
-   * @param {map} style - default initial style values
-   */
-  constructor (values, style) {
-    var cx = values["cx"] || 0;
-    var cy = values["cy"] || 0;
-    var rx = values["rx"] || 5;
-    var ry = values["ry"] || 5;
-    var p0 = "M" + cx + "," + cy + " ";
-    var p1 = "m" + (-rx) + "," + 0 + " ";
-    var p2 = "a" + rx + "," + ry + " " + 0 + " " + "1,0 " + (rx * 2) + ",0 ";
-    var p3 = "a" + rx + "," + ry + " " + 0 + " " + "1,0 " + -(rx * 2) + ",0 ";
-    var d = p0 + " " + p1 + " " + p2 + " " + p3;
-    var procParams = {"d":d};
-    super (procParams, style);
-  }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
 
-  /**
-   * Returns the center of the Ellipse
-   * @return {map} xy position
-   */
-  getCenter () {
-    return this.parsedPoints[0].values[0];
-  }
+    
+    
 
-  /**
-   * Moves the Ellipse to the given position
-   * @param {ma} xyPos - xy position to move the Ellipse to
-   */
-  moveTo (xyPos) {
-    this.parsedPoints[0].values[0].x = xyPos.x;
-    this.parsedPoints[0].values[0].y = xyPos.y;
-    return this;
-  }
-};
+    
 
-module.exports.Ellipse = Ellipse;
-</code></pre>
-        </article>
-    </section>
+    
+    
+    
+    
+    
+    
+    
+</dd>
 
+    
+    </div>
+    
+    
+        <h3 class="subsection-title">Extends</h3>
+        
+        <ul>
+            <li><a href="BaseGradient.html">BaseGradient</a></li>
+        </ul>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        <h3 class="subsection-title">Methods</h3>
+        
+        <dl>
+            
+<dt>
+    <div class="nameContainer inherited">
+        <h4 class="name" id="addStop">
+            
+                <span class="inherited"><a href="BaseGradient.html#addStop">inherited</a></span>
+            
+            addStop<span class="signature">(offset, stopColor, opacity)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Object}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            <a href="utils_Gradients.js.html">utils/Gradients.js</a>, <a href="utils_Gradients.js.html#line37">line 37</a>
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Adds a Stop to the gradient
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>offset</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                offset string (percentage)</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>stopColor</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                color string</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>opacity</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                opacity</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        Object
+                        
+                    
+            </td>
+            <td class="description last">returns a reference to the LinearGradient</td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer inherited">
+        <h4 class="name" id="getAttr">
+            
+                <span class="inherited"><a href="SVGBase.html#getAttr">inherited</a></span>
+            
+            getAttr<span class="signature">(attr)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            <a href="SVGBase.js.html">SVGBase.js</a>, <a href="SVGBase.js.html#line176">line 176</a>
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Returns the attribute's value
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>attr</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                style attribute</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+
+the value for 'attr' key
+
+
+    
+    
+    
+        <h5>Example</h5>
+        
+
+    
+    <pre class="prettyprint"><code>var color = circle.getAttr("fill");</code></pre>
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer inherited">
+        <h4 class="name" id="sca">
+            
+                <span class="inherited"><a href="SVGBase.html#sca">inherited</a></span>
+            
+            sca<span class="signature">(xfactor, yfactor)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            <a href="SVGBase.js.html">SVGBase.js</a>, <a href="SVGBase.js.html#line270">line 270</a>
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Scales the object
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>xfactor</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                x-axis scale factor</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>yfactor</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                y-axis scale factor</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+
+the object
+
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer inherited">
+        <h4 class="name" id="setAttr">
+            
+                <span class="inherited"><a href="SVGBase.html#setAttr">inherited</a></span>
+            
+            setAttr<span class="signature">(attrs)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            <a href="SVGBase.js.html">SVGBase.js</a>, <a href="SVGBase.js.html#line149">line 149</a>
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Set the value for a set of attributes
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>attrs</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                {key:value} map with the attributes</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+
+    
+    <pre class="prettyprint"><code>circle.setAttr({fill:"red"});</code></pre>
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer inherited">
+        <h4 class="name" id="ske">
+            
+                <span class="inherited"><a href="SVGBase.html#ske">inherited</a></span>
+            
+            ske<span class="signature">(xfactor, yfactor)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            <a href="SVGBase.js.html">SVGBase.js</a>, <a href="SVGBase.js.html#line282">line 282</a>
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Skews the object
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>xfactor</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                x-axis skew factor</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>yfactor</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                y-axis skew factor</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+
+the object
+
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer inherited">
+        <h4 class="name" id="sty">
+            
+                <span class="inherited"><a href="SVGBase.html#sty">inherited</a></span>
+            
+            sty<span class="signature">(attr, val)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            <a href="SVGBase.js.html">SVGBase.js</a>, <a href="SVGBase.js.html#line164">line 164</a>
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Set the value for a style attribute
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>attr</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                style attribute</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>val</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                value</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+
+the object
+
+
+    
+    
+    
+        <h5>Example</h5>
+        
+
+    
+    <pre class="prettyprint"><code>circle.sty("fill", "red");</code></pre>
+    
+
+    
+</dd>
+
+        </dl>
+    
+    
+    
+    
+    
+</article>
+
+</section>  
 
 
 
@@ -630,7 +1596,7 @@ module.exports.Ellipse = Ellipse;
         
 
         <footer>
-            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sun Sep 18 2016 16:46:03 GMT+0100 (GMT Daylight Time)
+            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sun Sep 18 2016 16:46:04 GMT+0100 (GMT Daylight Time)
         </footer>
     </div>
 </div>

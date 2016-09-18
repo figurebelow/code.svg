@@ -36,6 +36,7 @@ class Circle extends Path {
   /**
    * Returns the center of the Circle
    * @return {map} xy position of the Circle
+   * @override
    */
   getCenter () {
     return this.parsedPoints[0].values[0];
@@ -44,6 +45,7 @@ class Circle extends Path {
   /**
    * Moves the circle to the given position
    * @param {map} xyPos - the xy position
+   * @override
    */
   moveTo (xyPos) {
     this.parsedPoints[0].values[0].x = xyPos.x;
