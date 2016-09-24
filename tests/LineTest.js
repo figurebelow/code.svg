@@ -14,7 +14,7 @@ describe ("Line", function ()
 
   var line;
   beforeEach(function() {
-    line = new Line ({x:10, y:10}, {x:50, y:50}, {fill:"red"});
+    line = new Line ({x1:10, y1:10, x2:50, y2:50}, {fill:"red"});
   });
 
   it ("initializes with parameter", function ()
@@ -40,7 +40,7 @@ describe ("Line", function ()
    });
 
   it ("clones", function () {
-    line = new Line ({x:10, y:10}, {x:50, y:50}, {fill:"red"});
+    line = new Line ({x1:10, y1:10, x2:50, y2:50}, {fill:"red"});
     var newLine = line.clone();
     assert (line.equals(newLine));
   });

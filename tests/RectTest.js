@@ -48,4 +48,11 @@ describe ("Rect", function ()
     assert.equal(rect.parsedPoints[2].values[0].x, 60);
     assert.equal(rect.parsedPoints[2].values[0].y, 10);
   });
+
+  it ("creates a new Rectangle between two points", function () {
+    var p1 = {x:20, y:20};
+    var p2 = {x:100, y:60};
+    var rect = Rect.RectFromTwoPoints (p1, p2, {});
+    assert.equal (rect.parsedPoints.length, 5);
+  });
 });

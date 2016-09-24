@@ -8,6 +8,7 @@
 
 var assert = require ("assert");
 var LinearGradient = require ("../src/utils/Gradients.js").LinearGradient;
+var RadialGradient = require ("../src/utils/Gradients.js").RadialGradient;
 
 describe ("Gradients", function () {
 
