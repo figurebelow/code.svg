@@ -1,8 +1,7 @@
   "use strict";
 
-
   class Point {
-   
+
    // Instantiates a new Point given x and y
    constructor (x,y) {
     this.x = x || 0;
@@ -10,7 +9,7 @@
    }
 
    // Returns the magnitude of a point considering it a vector starting from (0,0)
-   getMagnitude () {  
+   getMagnitude () {
     return Math.sqrt(this.x * this.x + this.y * this.y);
     }
 
@@ -71,10 +70,11 @@
     }
 
     // Returns a jittered point around the current one
-    jitter(jitterAmount) {
+    jitter(jitterAmount, Rnd) {
+      randFunc = Rnd ? Rnd.random : Math.random;
       return new Point(
-        this.x + this.x * jitterAmount * Math.random(),
-        this.y + this.y * jitterAmount * Math.random()
+        this.x + this.x * jitterAmount * randFunc(),
+        this.y + this.y * jitterAmount * randFunc()
       );
     }
 
@@ -85,7 +85,6 @@
 
     // Returns a new point given the angle from (0,0) and a certain magnitude
     static fromAngle (angle, magnitude) {
-      
       var p = new Point(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
       return p;
     }

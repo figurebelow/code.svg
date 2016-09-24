@@ -18,10 +18,4 @@ describe ("Field", function () {
     assert.deepEqual (emitter.position, new Point(10,10));
   });
 
-  it ("moves a field", function () {
-    var field = new Field (new Point(10,10), -15);
-    field.moveTo(new Point(20,20));
-    assert.deepEqual (field.position, new Point(20,20));
-  });
-
 });

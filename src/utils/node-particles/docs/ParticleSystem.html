@@ -45,6 +45,11 @@
                 </a>
               
                 
+                <a class="source" href="Random.html">
+                  Random.js
+                </a>
+              
+                
                 <a class="source" href="example.html">
                   example.js
                 </a>
@@ -80,6 +85,7 @@
 <span class="hljs-keyword">let</span> Field = <span class="hljs-built_in">require</span> (<span class="hljs-string">"./Field.js"</span>).Field;
 <span class="hljs-keyword">let</span> Emitter = <span class="hljs-built_in">require</span> (<span class="hljs-string">"./Emitter.js"</span>).Emitter;
 <span class="hljs-keyword">let</span> Particle = <span class="hljs-built_in">require</span> (<span class="hljs-string">"./Particle.js"</span>).Particle;
+<span class="hljs-keyword">let</span> Random = <span class="hljs-built_in">require</span> (<span class="hljs-string">"./Random.js"</span>).Random;
 
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ParticleSystem</span> </span>{</pre></div></div>
             
@@ -96,12 +102,21 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">constructor</span>() {
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">constructor</span>(points) {
     <span class="hljs-keyword">this</span>.maxParticles = <span class="hljs-number">2000</span>;
     <span class="hljs-keyword">this</span>.particles = [];
     <span class="hljs-keyword">this</span>.emitters = [];
     <span class="hljs-keyword">this</span>.fields = [];
     <span class="hljs-keyword">this</span>.elapsed = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">this</span>.gen = <span class="hljs-literal">false</span>;
+    <span class="hljs-keyword">this</span>.rand = <span class="hljs-keyword">new</span> Random();
+    <span class="hljs-keyword">var</span> that = <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">if</span> (points !== <span class="hljs-literal">undefined</span>) {
+      points.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">point</span>) </span>{
+        that.particles.push(<span class="hljs-keyword">new</span> Particle(point));
+      });
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
   };</pre></div></div>
             
         </li>
@@ -113,12 +128,15 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p>Adds a new Emitter, given a point in space and a velocity</p>
+              <p>Sets the distribution function</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  addEmitter(point, velocity) {
-    <span class="hljs-keyword">this</span>.emitters.push(<span class="hljs-keyword">new</span> Emitter(point, velocity));
+            <div class="content"><div class='highlight'><pre>  seed (val) {
+    <span class="hljs-keyword">if</span> (val !== <span class="hljs-literal">undefined</span>) {
+      <span class="hljs-keyword">this</span>.rand.setSeed(val);
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
   }</pre></div></div>
             
         </li>
@@ -130,12 +148,13 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
-              <p>Adds a new Field, given a point in space and its mass</p>
+              <p>Adds a new Emitter, given a point in space and a velocity</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  addField (point, mass) {
-    <span class="hljs-keyword">this</span>.fields.push (<span class="hljs-keyword">new</span> Field(point, mass));
+            <div class="content"><div class='highlight'><pre>  addEmitter(point, velocity, xsize, ysize, particleLife, spread, emissionRate) {
+    <span class="hljs-keyword">this</span>.emitters.push(<span class="hljs-keyword">new</span> Emitter(point, velocity, xsize, ysize, particleLife, spread, emissionRate).seed(<span class="hljs-keyword">this</span>.rand.random()));
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
   }</pre></div></div>
             
         </li>
@@ -147,20 +166,13 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
-              <p>Checks all the registered emitters, getting new particles from them.
-This method shouldn’t be called directly, use evolve instead()</p>
+              <p>Adds a new Field, given a point in space and its mass</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  addNewParticles () {
-    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.particles.length &gt; <span class="hljs-keyword">this</span>.maxParticles)
-      <span class="hljs-keyword">return</span>;
-    <span class="hljs-keyword">var</span> that = <span class="hljs-keyword">this</span>;
-    <span class="hljs-keyword">var</span> emitParticles = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">emitter</span>) </span>{
-      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; emitter.emissionRate; i++)
-        that.particles.push(emitter.addParticle());
-      }
-    <span class="hljs-keyword">this</span>.emitters.forEach(emitParticles);
+            <div class="content"><div class='highlight'><pre>  addField (point, mass) {
+    <span class="hljs-keyword">this</span>.fields.push (<span class="hljs-keyword">new</span> Field(point, mass));
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
   }</pre></div></div>
             
         </li>
@@ -171,6 +183,104 @@ This method shouldn’t be called directly, use evolve instead()</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Sets the maximum number of particles in the system</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  setMaxParticles (max) {
+    <span class="hljs-keyword">this</span>.maxParticles = max;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+  }
+
+  bounded (width, height) {
+    <span class="hljs-keyword">this</span>.maxHeight = height;
+    <span class="hljs-keyword">this</span>.maxWidth = width;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Cleans the traces that are out of the boundaries</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  clean () {
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.maxHeight === <span class="hljs-literal">undefined</span> || <span class="hljs-keyword">this</span>.maxWidth == <span class="hljs-literal">undefined</span>)
+      <span class="hljs-keyword">return</span>;
+    <span class="hljs-keyword">var</span> that = <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">this</span>.particles.forEach (<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">part, i</span>) </span>{ <span class="hljs-comment">// check the traces</span>
+        <span class="hljs-keyword">var</span> newTraces = [];
+        part.getTrace().forEach (<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">pos, i</span>) </span>{
+          <span class="hljs-keyword">if</span> ( (pos.x &lt;= that.maxWidth &amp;&amp; pos.x &gt; <span class="hljs-number">-50</span>) &amp;&amp; (pos.y &lt;= that.maxHeight &amp;&amp; pos.y &gt; <span class="hljs-number">-50</span>)) {
+            newTraces.push(pos);
+          }
+        });
+        part.traceRecord = newTraces;
+    });
+
+    <span class="hljs-keyword">var</span> i = <span class="hljs-keyword">this</span>.particles.length; <span class="hljs-comment">// a particle out ot the limits without traces is removed</span>
+    <span class="hljs-keyword">while</span> (i--) {
+      <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.particles[i].getTrace().length)
+        <span class="hljs-keyword">this</span>.particles.splice(i,<span class="hljs-number">1</span>);
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Checks all the registered emitters, getting new particles from them.
+This method shouldn’t be called directly, use evolve instead()</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  addNewParticles () {
+    <span class="hljs-keyword">var</span> that = <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">var</span> emitParticles = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">emitter</span>) </span>{
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; emitter.emissionRate; i++)
+        that.particles.push(emitter.addParticle());
+      }
+    <span class="hljs-keyword">this</span>.emitters.forEach(emitParticles);
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Returns the particles in the system</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  getParticles() { <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.particles; }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
               <p>Returns the total particles count</p>
 
@@ -183,11 +293,11 @@ This method shouldn’t be called directly, use evolve instead()</p>
         </li>
         
         
-        <li id="section-7">
+        <li id="section-11">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
+                <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
               <p>Returns the Emitters count</p>
 
@@ -200,11 +310,11 @@ This method shouldn’t be called directly, use evolve instead()</p>
         </li>
         
         
-        <li id="section-8">
+        <li id="section-12">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-8">&#182;</a>
+                <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
               <p>Returns the Fields count</p>
 
@@ -217,11 +327,11 @@ This method shouldn’t be called directly, use evolve instead()</p>
         </li>
         
         
-        <li id="section-9">
+        <li id="section-13">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-9">&#182;</a>
+                <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
               <p>Returns the particle’s list</p>
 
@@ -232,11 +342,11 @@ This method shouldn’t be called directly, use evolve instead()</p>
         </li>
         
         
-        <li id="section-10">
+        <li id="section-14">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-10">&#182;</a>
+                <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
               <p>This method triggers a particle generation on each registered Emitter and then updates
 the particles position according to the registered Fields.</p>
@@ -246,32 +356,14 @@ the particles position according to the registered Fields.</p>
             <div class="content"><div class='highlight'><pre>  evolve (steps) {
     <span class="hljs-keyword">var</span> fields = <span class="hljs-keyword">this</span>.fields;
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> step = <span class="hljs-number">0</span>; step &lt; steps; step++) {
-      <span class="hljs-keyword">this</span>.addNewParticles();</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-11">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-11">&#182;</a>
-              </div>
-              <p>this.particles.forEach (function (part, i, sourcePartList) {
-if (part.ttl &gt; 0 &amp;&amp; ++part.lived &gt;= part.ttl)
- sourcePartList = sourcePartList.splice(i,1);
-var p = part.position;
-if (p.x &lt; 0 || p.x &gt; boundsX || p.y &lt; 0 || p.y &gt; boundsY)
- sourcePartList = sourcePartList.splice(i,1);
-});</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">this</span>.particles.forEach (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">part</span>) </span>{
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.particles.length &lt; <span class="hljs-keyword">this</span>.maxParticles)
+        <span class="hljs-keyword">this</span>.addNewParticles();
+      <span class="hljs-keyword">this</span>.particles.forEach (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">part</span>) </span>{
         part.submitToFields(fields);
         part.move();
       });
-    }
+    };
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.clean();
   }
 };
 

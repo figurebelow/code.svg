@@ -45,6 +45,11 @@
                 </a>
               
                 
+                <a class="source" href="Random.html">
+                  Random.js
+                </a>
+              
+                
                 <a class="source" href="example.html">
                   example.js
                 </a>
@@ -79,8 +84,9 @@
 
 <span class="hljs-keyword">let</span> Point = <span class="hljs-built_in">require</span> (<span class="hljs-string">"./Point.js"</span>).Point;
 <span class="hljs-keyword">let</span> Particle = <span class="hljs-built_in">require</span> (<span class="hljs-string">"./Particle.js"</span>).Particle;
+<span class="hljs-keyword">let</span> Random = <span class="hljs-built_in">require</span> (<span class="hljs-string">"./Random.js"</span>).Random;
 
-  <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Emitter</span> </span>{</pre></div></div>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Emitter</span> </span>{</pre></div></div>
             
         </li>
         
@@ -95,14 +101,16 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>   <span class="hljs-keyword">constructor</span> (point,velocity) {
+            <div class="content"><div class='highlight'><pre>   <span class="hljs-keyword">constructor</span> (point,velocity, xsize, ysize, particleLife, spread, emissionRate) {
     <span class="hljs-keyword">this</span>.position     = point;
     <span class="hljs-keyword">this</span>.velocity     = velocity;
-    <span class="hljs-keyword">this</span>.size         = <span class="hljs-number">15</span>;
-    <span class="hljs-keyword">this</span>.particleLife = <span class="hljs-number">-1</span>;
-    <span class="hljs-keyword">this</span>.spread       = <span class="hljs-built_in">Math</span>.PI / <span class="hljs-number">32</span>;
-    <span class="hljs-keyword">this</span>.emissionRate = <span class="hljs-number">4</span>;
-    <span class="hljs-keyword">this</span>.jitter     = <span class="hljs-number">0.05</span>;
+    <span class="hljs-keyword">this</span>.xsize        = xsize;
+    <span class="hljs-keyword">this</span>.ysize        = ysize;
+    <span class="hljs-keyword">this</span>.particleLife = particleLife || <span class="hljs-number">-1</span>;
+    <span class="hljs-keyword">this</span>.spread       = spread === <span class="hljs-literal">undefined</span>? <span class="hljs-built_in">Math</span>.PI / <span class="hljs-number">32</span> : spread;
+    <span class="hljs-keyword">this</span>.emissionRate = emissionRate || <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">this</span>.jitter       = <span class="hljs-number">0.05</span>;
+    <span class="hljs-keyword">this</span>.rand         = <span class="hljs-keyword">new</span> Random();
   }</pre></div></div>
             
         </li>
@@ -114,12 +122,15 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p>Moves the Emitter position</p>
+              <p>Sets the distribution function</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  moveTo (point) {
-    <span class="hljs-keyword">this</span>.position = point;
+            <div class="content"><div class='highlight'><pre>  seed (val) {
+    <span class="hljs-keyword">if</span> (val !== <span class="hljs-literal">undefined</span>) {
+      <span class="hljs-keyword">this</span>.rand.setSeed(val);
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
   }</pre></div></div>
             
         </li>
@@ -136,9 +147,12 @@
             </div>
             
             <div class="content"><div class='highlight'><pre>  addParticle() {
-    <span class="hljs-keyword">var</span> particle = <span class="hljs-keyword">new</span> Particle (<span class="hljs-keyword">this</span>.position.copy(),
-                                 Point.fromAngle(<span class="hljs-keyword">this</span>.velocity.getAngle() + <span class="hljs-keyword">this</span>.spread 
-                                                  - (<span class="hljs-built_in">Math</span>.random() * <span class="hljs-keyword">this</span>.spread * <span class="hljs-number">2</span>), 
+    <span class="hljs-keyword">var</span> pPosition = <span class="hljs-keyword">this</span>.position.copy();
+    pPosition.x += <span class="hljs-keyword">this</span>.rand.random() * <span class="hljs-keyword">this</span>.xsize;
+    pPosition.y += <span class="hljs-keyword">this</span>.rand.random() * <span class="hljs-keyword">this</span>.ysize;
+    <span class="hljs-keyword">var</span> particle = <span class="hljs-keyword">new</span> Particle (pPosition,
+                                 Point.fromAngle(<span class="hljs-keyword">this</span>.velocity.getAngle() + <span class="hljs-keyword">this</span>.spread * <span class="hljs-keyword">this</span>.rand.random()
+                                                  - (<span class="hljs-number">0</span> * <span class="hljs-keyword">this</span>.spread * <span class="hljs-number">2</span>),
                                   <span class="hljs-keyword">this</span>.velocity.getMagnitude())
     );
     particle.ttl = <span class="hljs-keyword">this</span>.particleLife;

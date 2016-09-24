@@ -45,6 +45,11 @@
                 </a>
               
                 
+                <a class="source" href="Random.html">
+                  Random.js
+                </a>
+              
+                
                 <a class="source" href="example.html">
                   example.js
                 </a>
@@ -94,26 +99,8 @@
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">constructor</span> (point, mass) {
-      <span class="hljs-keyword">this</span>.position   = point;
-      <span class="hljs-keyword">this</span>.size       = <span class="hljs-number">15</span>;
-      <span class="hljs-keyword">this</span>.mass       = mass;
-    }</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-3">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-3">&#182;</a>
-              </div>
-              <p>Moves the field to a new point in space</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    moveTo (point) {
-      <span class="hljs-keyword">this</span>.position = point;
+      <span class="hljs-keyword">this</span>.position   = point || <span class="hljs-keyword">new</span> Point(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>) ;
+      <span class="hljs-keyword">this</span>.mass       = mass || <span class="hljs-number">100</span>;
     }
 }
 <span class="hljs-built_in">module</span>.exports.Field = Field;</pre></div></div>

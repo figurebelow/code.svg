@@ -4,30 +4,39 @@
 
 let Point = require ("./Point.js").Point;
 let Particle = require ("./Particle.js").Particle;
+let Random = require ("./Random.js").Random;
 
-  class Emitter {
+class Emitter {
 
    // Creates a new Emitter given a point in space and emission velocity
-   constructor (point,velocity, size, particleLife, spread, emissionRate) {
+   constructor (point,velocity, xsize, ysize, particleLife, spread, emissionRate) {
     this.position     = point;
     this.velocity     = velocity;
-    this.size         = size || 15;
+    this.xsize        = xsize;
+    this.ysize        = ysize;
     this.particleLife = particleLife || -1;
-    this.spread       = spread || Math.PI / 32;
+    this.spread       = spread === undefined? Math.PI / 32 : spread;
     this.emissionRate = emissionRate || 1;
-    this.jitter     = 0.05;
+    this.jitter       = 0.05;
+    this.rand         = new Random();
   }
 
-  // Moves the Emitter position
-  moveTo (point) {
-    this.position = point;
+  // Sets the distribution function
+  seed (val) {
+    if (val !== undefined) {
+      this.rand.setSeed(val);
+    }
+    return this;
   }
 
   // Adds a new particle using the Emitter position and velocity as starting point.
   addParticle() {
-    var particle = new Particle (this.position.copy(),
-                                 Point.fromAngle(this.velocity.getAngle() + this.spread
-                                                  - (Math.random() * this.spread * 2),
+    var pPosition = this.position.copy();
+    pPosition.x += this.rand.random() * this.xsize;
+    pPosition.y += this.rand.random() * this.ysize;
+    var particle = new Particle (pPosition,
+                                 Point.fromAngle(this.velocity.getAngle() + this.spread * this.rand.random()
+                                                  - (0 * this.spread * 2),
                                   this.velocity.getMagnitude())
     );
     particle.ttl = this.particleLife;

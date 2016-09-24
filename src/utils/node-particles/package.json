@@ -1,6 +1,6 @@
 {
   "name": "node-particles",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "A simple particle system for NodeJs",
   "main": "./js/ParticleSystem.js",
   "directories": {
@@ -31,7 +31,8 @@
     "coveralls": "^2.11.6",
     "istanbul": "^0.4.2",
     "mocha": "2.4.5",
-    "docco": "0.7"
+    "docco": "0.7",
+    "chai": "^3.5.0"
   },
   "engines": {
     "node": ">=0.10.15"

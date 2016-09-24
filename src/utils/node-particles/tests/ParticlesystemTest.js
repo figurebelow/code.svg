@@ -28,9 +28,28 @@ describe ("ParticleSystem", function () {
 
   it ("Evolves given one emitter returns 1 particle", function () {
     var ps = new ParticleSystem ();
-    ps.addEmitter (new Point(10,10), Point.fromAngle(30,30));
+    ps.addEmitter (new Point(10,10), new Point(0,0), 1, 1, 1);
     ps.addField (new Point(10,10), 20);
     ps.evolve(1);
     assert.equal(ps.getParticleCount(), 1);
+  });
+
+  it ("Emits vertically", function () {
+    var ps = new ParticleSystem();
+    ps.addEmitter (new Point(0,2), new Point(0,0), 0, 0, 1);
+    ps.evolve(1);
+    assert.deepEqual ({x:0, y:2}, ps.getParticles()[0].position);
+  });
+
+  it ("Removes not visible particles", function () {
+    var ps = new ParticleSystem([new Point(1000, 30), new Point (40,2000), new Point(50,-50), new Point (9000, -4000)]);
+    ps.bounded(800, 600).evolve(10);
+    assert.equal(ps.getParticleCount(), 0);
+  });
+
+  it ("Keeps visible particles when bounded() is used", function () {
+    var ps = new ParticleSystem([new Point(10, 30), new Point (40,2000), new Point(50,-50), new Point (500, 600)]);
+    ps.bounded(800, 600).evolve(10);
+    assert.equal(ps.getParticleCount(), 2);
   });
 });
