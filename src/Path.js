@@ -78,18 +78,19 @@ class Path extends SVGBase {
   /**
    * Rotates the object
    * @param {number} deg degrees to rotate, clockwise
-   * @param {number} x (optional) x-position center of the rotation
-   * @param {number} y (optional) y-position center of the rotation
+   * @param {object} point (optional) xy point, center of the rotation
    * @override
    * @returns the object
+   * @example
+   *  rect.rotate(45); // rotates around its center
+   * @example
+   * rect.rotate(45, new Point(12,14)); // rotates around the given point
    */
-  rot (deg, x, y) {
-    let center = this.getCenter ();
-    if (x !== undefined)
-      center.x = x;
-    if (y !== undefined)
-      center.y = y;
-    super.rotate(center, deg);
+  rot (deg, point) {
+    if (point !== undefined)
+      super.rotate(point, deg);
+    else
+      super.rotate(this.getCenter(), deg);
     return this;
   }
 

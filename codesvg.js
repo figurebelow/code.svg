@@ -86,6 +86,7 @@ jsdom.env(
     let Scene = require     (\"./src/Scene.js\").Scene; \
     let Rect = require      (\"./src/Rect.js\").Rect; \
     let Circle = require    (\"./src/Circle.js\").Circle; \
+    let Line = require    (\"./src/Line.js\").Line; \
     let Ellipse = require   (\"./src/Ellipse.js\").Ellipse; \
     let Polyline = require  (\"./src/Polyline.js\").Polyline; \
     let Rnd = require       (\"./src/utils/Rnd.js\").Rnd; \

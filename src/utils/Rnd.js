@@ -6,7 +6,7 @@
 
 "use strict";
 
-//var D3 = require ("../d3/d3.v3.min.js");
+let D3 = require ("../d3/d3.v3.min.js");
 
 class Rnd {
 

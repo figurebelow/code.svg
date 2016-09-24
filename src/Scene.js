@@ -6,29 +6,33 @@
 
 "use strict";
 
+let Rect = require ("./Rect.js").Rect;
+
 const DEFAULT_WIDTH = 800;
 const DEFAULT_HEIGHT = 600;
 const DEFAULT_BACKGROUND_FILL = "#f0e9a4";
 
-class Scene {
+/**
+ * This class represents the main SVG document where all SVG elements are appended to.
+ * It creates a rect element that it's used as the document background
+ * @class
+ * @extends Rect
+ */
+class Scene extends Rect {
 
   constructor (root, attrs, style) {
+    super (attrs, style);
     this.svg = null;
     this.root = root;
     this.children = [];
     this.masks = {};
-    this.attributes = {};
-    this.style = {};
     this.defs = [];
-    var that = this;
-    for (var attr in attrs) {
-      this.attributes[attr] = attrs[attr];
-    }
-    for (var sty in style) {
-      this.style[sty] = style[sty];
-    }
   }
 
+  /**
+   * Appends this element to the SVG root
+   * @ignore
+   */
   append () {
     this.svg = this.root.append("svg")
         .attr("xmlns:dc", "http://purl.org/dc/elements/1.1/")
@@ -44,38 +48,33 @@ class Scene {
         .attr("width", this.attributes["width"] || DEFAULT_WIDTH)
         .attr("height", this.attributes["height"] || DEFAULT_HEIGHT)
 
-    var that = this;
     var defs = this.svg.append ("defs");
-
-    this.defs.forEach(function (def) {
-      def.append(defs);
-    });
+    this.defs.forEach (def => def.append(defs));
 
     for (var maskId in this.masks) {
       var maskRoot = defs.append ("mask").attr ("id", maskId);
       var mask = this.masks[maskId];
-      mask.forEach (function (maskElems) {
-        maskElems.append (maskRoot);
-      });
+      mask.forEach (maskElem => maskElem.append(maskRoot));
     }
 
-    this.svg.append("rect")
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("width", this.attributes["width"] || DEFAULT_WIDTH)
-        .attr("height", this.attributes["height"] || DEFAULT_HEIGHT)
-        .attr("filter", this.attributes["filter"] || "")
-        .style("fill", this.style["fill"] || DEFAULT_BACKGROUND_FILL);
-
-    this.children.forEach (function (child) {
-        child.append (that.svg);
-    });
+    super.append(this.svg);
+    this.children.forEach (child => child.append(this.svg));
+    console.log("SVG: " + this.children.length + " SVG elements");
   }
 
+  /**
+   * Returns the SVG
+   * @ignore
+   */
   getSvg() {
     return this.svg;
   }
 
+  /**
+   * Returns the content, replacing the SVG keywords that were
+   * lowercased by its corresponding SVG text.
+   * @ignore
+   */
   exportContent () {
     this.append();
     var content = this.root.html();
@@ -91,42 +90,18 @@ class Scene {
   };
 
   // This function takes arguments, so the real parameters are irrelevant
+  /**
+   * Adds element to the Scene
+   * @param {array} _ list of elements to add
+   */
   add (_) {
     for (var i = 0; i < arguments.length; i++) {
-      this.children.push(arguments[i]);
+      if (typeof (arguments[i]) === 'object' &&
+        (arguments[i].type == "filter" || arguments[i].type == "mask" || arguments[i].type == "linearGradient" || arguments[i].type == "radialGradient"))
+        this.defs.push(def);
+      else
+        this.children.push(arguments[i]);
     }
-  }
-
-  addMask (id, def) {
-    if (this.masks[id] != undefined)
-    {
-      this.masks[id].push (def);
-    }
-    else {
-      this.masks[id] = [def];
-    }
-  }
-
-  addDef (def) {
-    this.defs.push(def);
-  }
-
-  /**
-   * Set the value for a set of attributes
-   * @param {object} attrs key:value map with the attributes
-   */
-  setAttr (attrs) {
-    for (var attr in attrs) {
-      this.attributes[attr] = attrs[attr];
-    }
-    return this;
-  }
-
-  sty(style) {
-    for (var attr in style) {
-      this.style[attr] = style[attr];
-    }
-    return this;
   }
 };
 

@@ -7,6 +7,7 @@
 "use strict";
 
 let Path = require ("./Path.js").Path;
+let Utils = require ("./utils/Functions.js");
 
 /**
  * Rect class
@@ -29,6 +30,22 @@ class Rect extends Path {
     var d = p0 + " " + p1 + " " + p2 + " " + p3;
     var procParams = {"d":d};
     super (procParams, style);
+  }
+
+  static RectFromTwoPoints (point1, point2, values, style) {
+    var height = values["height"] || 5;
+    var vector = {x: point2.x - point1.x, y: point2.y - point1.y};
+    var length = Math.sqrt(vector.x * vector.x + vector.y * vector.y);
+    var p0 = "M" + point1.x + "," + (point1.y - height/2);
+    var p1 = "L" + (point1.x + length) + "," + (point1.y - height/2);
+    var p2 = "L" + (point1.x + length) + "," + (point1.y + height/2);
+    var p3 = "L" + point1.x + "," + (point1.y + height/2) + "z";
+    var d = p0 + " " + p1 + " " + p2 + " " + p3;
+    var procParams = {"d":d};
+    var rect = new Path (procParams, style);
+    var angle = Utils.calculateAngle(point1, point2);
+    rect.rot(angle, point1);
+    return rect;
   }
 };
 

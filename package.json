@@ -1,6 +1,6 @@
 {
   "name": "code.svg",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "description": "A JavaScript library to manipulate the SVG DOM in a object-oriented way.",
   "main": "codesvg.js",
   "directories": {
@@ -36,9 +36,10 @@
   },
   "homepage": "https://github.com/figurebelow/code.svg#readme",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "compressjs": "^1.0.3",
-    "sync-request": "^3.0.1",
     "jsdom": "^9.4.5",
-    "xmldom":"^0.1.22"
+    "sync-request": "^3.0.1",
+    "xmldom": "^0.1.22"
   }
 }
