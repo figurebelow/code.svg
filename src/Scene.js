@@ -98,7 +98,7 @@ class Scene extends Rect {
     for (var i = 0; i < arguments.length; i++) {
       if (typeof (arguments[i]) === 'object' &&
         (arguments[i].type == "filter" || arguments[i].type == "mask" || arguments[i].type == "linearGradient" || arguments[i].type == "radialGradient"))
-        this.defs.push(def);
+        this.defs.push(arguments[i]);
       else
         this.children.push(arguments[i]);
     }

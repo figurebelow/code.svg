@@ -34,7 +34,7 @@ class SVGBase {
       for (var attr in values) {
         this.attributes[attr] = values[attr];
       }
-    if (values != undefined)
+    if (style != undefined)
       for (var opt in style) {
         if (typeof(style[opt]) === 'object')
           this.style[opt] = style[opt].getRef();
@@ -162,7 +162,10 @@ class SVGBase {
    * circle.sty("fill", "red");
    */
   sty(attr, val) {
-    this.style[attr] = val;
+    if (typeof(val) === 'object')
+        this.style[attr] = val.getRef();
+      else
+        this.style[attr] = val;
     return this;
   }
 
