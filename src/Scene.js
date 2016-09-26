@@ -21,12 +21,19 @@ const DEFAULT_BACKGROUND_FILL = "#f0e9a4";
 class Scene extends Rect {
 
   constructor (root, attrs, style) {
+    if (attrs["width"] === undefined)
+      attrs["width"] = DEFAULT_WIDTH;
+    if (attrs["height"] === undefined)
+      attrs["height"] = DEFAULT_HEIGHT;
     super (attrs, style);
     this.svg = null;
     this.root = root;
     this.children = [];
     this.masks = {};
     this.defs = [];
+    this.sceneAttr = {};
+    this.sceneAttr["width"] = attrs["width"];
+    this.sceneAttr["height"] = attrs["height"];
   }
 
   /**
@@ -102,6 +109,14 @@ class Scene extends Rect {
       else
         this.children.push(arguments[i]);
     }
+  }
+
+  addFrame (height, color) {
+    console.log(this.attributes);
+    this.add(new Rect({x:0, y:0, width:this.sceneAttr["width"], height: height}, {fill:color}));
+    this.add(new Rect({x:this.sceneAttr["width"] - height, y:0, width:height, height: this.sceneAttr["height"]}, {fill:color}));
+    this.add(new Rect({x:0, y:this.sceneAttr["height"] - height, width:this.sceneAttr["width"], height: height}, {fill:color}));
+    this.add(new Rect({x:0, y:0, width:height, height: this.sceneAttr["height"]}, {fill:color}));
   }
 };
 
