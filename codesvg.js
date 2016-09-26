@@ -48,7 +48,7 @@ function showInfoHelp () {
 }
 
 jsdom.env(
-  "<html><body><div id=\"codesvg\"></div></body></html>", ['./src/d3/d3.v3.min.js'],
+  "<html><body><div id=\"codesvg\"></div></body></html>", ['./src/d3/d3.v4.min.js'],
   function (err, window) {
 
   var mainFile = process.argv[2];
@@ -87,6 +87,7 @@ jsdom.env(
     let Rect = require      (\"./src/Rect.js\").Rect; \
     let Circle = require    (\"./src/Circle.js\").Circle; \
     let Line = require    (\"./src/Line.js\").Line; \
+    let Path = require    (\"./src/Path.js\").Path; \
     let Ellipse = require   (\"./src/Ellipse.js\").Ellipse; \
     let Polyline = require  (\"./src/Polyline.js\").Polyline; \
     let Rnd = require       (\"./src/utils/Rnd.js\").Rnd; \
@@ -94,7 +95,7 @@ jsdom.env(
     let Gradients = require (\"./src/utils/Gradients.js\");\
     let Filters = require   (\"./src/utils/Filters.js\");\
     let console = require   (\"console\"); \
-    let D3 = require        (\"./src/d3/d3.v3.min.js\"); \
+    let D3 = require        (\"./src/d3/d3.v4.min.js\"); \
     let PS = require (\"./src/utils/node-particles/js/ParticleSystem.js\");\
     let Colors = require (\"./src/utils/Colors.js\").Colors; \
     var scene  = function(){ \"use strict\"; "+ data + "\n}(); \
