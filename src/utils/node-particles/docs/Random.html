@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Random.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page_wrapper">
+            <div id="jump_page">
+              
+                
+                <a class="source" href="Emitter.html">
+                  Emitter.js
+                </a>
+              
+                
+                <a class="source" href="Field.html">
+                  Field.js
+                </a>
+              
+                
+                <a class="source" href="Particle.html">
+                  Particle.js
+                </a>
+              
+                
+                <a class="source" href="ParticleSystem.html">
+                  ParticleSystem.js
+                </a>
+              
+                
+                <a class="source" href="Point.html">
+                  Point.js
+                </a>
+              
+                
+                <a class="source" href="Random.html">
+                  Random.js
+                </a>
+              
+                
+                <a class="source" href="example.html">
+                  example.js
+                </a>
+              
+            </div>
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>Random.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-meta">
+"use strict"</span>;
+
+<span class="hljs-keyword">const</span> E = <span class="hljs-built_in">Math</span>.E;
+<span class="hljs-keyword">const</span> PI = <span class="hljs-built_in">Math</span>.PI;
+<span class="hljs-keyword">const</span> PI_2 = PI / <span class="hljs-number">2</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Random</span> </span>{
+
+    <span class="hljs-keyword">constructor</span> (seed) {
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span>(seed) === <span class="hljs-string">"string"</span>) {
+        <span class="hljs-keyword">var</span> i = seed.length;
+        <span class="hljs-keyword">while</span> (i--) {
+          <span class="hljs-keyword">this</span>.seed += seed[i];
+        }
+      }
+      <span class="hljs-keyword">this</span>.seed = seed !== <span class="hljs-literal">undefined</span> ? seed: <span class="hljs-built_in">Math</span>.random();
+    }
+
+    setSeed (seed) {
+      <span class="hljs-keyword">if</span> (seed)
+        <span class="hljs-keyword">this</span>.seed = seed;
+    }
+
+    random (lower, upper) {
+      <span class="hljs-keyword">var</span> x = <span class="hljs-built_in">Math</span>.sin(<span class="hljs-keyword">this</span>.seed++) * <span class="hljs-number">10000</span>;
+      <span class="hljs-keyword">if</span> (upper === <span class="hljs-literal">undefined</span>) {
+        <span class="hljs-keyword">if</span> (lower === <span class="hljs-literal">undefined</span>) { <span class="hljs-comment">// both undefined, assume (0,1)</span>
+          <span class="hljs-keyword">return</span> x - <span class="hljs-built_in">Math</span>.floor(x);
+        }
+        <span class="hljs-keyword">else</span> { <span class="hljs-comment">// we only have lower, assume (0,lower)</span>
+          <span class="hljs-keyword">return</span> (x - <span class="hljs-built_in">Math</span>.floor(x)) * lower;
+        }
+      }
+      <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> lower + ((x - <span class="hljs-built_in">Math</span>.floor(x)) * (upper-lower))
+      }
+    }
+
+    arcsine (min, max) {
+        <span class="hljs-keyword">var</span> q = <span class="hljs-built_in">Math</span>.sin(PI_2 * <span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>));
+
+        <span class="hljs-keyword">return</span> min + (max - min) * q * q;
+    };
+
+    beta (v, w, min, max) {
+        <span class="hljs-keyword">if</span> (v &lt; w) {
+            <span class="hljs-keyword">return</span> max - (max - min) * <span class="hljs-keyword">this</span>.beta(w, v, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>);
+        }
+        <span class="hljs-keyword">var</span> y1 = <span class="hljs-keyword">this</span>.gamma(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, v),
+            y2 = <span class="hljs-keyword">this</span>.gamma(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, w);
+
+        <span class="hljs-keyword">return</span> min + (max - min) * y1 / (y1 + y2);
+    };
+
+    cauchy (a, b) {
+      <span class="hljs-keyword">return</span> a + b * <span class="hljs-built_in">Math</span>.tan(PI * <span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">-0.5</span>, <span class="hljs-number">0.5</span>))
+    };
+
+     chiSquare (df) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.gamma(<span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">0.5</span> * df);
+    };
+
+     cosine (min, max) {
+        <span class="hljs-keyword">var</span> a = <span class="hljs-number">0.5</span> * (min + max),
+            b = (max - min) / PI;
+
+        <span class="hljs-keyword">return</span> a + b * <span class="hljs-built_in">Math</span>.asin(<span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">-1</span>, <span class="hljs-number">1</span>));
+    };
+
+     doubleLog (min, max) {
+        <span class="hljs-keyword">var</span> a = <span class="hljs-number">0.5</span> * (min + max),
+            b = <span class="hljs-number">0.5</span> * (max - min);
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.bernoulli(<span class="hljs-number">0.5</span>) === <span class="hljs-number">0</span>) {
+            b = -b;
+        }
+
+        <span class="hljs-keyword">return</span> a + b * <span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>) * <span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>);
+    };
+
+     erlang (b, c) {
+        <span class="hljs-keyword">var</span> prod = <span class="hljs-number">1.0</span>;
+        <span class="hljs-keyword">var</span> i = <span class="hljs-number">1</span>;
+
+        <span class="hljs-keyword">for</span> (i = <span class="hljs-number">1</span>; i &lt; c; i++) {
+            prod *= <span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>);
+        }
+
+        <span class="hljs-keyword">return</span> -b * <span class="hljs-built_in">Math</span>.log(prod);
+    };
+
+     exponential (a, b) {
+        <span class="hljs-keyword">return</span> a - b * <span class="hljs-built_in">Math</span>.log(<span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>));
+    };
+
+     extremeValue (a, b) {
+        <span class="hljs-keyword">return</span> a + b * <span class="hljs-built_in">Math</span>.log(-<span class="hljs-built_in">Math</span>.log(<span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>)));
+    };
+
+     fRatio (v, w) {
+        <span class="hljs-keyword">return</span> (<span class="hljs-keyword">this</span>.chiSquare(v) / v) / (<span class="hljs-keyword">this</span>.chiSquare(w) / w);
+    };
+
+     gamma (a, b, c) {
+        <span class="hljs-keyword">var</span> A = <span class="hljs-number">1</span> / <span class="hljs-built_in">Math</span>.sqrt(<span class="hljs-number">2</span> * c - <span class="hljs-number">1</span>),
+            B = c - <span class="hljs-built_in">Math</span>.log(<span class="hljs-number">4</span>),
+            Q = c + <span class="hljs-number">1</span> / A,
+            T = <span class="hljs-number">4.5</span>,
+            D = <span class="hljs-number">1</span> + <span class="hljs-built_in">Math</span>.log(T),
+            C = <span class="hljs-number">1</span> + c / E;
+
+        <span class="hljs-keyword">if</span> (c &lt; <span class="hljs-number">1</span>) {
+            <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) {
+                <span class="hljs-keyword">var</span> p = C * <span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>);
+                <span class="hljs-keyword">if</span> (p &gt; <span class="hljs-number">1</span>) {
+                    <span class="hljs-keyword">var</span> y = -<span class="hljs-built_in">Math</span>.log((C - p) / c);
+                    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>) &lt;= <span class="hljs-built_in">Math</span>.pow(y, c - <span class="hljs-number">1</span>)) {
+                        <span class="hljs-keyword">return</span> a + b * y;
+                    }
+                } <span class="hljs-keyword">else</span> {
+                    <span class="hljs-keyword">var</span> y = <span class="hljs-built_in">Math</span>.pow(p, <span class="hljs-number">1</span> / c);
+                    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>) &lt;= <span class="hljs-built_in">Math</span>.exp(-y)) {
+                        <span class="hljs-keyword">return</span> a + b * y;
+                    }
+                }
+            }
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (c == <span class="hljs-number">1.0</span>) {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.exponential(a, b);
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) {
+                <span class="hljs-keyword">var</span> p1 = <span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>),
+                    p2 = <span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>),
+                    v = A * <span class="hljs-built_in">Math</span>.log(p1 / (<span class="hljs-number">1</span> - p1)),
+                    y = c * <span class="hljs-built_in">Math</span>.exp(v),
+                    z = p1 * p1 * p2,
+                    w = B + Q * v - y;
+                <span class="hljs-keyword">if</span> (w + D - T * z &gt; <span class="hljs-number">0</span> || w &gt;= <span class="hljs-built_in">Math</span>.log(z)) {
+                    <span class="hljs-keyword">return</span> a + b * y
+                }
+            }
+        }
+    };
+
+     laplace (a, b) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.bernoulli(<span class="hljs-number">0.5</span>) == <span class="hljs-number">1</span>) {
+            <span class="hljs-keyword">return</span> a + b * <span class="hljs-built_in">Math</span>.log(<span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>));
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">return</span> a - b * <span class="hljs-built_in">Math</span>.log(<span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>));
+        }
+    };
+
+     logarithmic (min, max) {
+        <span class="hljs-keyword">var</span> a = min,
+            b = max - min;
+
+        <span class="hljs-keyword">return</span> a + b * <span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>) * <span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>);
+    };
+
+     logistic (a, b) {
+        <span class="hljs-keyword">return</span> a - b * <span class="hljs-built_in">Math</span>.log(<span class="hljs-number">1</span> / <span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>) - <span class="hljs-number">1</span>);
+    };
+
+     lognormal (a, mu, sigma) {
+        <span class="hljs-keyword">return</span> a + <span class="hljs-built_in">Math</span>.exp(<span class="hljs-keyword">this</span>.normal(mu, sigma));
+    };
+
+     normal (mu, sigma) {
+        <span class="hljs-keyword">var</span> p , p1, p2;
+        <span class="hljs-keyword">do</span> {
+            p1 = <span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">-1</span>, <span class="hljs-number">1</span>);
+            p2 = <span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">-1</span>, <span class="hljs-number">1</span>);
+            p = p1 * p1 + p2 * p2;
+        } <span class="hljs-keyword">while</span> (p &gt;= <span class="hljs-number">1</span>);
+
+        <span class="hljs-keyword">return</span> mu + sigma * p1 * <span class="hljs-built_in">Math</span>.sqrt(<span class="hljs-number">-2</span> * <span class="hljs-built_in">Math</span>.log(p) / p);
+    };
+
+     parabolic (min ,max) {
+        <span class="hljs-keyword">var</span> parabola = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">x, min, max</span>) </span>{
+            <span class="hljs-keyword">if</span> (x &lt; min || x &gt; max) {
+                <span class="hljs-keyword">return</span> <span class="hljs-number">0.0</span>;
+            }
+
+            <span class="hljs-keyword">var</span> a = <span class="hljs-number">0.5</span> * (min + max),
+                b = <span class="hljs-number">0.5</span> * (max - min),
+                yMax = <span class="hljs-number">3</span> / (<span class="hljs-number">4</span> * b);
+
+            <span class="hljs-keyword">return</span> yMax * (<span class="hljs-number">1</span> - (x - a) * (x - a) / (b * b));
+        };
+
+        <span class="hljs-keyword">var</span> a = <span class="hljs-number">0.5</span> * (min  + max),
+            yMax = parabola(a, min + max);
+
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.userSpecified(parabola, min ,max, <span class="hljs-number">0</span>, yMax);
+    };
+
+     pareto (c) {
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.pow(<span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>), <span class="hljs-number">-1</span> / c);
+    };
+
+     pearson5 (b, c) {
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span> / <span class="hljs-keyword">this</span>.gamma(<span class="hljs-number">0</span>, <span class="hljs-number">1</span> / b, c);
+    };
+
+     pearson6 (b, v, w) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.gamma(<span class="hljs-number">0</span>, b, v) / <span class="hljs-keyword">this</span>.gamma(<span class="hljs-number">0</span>, b, w);
+    };
+
+     power (c) {
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.pow(<span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>), <span class="hljs-number">1</span> / c);
+    };
+
+     rayleigh (a, b) {
+        <span class="hljs-keyword">return</span> a + b * <span class="hljs-built_in">Math</span>.sqrt(-<span class="hljs-built_in">Math</span>.log(<span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>)));
+    };
+
+     studentT (df) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.normal(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>) / <span class="hljs-built_in">Math</span>.sqrt(<span class="hljs-keyword">this</span>.chiSquare(df) / df);
+    };
+
+     triangular (min, max, c) {
+        <span class="hljs-keyword">var</span> p = <span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>),
+            q = <span class="hljs-number">1</span> - p;
+        <span class="hljs-keyword">if</span> (p &lt;= (c - min) / (max - min)) {
+            <span class="hljs-keyword">return</span> min + <span class="hljs-built_in">Math</span>.sqrt((max - min) * (c - min) * p);
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">return</span> max - <span class="hljs-built_in">Math</span>.sqrt((max - min) * (max - c) * q);
+        }
+    };
+
+     uniform (min, max) {
+        <span class="hljs-keyword">var</span> init = <span class="hljs-keyword">this</span>.seed !== <span class="hljs-literal">undefined</span>? <span class="hljs-keyword">this</span>.random() : <span class="hljs-built_in">Math</span>.random();
+        <span class="hljs-keyword">return</span> min + (max - min) * init;
+    };
+
+     userSpecified (usf, xMin, xMax, yMin, yMax) {
+        <span class="hljs-keyword">var</span> x,
+            y,
+            areaMax = (xMax - xMin) * (yMax - yMin);
+
+        <span class="hljs-keyword">do</span> {
+            x = <span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, areaMax) / (yMax - yMin) + xMin;
+            y = <span class="hljs-keyword">this</span>.uniform(yMin, yMax);
+        } <span class="hljs-keyword">while</span> (y &gt; usf(x, xMin, xMax));
+        <span class="hljs-keyword">return</span> x;
+    };
+
+     weibull (a, b, c) {
+        <span class="hljs-keyword">return</span> a + b * <span class="hljs-built_in">Math</span>.pow(-<span class="hljs-built_in">Math</span>.log(<span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>)), <span class="hljs-number">1</span> / c);
+    };
+
+     bernoulli (p) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>) &lt; p ? <span class="hljs-number">0</span> : <span class="hljs-number">1</span>;
+    };
+
+     binomial (n, p) {
+        <span class="hljs-keyword">var</span> sum = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) {
+            sum += <span class="hljs-keyword">this</span>.bernoulli(p);
+        }
+
+        <span class="hljs-keyword">return</span> sum;
+    };
+
+     geometric (p) {
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.log(<span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>)) / <span class="hljs-built_in">Math</span>.log(<span class="hljs-number">1</span> - p));
+    };
+
+     hypergeometric (n, N, K) {
+        <span class="hljs-keyword">var</span> count = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; n; i++, N--) {
+            <span class="hljs-keyword">var</span> p = K / N;
+            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.bernoulli(p)) {
+                count++;
+                K--;
+            }
+        }
+
+        <span class="hljs-keyword">return</span> count;
+    };
+
+     negativeBinomial (s, p) {
+        <span class="hljs-keyword">var</span> sum = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; s; i++) {
+            sum += <span class="hljs-keyword">this</span>.geometric(p);
+        }
+
+        <span class="hljs-keyword">return</span> sum;
+    };
+
+     pascal (s, p) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.negativeBinomial(s, p) + s;
+    };
+
+     poisson (mu) {
+        <span class="hljs-keyword">var</span> b = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; b &gt;= <span class="hljs-built_in">Math</span>.exp(-mu); i++) {
+            b *= <span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>);
+        }
+
+        <span class="hljs-keyword">return</span> i - <span class="hljs-number">1</span>;
+    };
+
+     uniformDiscrete (i, j) {
+        <span class="hljs-keyword">return</span> i + <span class="hljs-built_in">Math</span>.floor((j - i + <span class="hljs-number">1</span>) * <span class="hljs-keyword">this</span>.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>));
+    };
+};
+
+<span class="hljs-built_in">module</span>.exports.Random = Random;</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

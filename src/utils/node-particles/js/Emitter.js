@@ -43,4 +43,5 @@ class Emitter {
     return particle;
   }
 };
+
 module.exports.Emitter = Emitter;
