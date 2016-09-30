@@ -13,11 +13,25 @@ describe ("Utils", function () {
 
   it ("Instantiates a random gen from a number", function () {
     var rnd = new Rnd(45);
-    assert (typeof(rnd.val(1,10) == Number));
+    assert (typeof(rnd.random(1,10) == Number));
   });
 
   it ("Instantiates a random gen from a string seed", function () {
     var rnd = new Rnd("afpo");
-    assert (typeof(rnd.val(1,10) == Number));
+    assert (typeof(rnd.random(1,10) == Number));
+  });
+
+  it ("Picks from a list of values", function () {
+    var rnd = new Rnd ("bluecoat");
+    for (var i = 0; i < 10; i++) {
+      var elem = rnd.pick(["foo", "bar", "zen"]);
+      assert (elem == "foo" || elem == "bar" || elem == "zen");
+    }
+  });
+
+  it ("Generates a random id", function () {
+    var id1 = Rnd.genId();
+    var id2 = Rnd.genId();
+    assert (id1 =~ "id-" && (id2 =~ "id-") && id1 != id2);
   });
 });

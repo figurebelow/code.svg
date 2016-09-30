@@ -6,39 +6,21 @@
 
 "use strict";
 
-let D3 = require ("../d3/d3.v3.min.js");
+let D3 = require ("../d3/d3.v4.min.js");
+let Random = require ("./node-particles/js/Random.js").Random;
 
-class Rnd {
-
-  constructor (seed) {
-    if (typeof(seed) === "string") {
-      var i = seed.length;
-      while (i--) {
-        this.seed += seed[i];
-      }
-    }
-    this.seed = seed;
-  }
-
-  val (lower, upper) {
-    if (upper == undefined)
-    {
-      upper = lower; // consider [0,lower]
-    }
-    var s = Math.sin(this.seed) * 10000;
-    this.seed = s - Math.floor(s);
-    return Math.floor(this.seed * upper);
-  }
+class Rnd extends Random {
 
   pick (list) {
     let numElems = list.length;
     if (!numElems)
       return null;
-    return list[Math.round(this.val(numElems))];
+    var index = Math.floor(this.random(numElems));
+    return list[index];
   }
 
-  colorIn (scale, start, end) {
-    return D3.scale.linear().domain([1, 16^6]).range(["#000000","#FFFFFF"])(scale);
+  colorIn (scale, start, end, initColor, endColor) {
+    return D3.scaleLinear().domain([1, end]).range([initColor, endColor])(scale);
   }
 
   static genId () {

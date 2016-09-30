@@ -9,6 +9,7 @@
 let SVGBase = require ("./SVGBase.js").SVGBase;
 let NonIntersecPolCenter = require ("./utils/Functions.js").NonIntersecPolCenter;
 let PointsParser = require ("./grammars/PathGrammar.js");
+let D3 = require ("./d3/d3.v4.min.js");
 
 /**
  * Class Path
@@ -170,6 +171,29 @@ class Path extends SVGBase {
     }
     this.updateD();
     return this;
+  }
+
+  static lineFromPoints (points) {
+    var gen = D3.line()
+      .x (function (d) { return d.x})
+      .y (function (d) { return d.y});
+    return gen(points);
+  }
+
+  static curveBasis (points) {
+    var gen = D3.line()
+      .x (function (d) { return d.x})
+      .y (function (d) { return d.y})
+      .curve (D3.curveBasis);
+    return gen(points);
+  }
+
+  static curveBundle (points) {
+    var gen = D3.line()
+      .x (function (d) { return d.x})
+      .y (function (d) { return d.y})
+      .curve (D3.curveNatural);
+    return gen(points);
   }
 };
 
