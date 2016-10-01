@@ -227,7 +227,8 @@ static RuleOfThirds (x0, y0, width, height) {
 
 /**
  * Returns a list of points along x-axis
- * @param {number}
+ * @param {number} x0 initial x0 coord
+ * @param {number} y0 initial y0 coord
  */
 static Cols (x0, y0, distance, width) {
   var points = [];
