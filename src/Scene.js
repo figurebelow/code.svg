@@ -110,8 +110,8 @@ class Scene extends SVGBase {
     this.add(new Rect({x:0, y:0, width:height, height: this.sceneAttr["height"]}, {fill:color}));
   }
 
-  sty (_) {
-    this.background.sty(_);
+  sty (attr, val) {
+    this.background.sty(attr, val);
   }
 };
 

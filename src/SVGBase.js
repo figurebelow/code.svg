@@ -57,7 +57,8 @@ class SVGBase {
    * @return {object} reference to this
    */
   toSVG () {
-    // TOO this.genTransform (svgNode);
+
+    this.genTransform ();
     var svgStr = "<" + this.type + " ";
     for (var key in this.attributes) {
       svgStr += key + "=\"" + this.attributes[key] + "\" ";
@@ -67,10 +68,8 @@ class SVGBase {
     }
     svgStr += ">";
 
-    this.children.forEach(function (child) {
-      //console.log(child)
-      svgStr += child.toSVG();
-    });
+    this.children.forEach(child => svgStr += child.toSVG());
+
     svgStr += "</" + this.type + ">";
     return svgStr;
   }
@@ -79,10 +78,9 @@ class SVGBase {
    * Generates the SVG transform string
    *
    * @ignore
-   * @param {object} svgNode the SVG root
    * @return {object} string
    */
-  genTransform (svgNode) {
+  genTransform () {
       var transformStr = "";
       var rotString = this.genRotate ();
       var scaleString = this.genScale ();
@@ -90,9 +88,8 @@ class SVGBase {
       if (!rotString.length && !scaleString.length && !skeString.length)
         return; // do nothing
       else {
-        svgNode.at("transform", rotString + " " + scaleString + " " + skeString);
+        this.setAttr({"transform":rotString + " " + scaleString + " " + skeString});
       }
-      return transformStr;
   }
 
   /**
