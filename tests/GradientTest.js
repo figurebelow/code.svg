@@ -28,23 +28,23 @@ describe ("Gradients", function () {
     var lg = new LinearGradient({x1:10, y1:10, x2:50, y2:50}, {"stop-opacity": "#ffffff"})
       .addStop("0%", "red")
       .addStop("100%", "blue");
-    assert (lg.stops.length, 2);
+    assert (lg.children.length, 2);
     assert (lg.getAttr("x1"), 10);
     assert (lg.getAttr("y1"), 10);
     assert (lg.getAttr("x2"), 50);
     assert (lg.getAttr("y2"), 50);
     assert (lg.style["stop-opacity"], "#ffffff");
-    assert (lg.stops[0].style["offset"] = "0%");
-    assert (lg.stops[1].style["offset"] = "100%");
-    assert (lg.stops[0].style["stop-color"] = "red");
-    assert (lg.stops[1].style["stop-color"] = "blue");
+    assert (lg.children[0].style["offset"] = "0%");
+    assert (lg.children[1].style["offset"] = "100%");
+    assert (lg.children[0].style["stop-color"] = "red");
+    assert (lg.children[1].style["stop-color"] = "blue");
   });
 
   it ("creates stops from addStop method", function () {
     var lg = new LinearGradient().addStop("10%", "blue").addStop("50%", "red");
     var stop1 = new LinearGradient.Stop({offset:"10%", "stop-color":"blue", "stop-opacity": 1});
     var stop2 = new LinearGradient.Stop({offset:"50%", "stop-color":"red", "stop-opacity": 1});
-    assert.deepEqual (lg.stops[0], stop1);
-    assert.deepEqual (lg.stops[1], stop2);
+    assert.deepEqual (lg.children[0], stop1);
+    assert.deepEqual (lg.children[1], stop2);
   });
 });

@@ -16,33 +16,16 @@ let SVGBase = require("../SVGBase.js").SVGBase;
  */
 class Filter extends SVGBase {
 
-    /**
-     * Class constructor
-     */
-    constructor(type, values, style) {
-        super(type, values, style);
-        this.children = [];
-    }
-
-    addChild(child) {
-        this.children.push(child);
-    }
-
-    append(svg) {
-        var newNode = super.append(svg); // appends the Filter
-        this.children.forEach(function(child) {
-            child.append(newNode); // appends each child inside the Filter
-        });
-    }
 }
+
 module.exports.Filter = Filter;
 
 function SimpleLightFilter () {
   var filter = new Filter ("filter", {id:"light"}, {});
   var diffuseLight = new FeDiffuseLighting ({in:"SourceGraphic", result:"specOut", "lighting-color":"white", diffuseConstant:"1"});
-  diffuseLight.addChild (new FePointLight ({x: 100, y:50, z:200}));
-  filter.addChild(diffuseLight);
-  filter.addChild (new FeComposite ({in:"SourceGraphic", in2:"light", operator:"arithmetic", k1:0, k2:1, k3:1, k4:0}));
+  diffuseLight.append (new FePointLight ({x: 100, y:50, z:200}));
+  filter.append(diffuseLight);
+  filter.append (new FeComposite ({in:"SourceGraphic", in2:"light", operator:"arithmetic", k1:0, k2:1, k3:1, k4:0}));
   return filter;
 }
 
@@ -102,7 +85,7 @@ class FeDistantLight extends SVGBase {
 class FeComponentTransfer extends Filter {
     constructor() {
         super("feComponentTransfer", {}, {});
-        this.addChild(new Filter("feFuncA", {
+        this.append(new Filter("feFuncA", {
             type: "linear",
             slope: 0.8
         }, {}));
@@ -124,11 +107,11 @@ function RoughPaper() {
         height: "100%"
     };
     var filter = new Filter("filter", attrs, {});
-    filter.addChild(new FeTurbulence());
+    filter.append(new FeTurbulence());
     var diffuse = new FeDiffuseLighting();
-    diffuse.addChild(new FeDistantLight());
-    filter.addChild(diffuse);
-    filter.addChild(new FeComponentTransfer());
+    diffuse.append(new FeDistantLight());
+    filter.append(diffuse);
+    filter.append(new FeComponentTransfer());
     return filter;
 }
 

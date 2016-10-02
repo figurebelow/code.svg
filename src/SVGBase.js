@@ -26,6 +26,7 @@ class SVGBase {
     this.type = type;
     this.attributes = {};
     this.style = {};
+    this.children = [];
     this.transform = {};
     this.transform.rotate = {}; // {x,y,deg}
     this.transform.scale = {};  // {x:xdegs, y:ydegs}
@@ -43,6 +44,11 @@ class SVGBase {
       }
   }
 
+  append (child) {
+    this.children.push(child);
+    return this;
+  }
+
   /**
    * Appends the SVG content to the SVG DOM root
    *
@@ -50,16 +56,23 @@ class SVGBase {
    * @param {object} svg the SVG root
    * @return {object} reference to this
    */
-  append (svg) {
-    var svgNode = svg.append (this.type);
+  toSVG () {
+    // TOO this.genTransform (svgNode);
+    var svgStr = "<" + this.type + " ";
     for (var key in this.attributes) {
-      svgNode.attr (key, this.attributes[key])
+      svgStr += key + "=\"" + this.attributes[key] + "\" ";
     }
-    this.genTransform (svgNode);
-    for (var style in this.style) {
-      svgNode.style (style, this.style[style]);
+    for (var key in this.style) {
+      svgStr += key + "=\"" + this.style[key] + "\" ";
     }
-    return svgNode;
+    svgStr += ">";
+
+    this.children.forEach(function (child) {
+      //console.log(child)
+      svgStr += child.toSVG();
+    });
+    svgStr += "</" + this.type + ">";
+    return svgStr;
   }
 
   /**
@@ -77,8 +90,9 @@ class SVGBase {
       if (!rotString.length && !scaleString.length && !skeString.length)
         return; // do nothing
       else {
-        svgNode.attr("transform", rotString + " " + scaleString + " " + skeString);
+        svgNode.at("transform", rotString + " " + scaleString + " " + skeString);
       }
+      return transformStr;
   }
 
   /**
