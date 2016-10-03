@@ -21,7 +21,7 @@ class Filter extends SVGBase {
 module.exports.Filter = Filter;
 
 function SimpleLightFilter () {
-  var filter = new Filter ("filter", {id:"light"}, {});
+  var filter = new Filter ("filter", {id:"light"});
   var diffuseLight = new FeDiffuseLighting ({in:"SourceGraphic", result:"specOut", "lighting-color":"white", diffuseConstant:"1"});
   diffuseLight.append (new FePointLight ({x: 100, y:50, z:200}));
   filter.append(diffuseLight);
@@ -39,14 +39,17 @@ function SimpleLightFilter () {
     return filterString;*/
 
 class FeComposite extends SVGBase  {
-  constructor (attr, style) { super ("feComposite", attr, style); }
+
+  constructor (attr) {
+    super ("feComposite", attr);
+  }
 }
 
 class FePointLight extends SVGBase {
 
   /** x, y, z */
-  constructor (attrs, style) {
-    super ("fePointLight", attrs, style);
+  constructor (attrs) {
+    super ("fePointLight", attrs);
   }
 }
 
@@ -58,7 +61,7 @@ class FeTurbulence extends SVGBase {
             baseFrequency: 0.04,
             numOctaves: 5,
             result: "noise"
-        }, {});
+        });
     }
 }
 
@@ -69,7 +72,7 @@ class FeDiffuseLighting extends Filter {
             "lighting-color": "#95c1c3",
             surfaceScale: 2,
             result: "diffLight"
-        }, {});
+        });
     }
 }
 
@@ -78,23 +81,23 @@ class FeDistantLight extends SVGBase {
         super("feDistantLight", {
             azimuth: 45,
             elevation: 65
-        }, {});
+        });
     }
 }
 
 class FeComponentTransfer extends Filter {
     constructor() {
-        super("feComponentTransfer", {}, {});
+        super("feComponentTransfer", {});
         this.append(new Filter("feFuncA", {
             type: "linear",
             slope: 0.8
-        }, {}));
+        }));
     };
 }
 
 class FeGaussianBlur extends SVGBase {
     constructor() {
-        super("feGaussianBlur", {}, {});
+        super("feGaussianBlur", {});
     }
 };
 
@@ -106,7 +109,7 @@ function RoughPaper() {
         width: "100%",
         height: "100%"
     };
-    var filter = new Filter("filter", attrs, {});
+    var filter = new Filter("filter", attrs);
     filter.append(new FeTurbulence());
     var diffuse = new FeDiffuseLighting();
     diffuse.append(new FeDistantLight());

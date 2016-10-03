@@ -25,7 +25,7 @@ describe ("Gradients", function () {
   });
 
   it ("creates a simple gradient given two colors", function () {
-    var lg = new LinearGradient({x1:10, y1:10, x2:50, y2:50}, {"stop-opacity": "#ffffff"})
+    var lg = new LinearGradient({x1:10, y1:10, x2:50, y2:50, "stop-opacity": "#ffffff"})
       .addStop("0%", "red")
       .addStop("100%", "blue");
     assert (lg.children.length, 2);
@@ -33,11 +33,11 @@ describe ("Gradients", function () {
     assert (lg.getAttr("y1"), 10);
     assert (lg.getAttr("x2"), 50);
     assert (lg.getAttr("y2"), 50);
-    assert (lg.style["stop-opacity"], "#ffffff");
-    assert (lg.children[0].style["offset"] = "0%");
-    assert (lg.children[1].style["offset"] = "100%");
-    assert (lg.children[0].style["stop-color"] = "red");
-    assert (lg.children[1].style["stop-color"] = "blue");
+    assert (lg.getAttr("stop-opacity"), "#ffffff");
+    assert (lg.children[0].getAttr("offset"), "0%");
+    assert (lg.children[1].getAttr("offset"), "100%");
+    assert (lg.children[0].getAttr("stop-color"), "red");
+    assert (lg.children[1].getAttr("stop-color"), "blue");
   });
 
   it ("creates stops from addStop method", function () {

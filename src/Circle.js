@@ -17,9 +17,8 @@ class Circle extends Path {
   /**
    * Constructor
    * @param {map} values - values to initialize the Circle
-   * @param {map} style - styles to initialize the Circle
    */
-  constructor (values, style) {
+  constructor (values) {
     var cx = values["cx"] || 0;
     var cy = values["cy"] || 0;
     var r = values["r"] || 5;
@@ -28,9 +27,10 @@ class Circle extends Path {
     var p2 = "a" + r + "," + r + " " + 0 + " " + "1,0 " + (r * 2) + ",0 ";
     var p3 = "a" + r + "," + r + " " + 0 + " " + "1,0 " + -(r * 2) + ",0 ";
     var d = p0 + " " + p1 + " " + p2 + " " + p3;
-    var procParams = {"d":d};
+    var procParams = values;
+    procParams["d"] = d;
     procParams["r"] = r;
-    super (procParams, style);
+    super (procParams);
   }
 
   /**

@@ -16,12 +16,12 @@ describe ("Circle", function ()
 
   var circle;
   beforeEach(function() {
-    circle = new Circle ({r:10, cx:100, cy:200}, {fill:"red"});
+    circle = new Circle ({r:10, cx:100, cy:200, fill:"red"});
   });
 
   it ("initializes with parameter", function ()
   {
-    assert.equal ("red", circle.style["fill"]);
+    assert.equal ("red", circle.attributes["fill"]);
   });
 
   it ("gets its own center", function ()

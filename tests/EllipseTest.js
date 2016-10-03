@@ -13,12 +13,12 @@ describe ("Ellipse", function ()
 {
   var ellipse;
   beforeEach(function() {
-    ellipse = new Ellipse ({cx:50, cy:60, rx:10, ry:15}, {fill:"red"});
+    ellipse = new Ellipse ({cx:50, cy:60, rx:10, ry:15, fill:"red"});
   });
 
   it ("initializes with parameter", function ()
   {
-    assert.equal ("red", ellipse.style["fill"]);
+    assert.equal ("red", ellipse.attributes["fill"]);
   });
 
   it ("gets its own center", function ()

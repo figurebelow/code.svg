@@ -13,38 +13,38 @@ describe ("Path", function () {
 
   it ("initializes a path with a line", function ()
   {
-    var path = new Path ({d:"M0,0 L10,20Z"}, {});
+    var path = new Path ({d:"M0,0 L10,20Z"});
     assert.equal (3, path.parsedPoints.length);
   })
 
   it ("initializes a path with a non-closed line", function ()
   {
-    var path = new Path ({d:"M0,0 L10,20"}, {});
+    var path = new Path ({d:"M0,0 L10,20"});
     assert.equal (2, path.parsedPoints.length);
   })
 
   it ("initializes a path with a multiline", function ()
   {
-    var path = new Path ({d:"M0,0 L10,20 L30,50Z"}, {});
+    var path = new Path ({d:"M0,0 L10,20 L30,50Z"});
     assert.equal (4, path.parsedPoints.length);
   })
 
   it ("gets the center of a square path correctly", function ()
   {
-    var path = new Path ({d:"M0,0 L20,0 20,20 0,20Z"}, {});
+    var path = new Path ({d:"M0,0 L20,0 20,20 0,20Z"});
     var center = path.getCenter();
     assert.deepEqual ({x:10, y:10}, center);
   })
 
   it ("gets the center of a line correctly", function ()
   {
-    var path = new Path ({d:"M10,10 L20,10Z"}, {});
+    var path = new Path ({d:"M10,10 L20,10Z"});
     var center = path.getCenter();
     assert.deepEqual ({x:15, y:10}, center);
   })
 
   it ("moves a path", function () {
-    var path = new Path ({d:'M10,10 L60,10 L60,30 L10,30'}, {});
+    var path = new Path ({d:'M10,10 L60,10 L60,30 L10,30'});
     path.moveTo({x:80, y:90});
     assert.deepEqual ({x:80,y:90}, path.getCenter());
     assert.equal (path.parsedPoints[0].values[0].x, 55);
@@ -59,20 +59,20 @@ describe ("Path", function () {
 
   it ("clones", function ()
   {
-    var path = new Path ({d:"M10,10 L20,10Z"}, {});
+    var path = new Path ({d:"M10,10 L20,10Z"});
     var path2 = path.clone();
     assert (path.equals(path2));
   })
 
   it ("clones and moves", function () {
-    var path = new Path ({d:'M10,10 L60,10 L60,30 L10,30'}, {});
+    var path = new Path ({d:'M10,10 L60,10 L60,30 L10,30'});
     path.moveTo({x:80, y:90});
     var path2 = path.clone();
     assert (path.equals(path2));
   });
 
   it ("noise applies a constant value", function () {
-    var path = new Path ({d:'M10,10 L60,10 L60,30 L10,30'}, {});
+    var path = new Path ({d:'M10,10 L60,10 L60,30 L10,30'});
     var originalPath = path.clone();
     function addNoise () { return {x:10,y:10}};
     path.noise(addNoise);

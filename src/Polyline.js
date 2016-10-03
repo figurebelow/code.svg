@@ -18,7 +18,7 @@ class Polyline extends Path {
   /**
    * Class constructor
    */
-  constructor (values, style) {
+  constructor (values) {
     var points  = PointsParser.parse(values["points"]);
     var d = "";
     d += "M" + points[0].x + "," + points[0].y;
@@ -27,8 +27,9 @@ class Polyline extends Path {
         d += "L" + point.x + "," + point.y + " "
       }
     });
-    var procParams = {"d":d};
-    super (procParams, style);
+    var procParams = values;
+    procParams["d"] = d;
+    super (procParams);
   }
 };
 

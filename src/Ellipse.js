@@ -17,9 +17,8 @@ class Ellipse extends Path {
   /**
    * Class constructor
    * @param {map} values - initial values
-   * @param {map} style - default initial style values
    */
-  constructor (values, style) {
+  constructor (values) {
     var cx = values["cx"] || 0;
     var cy = values["cy"] || 0;
     var rx = values["rx"] || 5;
@@ -29,8 +28,9 @@ class Ellipse extends Path {
     var p2 = "a" + rx + "," + ry + " " + 0 + " " + "1,0 " + (rx * 2) + ",0 ";
     var p3 = "a" + rx + "," + ry + " " + 0 + " " + "1,0 " + -(rx * 2) + ",0 ";
     var d = p0 + " " + p1 + " " + p2 + " " + p3;
-    var procParams = {"d":d};
-    super (procParams, style);
+    var procParams = values;
+    procParams["d"] = d;
+    super (procParams);
   }
 
   /**

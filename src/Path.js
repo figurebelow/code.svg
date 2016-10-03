@@ -21,8 +21,8 @@ class Path extends SVGBase {
    * Path constructor
    * @override
    */
-  constructor (values, style) {
-    super ("path", values, style);
+  constructor (values) {
+    super ("path", values);
     if ("d" in values)
       this.parsedPoints = PointsParser.parse (values["d"]);
     else {
@@ -37,7 +37,7 @@ class Path extends SVGBase {
    * @return the new object
    */
   clone () {
-    var newElem = new Path (this.attributes, this.style);
+    var newElem = new Path (this.attributes);
     return newElem;
   }
 

@@ -21,15 +21,14 @@ const DEFAULT_BACKGROUND_FILL = "#f0e9a4";
  */
 class Scene extends SVGBase {
 
-  constructor (attrs, style) {
+  constructor (attrs) {
     var baseAttrs = attrs || {};
-    var baseStyle = style || {};
     if (baseAttrs["width"] === undefined)
       baseAttrs["width"] = DEFAULT_WIDTH;
     if (baseAttrs["height"] === undefined)
       baseAttrs["height"] = DEFAULT_HEIGHT;
-    super ("svg", baseAttrs, baseStyle);
-    this.background = new Rect(baseAttrs, baseStyle);
+    super ("svg", baseAttrs);
+    this.background = new Rect(baseAttrs);
     this.masks = {};
     this.defs = new SVGBase("defs");
     this.sceneAttr = {};
@@ -38,27 +37,23 @@ class Scene extends SVGBase {
     this.initScene();
   }
 
-  toSVG () {
-    return super.toSVG();
-  }
-
   /**
    * Appends this element to the SVG root
    * @ignore
    */
   initScene () {
-    this.setAttr({"xmlns:dc": "http://purl.org/dc/elements/1.1/"});
-    this.setAttr({"xmlns:cc": "http://creativecommons.org/ns#"});
-    this.setAttr({"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#"});
-    this.setAttr({"xmlns:svg": "http://www.w3.org/2000/svg"});
-    this.setAttr({"xmlns": "http://www.w3.org/2000/svg"});
-    this.setAttr({"xmlns:xlink": "http://www.w3.org/1999/xlink"});
-    this.setAttr({"xmlns:description": this.attributes["desc"] || "empty"});
-    this.setAttr({"version": "1.1"});
-    this.setAttr({"encoding": "UTF-8"});
-    this.setAttr({"standalone": "no"});
-    this.setAttr({"width": this.sceneAttr["width"] || DEFAULT_WIDTH});
-    this.setAttr({"height": this.sceneAttr["height"] || DEFAULT_HEIGHT});
+    super.setAttr({"xmlns:dc": "http://purl.org/dc/elements/1.1/"});
+    super.setAttr({"xmlns:cc": "http://creativecommons.org/ns#"});
+    super.setAttr({"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#"});
+    super.setAttr({"xmlns:svg": "http://www.w3.org/2000/svg"});
+    super.setAttr({"xmlns": "http://www.w3.org/2000/svg"});
+    super.setAttr({"xmlns:xlink": "http://www.w3.org/1999/xlink"});
+    super.setAttr({"xmlns:description": this.attributes["desc"] || "empty"});
+    super.setAttr({"version": "1.1"});
+    super.setAttr({"encoding": "UTF-8"});
+    super.setAttr({"standalone": "no"});
+    super.setAttr({"width": this.sceneAttr["width"] || DEFAULT_WIDTH});
+    super.setAttr({"height": this.sceneAttr["height"] || DEFAULT_HEIGHT});
 
     for (var maskId in this.masks) {
       var maskRoot = defs.append ("mask").attr ("id", maskId);
@@ -68,6 +63,10 @@ class Scene extends SVGBase {
 
     this.append(this.defs);
     this.append(this.background);
+  }
+
+  setAttr (values) {
+    this.background.setAttr(values);
   }
 
   /**
@@ -104,14 +103,10 @@ class Scene extends SVGBase {
   }
 
   addFrame (height, color) {
-    this.add(new Rect({x:0, y:0, width:this.sceneAttr["width"], height: height}, {fill:color}));
-    this.add(new Rect({x:this.sceneAttr["width"] - height, y:0, width:height, height: this.sceneAttr["height"]}, {fill:color}));
-    this.add(new Rect({x:0, y:this.sceneAttr["height"] - height, width:this.sceneAttr["width"], height: height}, {fill:color}));
-    this.add(new Rect({x:0, y:0, width:height, height: this.sceneAttr["height"]}, {fill:color}));
-  }
-
-  sty (attr, val) {
-    this.background.sty(attr, val);
+    this.add(new Rect({x:0, y:0, width:this.sceneAttr["width"], height: height, fill:color}));
+    this.add(new Rect({x:this.sceneAttr["width"] - height, y:0, width:height, height: this.sceneAttr["height"], fill:color}));
+    this.add(new Rect({x:0, y:this.sceneAttr["height"] - height, width:this.sceneAttr["width"], height: height, fill:color}));
+    this.add(new Rect({x:0, y:0, width:height, height: this.sceneAttr["height"], fill:color}));
   }
 };
 
