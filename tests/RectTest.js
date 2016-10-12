@@ -14,12 +14,12 @@ describe ("Rect", function ()
   var rect;
 
   beforeEach(function() {
-    rect = new Rect ({width:50, height:20, x:10, y:10}, {fill:"red"});
+    rect = new Rect ({width:50, height:20, x:10, y:10, fill:"red"});
   });
 
   it ("initializes with parameter", function ()
   {
-    assert.equal ("red", rect.style["fill"]);
+    assert.equal ("red", rect.attributes["fill"]);
   });
 
   it ("gets its own center", function ()

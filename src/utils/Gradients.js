@@ -24,7 +24,6 @@ class BaseGradient extends SVGBase {
     defaultValues.y2 = (values && values.y2) ? values.y2 : "0%";
     defaultValues["stop-opacity"] = (values && values["stop-opacity"]) ? values["stop-opacity"] : 1;
     super (type, defaultValues, style);
-    this.stops = [];
   }
 
   /**
@@ -39,18 +38,9 @@ class BaseGradient extends SVGBase {
     var stopColor = stopColor || "red";
     var stopOpacity = stopOpacity || 1;
     var newStop = new LinearGradient.Stop ({offset:offset, "stop-color":stopColor, "stop-opacity": stopOpacity});
-    this.stops.push (newStop);
+    this.append(newStop);
     return this;
   }
-
-   // Appends the svg element, for internal use so not documented
-  /** @ignore  */
-  append (svg) {
-    var newNode = super.append(svg);
-    this.stops.forEach (function (stop) {
-        stop.append (newNode);
-    });
-  };
 };
 
 // Private class, there are not nested classes, this is a workaround in ES6

@@ -18,7 +18,7 @@ class Rect extends Path {
   /**
    * Class constructor
    */
-  constructor (values, style) {
+  constructor (values) {
     var x = values["x"] || 0;
     var y = values["y"] || 0;
     var width = values["width"] || 10;
@@ -28,11 +28,12 @@ class Rect extends Path {
     var p2 = "L" + (x + width) + "," + (y + height);
     var p3 = "L" + x + "," + (y + height) + "z";
     var d = p0 + " " + p1 + " " + p2 + " " + p3;
-    var procParams = {"d":d};
-    super (procParams, style);
+    var procParams = values;
+    procParams["d"] = d;
+    super (procParams);
   }
 
-  static RectFromTwoPoints (point1, point2, values, style) {
+  static RectFromTwoPoints (point1, point2, values) {
     var height = values["height"] || 5;
     var vector = {x: point2.x - point1.x, y: point2.y - point1.y};
     var length = Math.sqrt(vector.x * vector.x + vector.y * vector.y);
@@ -41,8 +42,9 @@ class Rect extends Path {
     var p2 = "L" + (point1.x + length) + "," + (point1.y + height/2);
     var p3 = "L" + point1.x + "," + (point1.y + height/2) + "z";
     var d = p0 + " " + p1 + " " + p2 + " " + p3;
-    var procParams = {"d":d};
-    var rect = new Path (procParams, style);
+    var procParams = values;
+    procParams["d"] = d;
+    var rect = new Path (procParams);
     var angle = Utils.calculateAngle(point1, point2);
     rect.rot(angle, point1);
     return rect;

@@ -14,12 +14,12 @@ describe ("Line", function ()
 
   var line;
   beforeEach(function() {
-    line = new Line ({x1:10, y1:10, x2:50, y2:50}, {fill:"red"});
+    line = new Line ({x1:10, y1:10, x2:50, y2:50, fill:"red"});
   });
 
   it ("initializes with parameter", function ()
   {
-    assert.equal ("red", line.style["fill"]);
+    assert.equal ("red", line.attributes["fill"]);
   });
 
   it ("gets its own center", function ()

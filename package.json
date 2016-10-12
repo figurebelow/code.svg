@@ -38,8 +38,6 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "compressjs": "^1.0.3",
-    "jsdom": "^9.4.5",
-    "sync-request": "^3.0.1",
-    "xmldom": "^0.1.22"
+    "sync-request": "^3.0.1"
   }
 }

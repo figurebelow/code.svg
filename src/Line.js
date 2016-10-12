@@ -19,12 +19,13 @@ class Line extends Path {
    * Class constructor
    * @param {xy1} x1 initial xypoint
    * @param {xy2} x2 end xypoint
-   * @param {object} style style attributes
+   * @param {object} params attributes
    */
-  constructor (params, style) {
+  constructor (params) {
     var d = "M" + params.x1 + "," + params.y1 + " " + "L" + params.x2 + "," + params.y2;
-    var procParams = {"d":d};
-    super (procParams, style);
+    var procParams = params;
+    procParams["d"] = d;
+    super (procParams);
   }
 
   /**

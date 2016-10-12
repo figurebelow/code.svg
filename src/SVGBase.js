@@ -20,27 +20,27 @@ class SVGBase {
    * @constructor
    * @param {type} type containig the type
    * @param {values} map with the SVG attributes
-   * @param {style} map with the style attributes
    */
-  constructor (type, values, style) {
+  constructor (type, values) {
     this.type = type;
     this.attributes = {};
-    this.style = {};
+    this.children = [];
     this.transform = {};
     this.transform.rotate = {}; // {x,y,deg}
     this.transform.scale = {};  // {x:xdegs, y:ydegs}
     this.transform.skew = {};
-    if (values !== undefined)
-      for (var attr in values) {
-        this.attributes[attr] = values[attr];
-      }
-    if (style != undefined)
-      for (var opt in style) {
-        if (typeof(style[opt]) === 'object')
-          this.style[opt] = style[opt].getRef();
+    if (values != undefined)
+      for (var opt in values) {
+        if (typeof(values[opt]) === 'object')
+          this.attributes[opt] = values[opt].getRef();
         else
-          this.style[opt] = style[opt];
+          this.attributes[opt] = values[opt];
       }
+  }
+
+  append (child) {
+    this.children.push(child);
+    return this;
   }
 
   /**
@@ -50,26 +50,25 @@ class SVGBase {
    * @param {object} svg the SVG root
    * @return {object} reference to this
    */
-  append (svg) {
-    var svgNode = svg.append (this.type);
+  toSVG () {
+    this.genTransform ();
+    var svgStr = "<" + this.type + " ";
     for (var key in this.attributes) {
-      svgNode.attr (key, this.attributes[key])
+      svgStr += key + "=\"" + this.attributes[key] + "\" ";
     }
-    this.genTransform (svgNode);
-    for (var style in this.style) {
-      svgNode.style (style, this.style[style]);
-    }
-    return svgNode;
+    svgStr += ">";
+    this.children.forEach(child => svgStr += child.toSVG());
+    svgStr += "</" + this.type + ">";
+    return svgStr;
   }
 
   /**
    * Generates the SVG transform string
    *
    * @ignore
-   * @param {object} svgNode the SVG root
    * @return {object} string
    */
-  genTransform (svgNode) {
+  genTransform () {
       var transformStr = "";
       var rotString = this.genRotate ();
       var scaleString = this.genScale ();
@@ -77,7 +76,7 @@ class SVGBase {
       if (!rotString.length && !scaleString.length && !skeString.length)
         return; // do nothing
       else {
-        svgNode.attr("transform", rotString + " " + scaleString + " " + skeString);
+        this.setAttr({"transform":rotString + " " + scaleString + " " + skeString});
       }
   }
 
@@ -148,30 +147,17 @@ class SVGBase {
    */
   setAttr (attrs) {
     for (var attr in attrs) {
-      this.attributes[attr] = attrs[attr];
+      if (typeof(attrs[attr]) === 'object')
+          this.attributes[attr] = attrs[attr].getRef();
+        else
+          this.attributes[attr] = attrs[attr];
     }
     return this;
   }
 
   /**
-   * Set the value for a style attribute
-   * @param {string} attr style attribute
-   * @param {object} val value
-   * @return the object
-   * @example
-   * circle.sty("fill", "red");
-   */
-  sty(attr, val) {
-    if (typeof(val) === 'object')
-        this.style[attr] = val.getRef();
-      else
-        this.style[attr] = val;
-    return this;
-  }
-
-  /**
    * Returns the attribute's value
-   * @param {object} attr style attribute
+   * @param {object} attr attributes
    * @return the value for 'attr' key
    * @example
    * var color = circle.getAttr("fill");
@@ -213,21 +199,16 @@ class SVGBase {
   }
 
   /**
-   * Checks whether two objects contains the same type, attribues and style
+   * Checks whether two objects contains the same type and attribues
    * @ignore
    */
   equals (obj) {
     var equals = false;
-    if (this.type == obj.type && this.attributes.length == obj.attributes.length &&
-        this.style.length == obj.style.length)
+    if (this.type == obj.type && this.attributes.length == obj.attributes.length)
     {
       for (var key in this.attributes) {
         if (this.attributes[key] != obj.attributes[key])
-          break;
-      };
-      for (var key in this.style) {
-        if (this.style[key] != obj.style[key])
-          break;
+          return false;
       };
       equals = true;
     }
