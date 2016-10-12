@@ -10,7 +10,7 @@ let Point = require ("./Point.js").Point;
     constructor (point,velocity){
       this.position     = point || new Point(0,0);
       this.velocity     = velocity || new Point(0,0);
-      this.initialVelocity = this.velocity;
+      this.initialVelocity = this.velocity.copy();
       this.acceleration = new Point(0,0);
       this.ttl          = -1;
       this.lived        = 0;
@@ -37,6 +37,8 @@ let Point = require ("./Point.js").Point;
 
   // Moves this particle according to its position, its velocity and its acceleration
   move() {
+    //this.velocity.x = this.initialVelocity.x;
+    //this.velocity.y = this.initialVelocity.y;
     this.velocity.x += this.acceleration.x;
     this.velocity.y += this.acceleration.y;
     this.position.x += this.velocity.x;

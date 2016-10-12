@@ -44,12 +44,12 @@ describe ("ParticleSystem", function () {
   it ("Removes not visible particles", function () {
     var ps = new ParticleSystem([new Point(1000, 30), new Point (40,2000), new Point(50,-50), new Point (9000, -4000)]);
     ps.bounded(800, 600).evolve(10);
-    assert.equal(ps.getParticleCount(), 0);
+    assert.equal(ps.getParticleCount(), 1);
   });
 
   it ("Keeps visible particles when bounded() is used", function () {
     var ps = new ParticleSystem([new Point(10, 30), new Point (40,2000), new Point(50,-50), new Point (500, 600)]);
     ps.bounded(800, 600).evolve(10);
-    assert.equal(ps.getParticleCount(), 2);
+    assert.equal(ps.getParticleCount(), 3);
   });
 });

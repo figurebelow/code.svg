@@ -17,6 +17,7 @@ class ParticleSystem {
     this.fields = [];
     this.elapsed = 0;
     this.gen = false;
+    this.baseOrigin = new Point(0,0);
     this.rand = new Random();
     var that = this;
     if (points !== undefined) {
@@ -26,6 +27,12 @@ class ParticleSystem {
     }
     return this;
   };
+
+  // Sets the origin of the Particle System
+  setOrigin (point) {
+    this.baseOrigin = point;
+    return this;
+  }
 
   // Sets the distribution function
   seed (val) {
@@ -62,12 +69,12 @@ class ParticleSystem {
   // Cleans the traces that are out of the boundaries
   clean () {
     if (this.maxHeight === undefined || this.maxWidth == undefined)
-      return;
+      return this;
     var that = this;
     this.particles.forEach (function (part, i) { // check the traces
         var newTraces = [];
         part.getTrace().forEach (function (pos, i) {
-          if ( (pos.x <= that.maxWidth && pos.x > -50) && (pos.y <= that.maxHeight && pos.y > -50)) {
+          if ( (pos.x <= that.baseOrigin.x + that.maxWidth) && (pos.y <= that.maxHeight + that.baseOrigin.y)) {
             newTraces.push(pos);
           }
         });

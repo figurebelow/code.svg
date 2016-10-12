@@ -102,7 +102,7 @@
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">constructor</span> (point,velocity){
       <span class="hljs-keyword">this</span>.position     = point || <span class="hljs-keyword">new</span> Point(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);
       <span class="hljs-keyword">this</span>.velocity     = velocity || <span class="hljs-keyword">new</span> Point(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);
-      <span class="hljs-keyword">this</span>.initialVelocity = <span class="hljs-keyword">this</span>.velocity;
+      <span class="hljs-keyword">this</span>.initialVelocity = <span class="hljs-keyword">this</span>.velocity.copy();
       <span class="hljs-keyword">this</span>.acceleration = <span class="hljs-keyword">new</span> Point(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);
       <span class="hljs-keyword">this</span>.ttl          = <span class="hljs-number">-1</span>;
       <span class="hljs-keyword">this</span>.lived        = <span class="hljs-number">0</span>;
@@ -130,14 +130,7 @@
     fields.forEach (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">field</span>) </span>{
       <span class="hljs-keyword">var</span> vectorX = field.position.x - that.position.x;
       <span class="hljs-keyword">var</span> vectorY = field.position.y - that.position.y;
-      <span class="hljs-keyword">var</span> distance = <span class="hljs-built_in">Math</span>.pow((vectorX*vectorX+vectorY*vectorY),<span class="hljs-number">0.5</span>);
-      <span class="hljs-keyword">var</span> normForce = <span class="hljs-keyword">new</span> Point (vectorX/distance, vectorY/distance);
-      <span class="hljs-keyword">var</span> force = field.mass * <span class="hljs-number">50</span> / <span class="hljs-built_in">Math</span>.pow(distance,<span class="hljs-number">2</span>);
-      totalAccelerationX += normForce.x * force;
-      totalAccelerationY += normForce.y * force;
-    });
-    <span class="hljs-keyword">this</span>.acceleration = <span class="hljs-keyword">new</span> Point(totalAccelerationX,totalAccelerationY);
-  }</pre></div></div>
+      <span class="hljs-keyword">var</span> distance = <span class="hljs-built_in">Math</span>.pow((vectorX*vectorX+vectorY*vectorY),<span class="hljs-number">0.5</span>);</pre></div></div>
             
         </li>
         
@@ -148,16 +141,15 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
-              <p>Moves this particle according to its position, its velocity and its acceleration</p>
+              <p>var normForce = new Point (vectorX/distance, vectorY/distance);</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  move() {
-    <span class="hljs-keyword">this</span>.velocity.x += <span class="hljs-keyword">this</span>.acceleration.x;
-    <span class="hljs-keyword">this</span>.velocity.y += <span class="hljs-keyword">this</span>.acceleration.y;
-    <span class="hljs-keyword">this</span>.position.x += <span class="hljs-keyword">this</span>.velocity.x;
-    <span class="hljs-keyword">this</span>.position.y += <span class="hljs-keyword">this</span>.velocity.y;
-    <span class="hljs-keyword">this</span>.traceRecord.push (<span class="hljs-keyword">this</span>.position.copy());
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> force = field.mass  / <span class="hljs-built_in">Math</span>.pow(distance,<span class="hljs-number">2</span>);
+      totalAccelerationX += vectorX * force;
+      totalAccelerationY += vectorY * force;
+    });
+    <span class="hljs-keyword">this</span>.acceleration = <span class="hljs-keyword">new</span> Point(totalAccelerationX,totalAccelerationY);
   }</pre></div></div>
             
         </li>
@@ -169,11 +161,11 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
-              <p>Returns the position of this particle</p>
+              <p>Moves this particle according to its position, its velocity and its acceleration</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  getPos() { <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.position; }</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  move() {</pre></div></div>
             
         </li>
         
@@ -183,6 +175,42 @@
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>this.velocity.x = this.initialVelocity.x;
+this.velocity.y = this.initialVelocity.y;</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.velocity.x += <span class="hljs-keyword">this</span>.acceleration.x;
+    <span class="hljs-keyword">this</span>.velocity.y += <span class="hljs-keyword">this</span>.acceleration.y;
+    <span class="hljs-keyword">this</span>.position.x += <span class="hljs-keyword">this</span>.velocity.x;
+    <span class="hljs-keyword">this</span>.position.y += <span class="hljs-keyword">this</span>.velocity.y;
+    <span class="hljs-keyword">this</span>.traceRecord.push (<span class="hljs-keyword">this</span>.position.copy());
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Returns the position of this particle</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  getPos() { <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.position; }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
               <p>Returns the trace history of the particle</p>
 
