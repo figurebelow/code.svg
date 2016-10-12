@@ -43,7 +43,7 @@ class CodeSvg {
       this.showInfoHelp();
       process.exit(1);
     }
-  
+
     if (this.outputFile === undefined) {
       var dot = mainFile.lastIndexOf(".");
       if (dot == -1)
@@ -55,14 +55,15 @@ class CodeSvg {
 
   save (scene) {
     var inputSrcCode = fs.readFileSync(this.mainFile);
+    var srcLength = inputSrcCode;
     scene.setAttr({"xmlns:description": this.compressSource(inputSrcCode)});
     fs.writeFileSync(this.outputFile, scene.exportContent());
     var raw = scene.exportContent();
-    var srcLength = (raw.length/1000).toFixed(2);
-    var svgLength = (raw.length/1000).toFixed(2);
-    console.log("Src file size    : " + srcLength + " KB");
-    console.log("SVG content size : " + (svgLength - srcLength).toFixed(2) + " KB");
-    console.log("Total: " + svgLength + " KB written to " + this.outputFile);
+    var srcLength = (inputSrcCode.length/1000);
+    var svgLength = (raw.length/1000);
+    console.log("Src file size    : " + srcLength.toFixed(2) + " KB");
+    console.log("SVG content size : " + svgLength.toFixed(2) + " KB");
+    console.log("Total: " + (svgLength + srcLength).toFixed(2) + " KB written to " + this.outputFile);
   }
 };
 
