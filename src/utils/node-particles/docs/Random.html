@@ -90,11 +90,13 @@
     <span class="hljs-keyword">constructor</span> (seed) {
       <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span>(seed) === <span class="hljs-string">"string"</span>) {
         <span class="hljs-keyword">var</span> i = seed.length;
+        <span class="hljs-keyword">this</span>.seed = <span class="hljs-number">0</span>;
         <span class="hljs-keyword">while</span> (i--) {
-          <span class="hljs-keyword">this</span>.seed += seed[i];
+          <span class="hljs-keyword">this</span>.seed += seed.charCodeAt(i);
         }
       }
-      <span class="hljs-keyword">this</span>.seed = seed !== <span class="hljs-literal">undefined</span> ? seed: <span class="hljs-built_in">Math</span>.random();
+      <span class="hljs-keyword">else</span>
+        <span class="hljs-keyword">this</span>.seed = seed !== <span class="hljs-literal">undefined</span> ? seed : <span class="hljs-built_in">Math</span>.random();
     }
 
     setSeed (seed) {
