@@ -1,3 +1,4 @@
+#!/bin/env node
 /**
 * @license
 * Copyright 2016 Ruben Afonso, ruben@figurebelow.com
@@ -36,6 +37,7 @@ function uncompressAndPrint (svgFile) {
 
 function showInfoHelp () {
   console.log ("Syntax: node csView file.svg");
+  console.log ("      | csView file.svg");
 }
 
 if (process.argv.length == 3) {

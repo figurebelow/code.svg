@@ -1,4 +1,3 @@
-
 "use strict";
 
 GLOBAL.Scene = require     ( "./src/Scene.js").Scene;
@@ -56,7 +55,7 @@ class CodeSvg {
   save (scene) {
     var inputSrcCode = fs.readFileSync(this.mainFile);
     var srcLength = inputSrcCode;
-    scene.setAttr({"xmlns:description": this.compressSource(inputSrcCode)});
+    scene.setDesc({"xmlns:description": this.compressSource(inputSrcCode)});
     fs.writeFileSync(this.outputFile, scene.exportContent());
     var raw = scene.exportContent();
     var srcLength = (inputSrcCode.length/1000);
