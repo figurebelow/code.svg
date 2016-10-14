@@ -1,0 +1,27 @@
+/*
+ * This is a grammar to describe Masonry layouts.
+ */
+
+start = (shortActions / moveForward)*
+
+content = splits:[0-9]+ "," pos:[0-9]+ { return {splits: parseFloat(splits.join(""), 10),
+                                                 pos:    parseFloat(pos.join(""), 10)}}
+
+shortActions = 
+  op:("|" / "-") p:content?
+  {
+    var act = {op: op, splits:2, pos:0};
+    if (p != null) {
+     act.splits = p.splits;
+     act.pos = p.pos;
+    }
+    return act;
+  }
+
+moveForward = ">" pos:([0-9]+)?
+  {
+    var act = { op:">", pos:"1"};
+    if (pos != null)
+      act.pos = parseFloat(pos.join(""), 10);
+    return act;
+  }
