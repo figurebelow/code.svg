@@ -55,4 +55,21 @@ describe ("Rect", function ()
     var rect = Rect.RectFromTwoPoints (p1, p2, {});
     assert.equal (rect.parsedPoints.length, 5);
   });
+
+  it ("shrink of zero has no effect", function () {
+    var rect2 = rect.clone();
+    assert (rect.equals(rect2.shrink(0)));
+  });
+
+  it ("shrinks", function () {
+    rect.shrink (5);
+    assert.equal(rect.parsedPoints[0].values[0].x, 15);
+    assert.equal(rect.parsedPoints[0].values[0].y, 15);
+    assert.equal(rect.parsedPoints[1].values[0].x, 55);
+    assert.equal(rect.parsedPoints[1].values[0].y, 15);
+    assert.equal(rect.parsedPoints[2].values[0].x, 55);
+    assert.equal(rect.parsedPoints[2].values[0].y, 25);
+    assert.equal(rect.parsedPoints[3].values[0].x, 15);
+    assert.equal(rect.parsedPoints[3].values[0].y, 25);
+  });
 });

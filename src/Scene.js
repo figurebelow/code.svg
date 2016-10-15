@@ -65,8 +65,25 @@ class Scene extends SVGBase {
     this.append(this.background);
   }
 
+  setDesc (values) {
+    super.setAttr(values);
+  }
+
   setAttr (values) {
     this.background.setAttr(values);
+  }
+
+  clip (target, clippedBy) {
+    var clipDef = new SVGBase("clipPath");
+    this.defs.append(clipDef);
+    if (clippedBy.getAttr("stroke-width"))
+    {
+      var border = clippedBy.getAttr("stroke-width");
+      clipDef.append(clippedBy.clone().shrink(border/2));
+    }
+    else
+      clipDef.append(clippedBy.clone());
+    target.setAttr({"clip-path": clipDef.getRef()});
   }
 
   /**

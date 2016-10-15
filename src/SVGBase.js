@@ -24,6 +24,7 @@ class SVGBase {
   constructor (type, values) {
     this.type = type;
     this.attributes = {};
+    this.innerAttributes = {};  // attributes to be kept internally
     this.children = [];
     this.transform = {};
     this.transform.rotate = {}; // {x,y,deg}
@@ -156,6 +157,19 @@ class SVGBase {
   }
 
   /**
+   * Sets the inner attribute values.
+   * @param {object} attrs {key:value} map with the attributes
+   */
+  setInnerAttr (attrs) {
+    for (var attr in attrs)
+      this.innerAttributes[attr] = attrs[attr];
+  }
+
+  getInnerAttr (attr) {
+    return this.innerAttributes[attr];
+  }
+
+  /**
    * Returns the attribute's value
    * @param {object} attr attributes
    * @return the value for 'attr' key
@@ -208,6 +222,10 @@ class SVGBase {
     {
       for (var key in this.attributes) {
         if (this.attributes[key] != obj.attributes[key])
+          return false;
+      };
+      for (var key in this.innerAttributes) {
+        if (this.innerAttributes[key] != obj.innerAttributes[key])
           return false;
       };
       equals = true;

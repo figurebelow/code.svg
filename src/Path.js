@@ -24,11 +24,15 @@ class Path extends SVGBase {
   constructor (values) {
     super ("path", values);
     if ("d" in values)
-      this.parsedPoints = PointsParser.parse (values["d"]);
+      this.parsePoints (values["d"]);
     else {
       this.setAttr({d:""});
       this.parsedPoints = [];
     }
+  }
+
+  parsePoints (dStr) {
+    this.parsedPoints = PointsParser.parse (dStr);
   }
 
   /**
@@ -38,6 +42,7 @@ class Path extends SVGBase {
    */
   clone () {
     var newElem = new Path (this.attributes);
+    newElem.setInnerAttr (this.innerAttributes);
     return newElem;
   }
 

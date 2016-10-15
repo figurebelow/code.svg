@@ -6,6 +6,9 @@
 
 "use strict";
 
+var Rnd = require ("./Rnd.js").Rnd;
+var Masonry = require ("./Masonry.js").Masonry;
+
 /**
  * @classdesc This module contains functions to generate layout points
  * @class
@@ -244,6 +247,10 @@ static Rows (x0, y0, distance, height) {
     points.push({x: x0, y: i});
   }
   return points;
+}
+
+static Masonry (x, y, configStr) {
+  return new Masonry (x, y, configStr);
 }
 
 }; // end Layout
