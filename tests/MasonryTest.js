@@ -77,4 +77,14 @@ describe ("Masonry", function ()
   it ("parses |>|->>|->--", function () {
     var masonry = Layout.Masonry (800, 600, "|>|->>|->--");
   });
+
+  it ("parses ->|5", function () {
+    var masonry = Layout.Masonry (1000, 1000, "->|5,0");
+    assert.deepEqual (masonry[0], {x:0, y:0, width:1000, height:500});
+    assert.deepEqual (masonry[1], {x:0, y:500, width:200, height:500});
+    assert.deepEqual (masonry[2], {x:200, y:500, width:200, height:500});
+    assert.deepEqual (masonry[3], {x:400, y:500, width:200, height:500});
+    assert.deepEqual (masonry[4], {x:600, y:500, width:200, height:500});
+    assert.deepEqual (masonry[5], {x:800, y:500, width:200, height:500});
+  });
 });

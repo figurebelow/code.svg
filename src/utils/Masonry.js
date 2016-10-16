@@ -44,7 +44,7 @@ class Masonry {
                        currentBrick.width/lookahead.splits, currentBrick.height));
           for (var i = 1; i < lookahead.splits; i++) {
             this.bricks.splice (headPos+i, 0,
-              new Brick (currentBrick.x + currentBrick.width/(i*lookahead.splits), currentBrick.y,
+              new Brick (currentBrick.x + i * (currentBrick.width/lookahead.splits), currentBrick.y,
                          currentBrick.width/lookahead.splits, currentBrick.height));
           }
           posStack.forEach(function(elem, i) { posStack[i] += lookahead.splits-1});
