@@ -19,4 +19,22 @@ describe ("SVGBase", function () {
   it ("two different objects get different Id", function () {
     assert.notEqual (new SVGBase().getRef(), new SVGBase().getRef())
   });
+
+  it ("resolves an undefined value with the default one", function () {
+    assert (50, SVGBase.resolve({}, "x", 50));
+  });
+  
+  it ("resolves attribute value from map", function () {
+    assert (10, SVGBase.resolve({x:10}, "x", 50));
+  });
+
+  it ("resolves numeric value", function () {
+    assert (10, SVGBase.resolve(10, "x", 50));
+  });
+
+  it ("resolves a function parameter", function () {
+    function foo () { return 10; };
+    assert (10, SVGBase.resolve({x: foo}, "x", 50));
+  });
+
 });

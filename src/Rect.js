@@ -19,10 +19,10 @@ class Rect extends Path {
    * Class constructor
    */
   constructor (values) {
-    var x = values["x"] || 0;
-    var y = values["y"] || 0;
-    var width = values["width"] || 10;
-    var height = values["height"] || 5;
+    var x = Rect.resolve (values, "x", 0);
+    var y = Rect.resolve (values, "y", 0);
+    var width = Rect.resolve (values, "width", 10);
+    var height = Rect.resolve (values, "height", 5);
     var p0 = "M" + x + "," + y;
     var p1 = "L" + (x + width) + "," + y;
     var p2 = "L" + (x + width) + "," + (y + height);
@@ -35,7 +35,7 @@ class Rect extends Path {
   }
 
   static RectFromTwoPoints (point1, point2, values) {
-    var height = values["height"] || 5;
+    var height = Rect.resolve(values, "height", 5);
     var vector = {x: point2.x - point1.x, y: point2.y - point1.y};
     var length = Math.sqrt(vector.x * vector.x + vector.y * vector.y);
     var p0 = "M" + point1.x + "," + (point1.y - height/2);

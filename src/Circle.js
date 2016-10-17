@@ -19,9 +19,9 @@ class Circle extends Path {
    * @param {map} values - values to initialize the Circle
    */
   constructor (values) {
-    var cx = values["cx"] || 0;
-    var cy = values["cy"] || 0;
-    var r = values["r"] || 5;
+    var cx = Path.resolve(values, "cx", 0);
+    var cy = Path.resolve(values, "cy", 0);
+    var r = Path.resolve(values, "r", 5);
     var p0 = "M" + cx + "," + cy + " ";
     var p1 = "m" + (-r) + "," + 0 + " ";
     var p2 = "a" + r + "," + r + " " + 0 + " " + "1,0 " + (r * 2) + ",0 ";
