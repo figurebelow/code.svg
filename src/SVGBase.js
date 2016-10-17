@@ -32,8 +32,14 @@ class SVGBase {
     this.transform.skew = {};
     if (values != undefined)
       for (var opt in values) {
-        if (typeof(values[opt]) === 'object')
-          this.attributes[opt] = values[opt].getRef();
+        if (typeof(values[opt]) === 'object') {
+          if (values[opt].type)   // SVGBase object
+            this.attributes[opt] = values[opt].getRef();
+          else {  // a map {}
+            var value = values[opt][opt];
+            this.attributes[opt] = value;
+          }
+        }
         else
           this.attributes[opt] = values[opt];
       }
@@ -213,7 +219,29 @@ class SVGBase {
   }
 
   /**
-   * Checks whether two objects contains the same type and attribues
+   * Checks the set of values for the attribute.
+   * If values is a map, it returns the attr field, values itself it its a
+   * primitive object, and defValue if values is undefined.
+   * @param {object} values - set of objects
+   * @param {string} attr - attr to look for in the values
+   * @param {number} defValue - default value
+   * @ignore
+   */
+  static resolve (values, at, defValue) {
+    var retValue = defValue;
+    if (values[at]) {
+      if (typeof(values[at]) === "function")
+        retValue = values[at]();
+      else if (typeof(values[at]) === 'object')
+        retValue = values[at][at];
+      else
+        retValue = values[at];
+    }
+    return retValue;
+  }
+
+  /**
+   * Checks whether two objects contains the same type and attribues, mainly for testing
    * @ignore
    */
   equals (obj) {

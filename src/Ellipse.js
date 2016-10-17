@@ -19,10 +19,10 @@ class Ellipse extends Path {
    * @param {map} values - initial values
    */
   constructor (values) {
-    var cx = values["cx"] || 0;
-    var cy = values["cy"] || 0;
-    var rx = values["rx"] || 5;
-    var ry = values["ry"] || 5;
+    var cx = Ellipse.resolve (values, "cx", 0);
+    var cy = Ellipse.resolve (values, "cy", 0);
+    var rx = Ellipse.resolve (values, "rx", 5);
+    var ry = Ellipse.resolve (values, "ry", 5);
     var p0 = "M" + cx + "," + cy + " ";
     var p1 = "m" + (-rx) + "," + 0 + " ";
     var p2 = "a" + rx + "," + ry + " " + 0 + " " + "1,0 " + (rx * 2) + ",0 ";

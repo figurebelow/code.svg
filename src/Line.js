@@ -22,7 +22,11 @@ class Line extends Path {
    * @param {object} params attributes
    */
   constructor (params) {
-    var d = "M" + params.x1 + "," + params.y1 + " " + "L" + params.x2 + "," + params.y2;
+    var x1 = Line.resolve (params, "x1", 0);
+    var y1 = Line.resolve (params, "y1", 0);
+    var x2 = Line.resolve (params, "x2", 0);
+    var y2 = Line.resolve (params, "y2", 0);
+    var d = "M" + x1 + "," + y1 + " " + "L" + x2 + "," + y2;
     var procParams = params;
     procParams["d"] = d;
     super (procParams);
