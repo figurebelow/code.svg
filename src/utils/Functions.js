@@ -43,6 +43,7 @@ function NonIntersecPolCenter (points) {
   throw ("Warning: return empty NonIntersecPolCenter");
 };
 module.exports.NonIntersecPolCenter = NonIntersecPolCenter;
+
 /*
  * Determines the angle of a straight line drawn between point one and two.
  * The number returned, which is a float in degrees, tells us how much we have
