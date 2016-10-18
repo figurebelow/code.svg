@@ -26,10 +26,10 @@ class Colors {
    * @return {Object} returns a {id,colors} object containing the Palette Id and colors
    */
   static getRndPalette () {
-    var res = request ("GET", "http://www.colourlovers.com/api/palettes/random", {
+    let res = request ("GET", "http://www.colourlovers.com/api/palettes/random", {
       qs: {"format":"json"}
     });
-    var jsonRes = JSON.parse(res.getBody('utf8'))[0];
+    let jsonRes = JSON.parse(res.getBody('utf8'))[0];
     return {id:jsonRes.id,
             colors: jsonRes.colors.map (function(elem) {
                           return '#' + elem
@@ -43,12 +43,12 @@ class Colors {
    * @return {array} a list of {id,colors} objects containing the Palettes Id and colors
    */
   static getTopPalettes (n) {
-    var res = request ("GET", "http://www.colourlovers.com/api/palettes/top", {
+    let res = request ("GET", "http://www.colourlovers.com/api/palettes/top", {
       qs: {"format":"json",
            "numResults": n || 1
           }
     });
-    var jsonRes = JSON.parse(res.getBody('utf8'));
+    let jsonRes = JSON.parse(res.getBody('utf8'));
     return jsonRes.map(function (i) { return {id:i.id, colors:i.colors.map(Colors.setColor) }});
   };
 
@@ -58,12 +58,12 @@ class Colors {
    * @return {array} a list of {id,colors} objects containing the Palettes Id and colors
    */
   static getLatestPalettes (n) {
-    var res = request ("GET", "http://www.colourlovers.com/api/palettes/new", {
+    let res = request ("GET", "http://www.colourlovers.com/api/palettes/new", {
       qs: {"format":"json",
            "numResults": n || 1
           }
     });
-    var jsonRes = JSON.parse(res.getBody('utf8'));
+    let jsonRes = JSON.parse(res.getBody('utf8'));
     return jsonRes.map(function (i) { return {id:i.id, colors:i.colors.map(Colors.setColor) }});
   };
 
@@ -73,10 +73,10 @@ class Colors {
    * @return {array} a list of {id,colors} objects containing the Palettes Id and colors
    */
   static getPalette (id) {
-    var res = request ("GET", "http://www.colourlovers.com/api/palette/" + id, {
+    let res = request ("GET", "http://www.colourlovers.com/api/palette/" + id, {
       qs: {"format":"json"}
     });
-    var jsonRes = JSON.parse(res.getBody('utf8'))[0];
+    let jsonRes = JSON.parse(res.getBody('utf8'))[0];
     return {id: jsonRes.id, colors: jsonRes.colors.map(Colors.setColor)};
   };
 };

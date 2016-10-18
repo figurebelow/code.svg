@@ -65,6 +65,126 @@ class Parametrics {
     }
     return points;
   }
+
+  /**
+   * Returns the points from the Rossler attractor
+   * @param {object} origin - xy coordinates to center the attractor
+   * @param {number} scale - scale factor
+   * @param {number} loops - number of iterations
+   * @param {number} a a value
+   * @param {number} b b value
+   * @param {number} c c value
+   * @param {number} h h value
+   * @return a list of xy points
+   *
+   *  Rossler Attractor code.
+   *  http://paulbourke.net/fractals/rossler/
+   */
+  static Rossler (origin, scale, loops, a, b, c, h)
+  {
+    function rosslerPoint (x, y, z, a, b, c) {
+      let dx = -(y + z);
+      let dy = x + a * y;
+      let dz = b + z * (x - c);
+      return {x:dx, y:dy, z:dz};
+    };
+    let center = {x: origin.x, y: origin.y};   // center in the screen
+    let x = 0.1, y = 0.1, z = 0.1;
+    let tmpx = 0, tmpy = 0, tmpz =0;
+    let points = [];
+    for (let i = 0; i < loops; i++)
+    {
+      let dt = rosslerPoint (x, y, z, a, b, c);
+      tmpx = x + h * dt.x;
+      tmpy = y + h * dt.y;
+      tmpz = z + h * dt.z;
+      //if (Math.abs(tmpx*20 - x*20) > 5 || Math.abs(tmpy*20 - y*20) > 5)
+      points.push ({x: tmpx * scale + center.x, y: tmpy * scale + center.y, z:tmpz});
+      x = tmpx;
+      y = tmpy;
+      z = tmpz;
+    }
+    return points;
+  }
+
+  /**
+   * Returns the Lorent attractor points
+   * @param {object} origin - xy coordinates
+   * @param {number} scale - scale factor
+   * @param {number} loops - iterations
+   * @param {number} z - value
+   * @param {number} a - value
+   * @param {number} b - value
+   * @param {number} c - value
+   * @param {number} h - value
+   * @return a list of xypoints
+
+    Lorentz Attractor code.
+    http://www.algosome.com/articles/lorenz-attractor-programming-code.html
+  */
+  static Lorentz (origin, scale, loops, x, y, z, a, b, c, h)
+  {
+    function lorentzPoint (x, y, z, a, b, c) {
+      let dx = a * (y - x);
+      let dy = x * (b - z) - y;
+      let dz = x * y - c * z;
+      return {x:dx, y:dy, z:dz};
+    };
+
+    //var x = 0.1, y = 0.1, z = 0.1;
+    let tmpx = 0, tmpy = 0, tmpz = 0;
+    let points = [];
+    for (let i = 0; i < loops; i++)
+    {
+      let dt = lorentzPoint (x, y, z, a, b, c);
+      tmpx = x + h * dt.x;
+      tmpy = y + h * dt.y;
+      tmpz = z + h * dt.z;
+      points.push ({x: tmpx * scale + origin.x, y: tmpy * scale + origin.y, z:tmpz});
+      x = tmpx;
+      y = tmpy;
+      z = tmpz;
+    }
+    return points;
+  }
+
+  /**
+   * Returns the points from an attractor
+   * http://struct.cc/blog/2011/08/15/strange-attractors/
+   * @param {number} numPoints number of points to generate
+   * @param {string} entryString initial configuration string
+   * @return a list of xy points
+   */
+  static Attractor (origin, loops, entryString)
+  {
+    // Fractal pattern and coefficients.
+    let a = [];
+    let points = [];
+
+    // Parameters.
+    let x = 0.1, y = 0.1;
+    let r = 360 % entryString.length;
+
+    // Initialize coefficients.
+    for (let i = 0; i < entryString.length; i++)
+    {
+      a[i] = (entryString.charCodeAt(i) - 65 - 12) / 10;
+    }
+    points.push ({x:origin.x + 50 * Math.cos(r), y:origin.y + 58 * Math.sin(r), r:0});
+    for (let i = 0; i < numPoints; i++)
+    {
+      let nx = a[0] + a[1]  * x + a[2]  * x * x
+              + a[3] * x * y + a[4]  * y + a[5]  * y * y;
+      let ny = a[6] + a[7]  * x + a[8]  * x * x
+              + a[9] * x * y + a[10] * y + a[11] * y * y;
+      let xvalue = (origin.x)*nx + origin.x;
+      let yvalue = (origin.y)*ny + origin.y;
+      //let previousPoint = res[res.length-1];
+      points.push ({x:xvalue, y:yvalue});
+      //r: Functions.calculateAngle (previousPoint, {x:xvalue, y:yvalue})});
+    }
+    return points;
+  }
 };
 
 module.exports.Parametrics = Parametrics;
