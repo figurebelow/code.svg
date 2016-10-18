@@ -6,13 +6,15 @@
 * LICENSE file in the root directory of this source tree.
 **/
 
-var assert = require ("assert");
-var SVGBase = require ("../src/SVGBase.js").SVGBase;
+"use strict";
+
+let assert = require ("assert");
+let SVGBase = require ("../src/SVGBase.js").SVGBase;
 
 describe ("SVGBase", function () {
 
   it ("instantiates an empty object", function () {
-    var svgBase = new SVGBase();
+    let svgBase = new SVGBase();
     assert.notEqual (svgBase.getAttr("id"), "");
   });
 
