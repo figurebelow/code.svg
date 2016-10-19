@@ -4,16 +4,26 @@
 
 start = (shortActions / moveForward)*
 
-content = splits:[0-9]+ "," pos:[0-9]+ { return {splits: parseFloat(splits.join(""), 10),
-                                                 pos:    parseFloat(pos.join(""), 10)}}
+content = "[" n:(number)+ "]" ","? pos:number? { return {splits: n.length, pos: pos || 0, values:n} } /
+      splits:[0-9]+ ","? pos:number? {
+        var elems = [];
+        elems.length = parseFloat(splits.join(""),10);
+        elems = elems.map (function(item) { return 100/parseFloat(splits.join(""),10)});
+        return {splits: parseFloat(splits.join(""), 10),
+                                             pos:    pos || 0,
+                                             values: elems  }}
 
-shortActions = 
+number = digits:[0-9]+ ((".") [0-9]+)? ","? { return parseFloat(digits.join(""), 10); } /
+         negDigit:[\-0-9]+ ((".") [0-9]+)? { return parseFloat(negDigit.join(""), 10); }
+
+shortActions =
   op:("|" / "-") p:content?
   {
-    var act = {op: op, splits:2, pos:0};
+    var act = {op: op, splits:2, pos:0, values:[]};
     if (p != null) {
      act.splits = p.splits;
      act.pos = p.pos;
+     act.values = p.values;
     }
     return act;
   }

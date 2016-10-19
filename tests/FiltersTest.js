@@ -11,8 +11,13 @@ var Filters = require ("../src/utils/Filters.js");
 
 describe ("DiffuseLight", function () {
 
-  it ("returns a filter string", function () {
-    var filter = Filters.SimpleLightFilter ({id:"light"});
-    assert.notEqual (0, filter.length);
+  it ("returns a SimpleLight filter", function () {
+    var filter = Filters.SimpleLight ({id:"light"});
+    assert (filter != undefined && filter.getAttr("id") != undefined);
+  });
+
+  it ("returns a DropShadow filter", function () {
+    var shadow = Filters.DropShadow ();
+    assert (shadow != undefined && shadow.getAttr("id") != undefined);
   });
 });

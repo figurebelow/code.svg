@@ -95,4 +95,10 @@ describe ("Masonry", function ()
     assert.deepEqual (masonry[4], {x:600, y:500, width:200, height:500});
     assert.deepEqual (masonry[5], {x:800, y:500, width:200, height:500});
   });
+
+  it ("parses |[40,60]", function () {
+    var masonry = Layout.Masonry (1000, 1000, "|[40,60]");
+    assert.deepEqual (masonry[0], {x:0, y:0, width:400, height:1000});
+    assert.deepEqual (masonry[1], {x:400, y:0, width:600, height:1000});
+  });
 });
