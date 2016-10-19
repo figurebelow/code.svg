@@ -14,6 +14,7 @@ GLOBAL.Filters   = require ( "./src/utils/Filters.js");
 GLOBAL.PS        = require ( "./src/utils/node-particles/js/ParticleSystem.js");
 GLOBAL.Colors    = require ( "./src/utils/Colors.js").Colors;
 GLOBAL.Curves    = require ("./src/utils/Parametrics.js").Parametrics;
+GLOBAL.Functions    = require ("./src/utils/Functions.js");
 
 var fs = require ("fs");
 var compressjs = require('compressjs');

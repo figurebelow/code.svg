@@ -214,8 +214,17 @@ class SVGBase {
    */
   getRef () {
     if (!this.attributes.id)
-      this.attributes.id = Rnd.genId();
+      this.setId();
     return "url(#" + this.attributes.id + ")";
+  }
+
+  /**
+   * Sets the id of the object
+   * @return none
+   * @ignore
+   */
+  setId (id) {
+    this.attributes.id = id || Rnd.genId();
   }
 
   /**
