@@ -38,6 +38,7 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "compressjs": "^1.0.3",
+    "peg": "0.0.2",
     "sync-request": "^3.0.1"
   }
 }

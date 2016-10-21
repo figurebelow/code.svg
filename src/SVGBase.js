@@ -238,7 +238,7 @@ class SVGBase {
    */
   static resolve (values, at, defValue) {
     var retValue = defValue;
-    if (values[at]) {
+    if (values && values[at]) {
       if (typeof(values[at]) === "function")
         retValue = values[at]();
       else if (typeof(values[at]) === 'object')

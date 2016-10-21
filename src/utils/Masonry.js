@@ -44,28 +44,28 @@ class Masonry {
         var currentBrick = this.bricks[headPos];
         var lookahead = ops[0];
         if (lookahead.op == '|') {
-          this.bricks.splice (headPos, 1,
-            new Brick (currentBrick.x, currentBrick.y,
-                       currentBrick.width/lookahead.splits, currentBrick.height));
-          for (var i = 1; i < lookahead.splits; i++) {
+          var widthCount = this.bricks[headPos].x;
+          this.bricks.splice(headPos,1);
+          for (var i = 0; i < lookahead.values.length; i++) {
             this.bricks.splice (headPos+i, 0,
-              new Brick (currentBrick.x + i * (currentBrick.width/lookahead.splits), currentBrick.y,
-                         currentBrick.width/lookahead.splits, currentBrick.height));
+              new Brick (widthCount, currentBrick.y,
+                         currentBrick.width * lookahead.values[i], currentBrick.height));
+            widthCount += currentBrick.width * lookahead.values[i];
           }
           posStack.forEach(function(elem, i) { posStack[i] += lookahead.splits-1});
         }
-        if (lookahead.op == "-") {
-          this.bricks.splice (headPos, 1,
-            new Brick (currentBrick.x, currentBrick.y,
-                       currentBrick.width, currentBrick.height/lookahead.splits));
-          for (var i = 1; i < lookahead.splits; i++) {
+        else if (lookahead.op == "-") {
+          var heightCount = this.bricks[headPos].y;
+          this.bricks.splice (headPos,1);
+          for (var i = 0; i < lookahead.values.length; i++) {
             this.bricks.splice (headPos+i, 0,
-              new Brick (currentBrick.x, currentBrick.y + i*(currentBrick.height/lookahead.splits),
-                         currentBrick.width, currentBrick.height/lookahead.splits));
+              new Brick (currentBrick.x, heightCount,
+                         currentBrick.width, currentBrick.height * lookahead.values[i]));
+            heightCount += currentBrick.height * lookahead.values[i];
           }
           posStack.forEach(function(elem, i) { posStack[i] += lookahead.splits-1});
         }
-        if (lookahead.op == '>') {
+        else if (lookahead.op == '>') {
           headPos = posStack.shift();
         }
         ops = ops.slice(1);

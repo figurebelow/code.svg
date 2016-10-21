@@ -4,23 +4,24 @@
 
 start = (shortActions / moveForward)*
 
-content = "[" n:(number)+ "]" ","? pos:number? { return {splits: n.length, pos: pos || 0, values:n} } /
-      splits:[0-9]+ ","? pos:number? {
+content = "[" n:(number)+ "]" ","? pos:number? {
+         var percN = n.map(function(i) { return i/100;}); 
+         return {splits: n.length, pos: pos || 0, values:percN} } /
+      splits:number ","? pos:number? {
         var elems = [];
-        elems.length = parseFloat(splits.join(""),10);
-        elems = elems.map (function(item) { return 100/parseFloat(splits.join(""),10)});
-        return {splits: parseFloat(splits.join(""), 10),
-                                             pos:    pos || 0,
-                                             values: elems  }}
+        for (var i = 0; i < splits;i++) 
+	  elems[i] = 1/splits;
+        return {splits: splits, pos: pos || 0, values: elems };
+      }
 
-number = digits:[0-9]+ ((".") [0-9]+)? ","? { return parseFloat(digits.join(""), 10); } /
-         negDigit:[\-0-9]+ ((".") [0-9]+)? { return parseFloat(negDigit.join(""), 10); }
+number = digits:[0-9]+ ((".") [0-9]+)? ","? { return parseFloat(digits.join(""), 10); }
+         /*negDigit:[\-0-9]+ ((".") [0-9]+)? { return parseFloat(negDigit.join(""), 10); }*/
 
 shortActions =
   op:("|" / "-") p:content?
   {
-    var act = {op: op, splits:2, pos:0, values:[]};
-    if (p != null) {
+    var act = {op: op, splits:2, pos:0, values:[0.5,0.5]};
+    if (p != null && p) {
      act.splits = p.splits;
      act.pos = p.pos;
      act.values = p.values;
@@ -28,10 +29,10 @@ shortActions =
     return act;
   }
 
-moveForward = ">" pos:([0-9]+)?
+moveForward = ">" pos:number?
   {
     var act = { op:">", pos:"1"};
-    if (pos != null)
-      act.pos = parseFloat(pos.join(""), 10);
+    if (pos != null && pos)
+      act.pos = pos;
     return act;
   }
