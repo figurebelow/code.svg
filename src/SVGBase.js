@@ -214,8 +214,17 @@ class SVGBase {
    */
   getRef () {
     if (!this.attributes.id)
-      this.attributes.id = Rnd.genId();
+      this.setId();
     return "url(#" + this.attributes.id + ")";
+  }
+
+  /**
+   * Sets the id of the object
+   * @return none
+   * @ignore
+   */
+  setId (id) {
+    this.attributes.id = id || Rnd.genId();
   }
 
   /**
@@ -229,7 +238,7 @@ class SVGBase {
    */
   static resolve (values, at, defValue) {
     var retValue = defValue;
-    if (values[at]) {
+    if (values && values[at] != undefined) {
       if (typeof(values[at]) === "function")
         retValue = values[at]();
       else if (typeof(values[at]) === 'object')

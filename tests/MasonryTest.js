@@ -43,6 +43,13 @@ describe ("Masonry", function ()
     assert.deepEqual (masonry[1], {x:0, y:300, width:800, height:150});
     assert.deepEqual (masonry[2], {x:0, y:450, width:800, height:150});
   });
+  
+  it ("parses |>|", function () {
+    var masonry = Layout.Masonry (800, 600, "|>|");
+    assert.deepEqual (masonry[0], {x:0, y:0, width:400, height:600});
+    assert.deepEqual (masonry[1], {x:400, y:0, width:200, height:600});
+    assert.deepEqual (masonry[2], {x:600, y:0, width:200, height:600});
+  });
 
   it ("parses |-", function () {
     var masonry = Layout.Masonry (800, 600, "|-");
@@ -82,7 +89,7 @@ describe ("Masonry", function ()
     assert.deepEqual (masonry[4], {x:400, y:300, width:400, height:300});
   });
 
-  it ("parses |>|->>|->--", function () {
+  xit ("parses |>|->>|->--", function () {
     var masonry = Layout.Masonry (800, 600, "|>|->>|->--");
   });
 
@@ -94,5 +101,25 @@ describe ("Masonry", function ()
     assert.deepEqual (masonry[3], {x:400, y:500, width:200, height:500});
     assert.deepEqual (masonry[4], {x:600, y:500, width:200, height:500});
     assert.deepEqual (masonry[5], {x:800, y:500, width:200, height:500});
+  });
+
+  it ("parses |[40,60]", function () {
+    var masonry = Layout.Masonry (1000, 1000, "|[40,60]");
+    assert.deepEqual (masonry[0], {x:0, y:0, width:400, height:1000});
+    assert.deepEqual (masonry[1], {x:400, y:0, width:600, height:1000});
+  });
+
+  it ("parses -[40,60]", function () {
+    var masonry = Layout.Masonry (1000, 1000, "-[40,60]");
+    assert.deepEqual (masonry[0], {x:0, y:0, width:1000, height:400});
+    assert.deepEqual (masonry[1], {x:0, y:400, width:1000, height:600});
+  });
+
+  it ("parses |[80,20]>-[40,30,20]", function () {
+    var masonry = Layout.Masonry (1000, 1000, "|[80,20]>-[40,30,20]");
+    assert.deepEqual (masonry[0], {x:0, y:0, width:800, height:1000});
+    assert.deepEqual (masonry[1], {x:800, y:0, width:200, height:400});
+    assert.deepEqual (masonry[2], {x:800, y:400, width:200, height:300});
+    assert.deepEqual (masonry[3], {x:800, y:700, width:200, height:200});
   });
 });

@@ -12,7 +12,7 @@
  * - parameters: vertices: {x,y} vertices list
  */
 function NonIntersecPolCenter (points) {
-  var pts = [];
+  let pts = [];
   if (points != undefined)
     pts = points.slice(0);
   if (pts.length)
@@ -24,11 +24,11 @@ function NonIntersecPolCenter (points) {
     }
     else
     {
-      var first = pts[0], last = pts[pts.length-1];
+      let first = pts[0], last = pts[pts.length-1];
       if (first.x != last.x || first.y != last.y)
         pts.push(first);
-      var twicearea = 0, x = 0, y = 0, nPts = pts.length, p1, p2, f;
-      for (var i = 0, j = nPts-1 ; i < nPts ; j = i++ ) {
+      let twicearea = 0, x = 0, y = 0, nPts = pts.length, p1, p2, f;
+      for (let i = 0, j = nPts-1 ; i < nPts ; j = i++ ) {
         p1 = pts[i];
         p2 = pts[j];
         f = p1.x*p2.y - p2.x*p1.y;
@@ -52,8 +52,8 @@ module.exports.NonIntersecPolCenter = NonIntersecPolCenter;
  */
 function calculateAngle (point1, point2)
 {
-  var xDiff = point2.x - point1.x;
-  var yDiff = point2.y - point1.y;
+  let xDiff = point2.x - point1.x;
+  let yDiff = point2.y - point1.y;
   return Math.atan2 (yDiff, xDiff) * (180 / Math.PI);
 }
 module.exports.calculateAngle = calculateAngle;

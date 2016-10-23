@@ -95,7 +95,7 @@ class Layout {
    * @param {object} origin      - xy coords to start from
    * @param {number} interColumn - space between columns
    * @param {number} width       - max width
-   * @return a list of xy points
+   * @return {object} a list of xy points
    */
   static Cols (origin, interColumn, width) {
     let points = [];
@@ -110,7 +110,7 @@ class Layout {
    * @param {object} origin   - xy coords to start from
    * @param {number} interRow - space between rows
    * @param {number} height   - max height
-   * @return a list of xy points
+   * @return {object} a list of xy points
    */
   static Rows (origin, interRow, height) {
     let points = [];
@@ -125,8 +125,7 @@ class Layout {
    * @param {number} width     - width of the masonry
    * @param {number} height    - height of the masonry
    * @param {string} configStr - ops string with the masonry layout
-   * @return a list of bricks containing {x,y,width,height} values that represent
-   * the x,y starting point, width and height of the brick, respectively
+   * @return {object} a list of bricks with the x,y starting point, width and height of the brick, respectively
    */
   static Masonry (width, height, configStr) {
     return new Masonry (width, height, configStr);

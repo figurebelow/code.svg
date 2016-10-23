@@ -17,7 +17,7 @@ let SVGBase = require ("../SVGBase.js").SVGBase;
 class BaseGradient extends SVGBase {
 
   constructor (type, values, style) {
-    var defaultValues = values || {};
+    let defaultValues = values || {};
     defaultValues.x1 = (values && values.x1) ? values.x1 : "0%";
     defaultValues.y1 = (values && values.y1) ? values.y1 : "0%";
     defaultValues.x2 = (values && values.y1) ? values.x2 : "100%";
@@ -34,10 +34,10 @@ class BaseGradient extends SVGBase {
    * @return {Object} returns a reference to the LinearGradient
    */
   addStop (offset, stopColor, stopOpacity) {
-    var offset = offset || "50%";
-    var stopColor = stopColor || "red";
-    var stopOpacity = stopOpacity || 1;
-    var newStop = new LinearGradient.Stop ({offset:offset, "stop-color":stopColor, "stop-opacity": stopOpacity});
+    let off = offset || "50%";
+    let sc = stopColor || "red";
+    let so = stopOpacity || 1;
+    let newStop = new LinearGradient.Stop ({offset:off, "stop-color":sc, "stop-opacity": so});
     this.append(newStop);
     return this;
   }

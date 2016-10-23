@@ -8,40 +8,10 @@
 
 let SVGBase = require("../SVGBase.js").SVGBase;
 
-/**
- * @class
- * @classdesc Defines a Filter object
- * @extends SVGBase
- * @abstract
- */
-class Filter extends SVGBase {
-
-}
-
-module.exports.Filter = Filter;
-
-function SimpleLightFilter () {
-  var filter = new Filter ("filter", {id:"light"});
-  var diffuseLight = new FeDiffuseLighting ({in:"SourceGraphic", result:"specOut", "lighting-color":"white", diffuseConstant:"1"});
-  diffuseLight.append (new FePointLight ({x: 100, y:50, z:200}));
-  filter.append(diffuseLight);
-  filter.append (new FeComposite ({in:"SourceGraphic", in2:"light", operator:"arithmetic", k1:0, k2:1, k3:1, k4:0}));
-  return filter;
-}
-
-    /*var filterString = "";
-    filterString += "<filter id=\"id" + 33 + "\">";
-    filterString += "<feDiffuseLighting in=\"SourceGraphic\" result=\"" + result + "\" lighting-color=\"" + color + "\" diffuseConstant=\"" + intensity + "\">";
-    filterString += "<fePointLight y=\"" + 50 + "\" x=\"" + 100 + "\" z=\"" + z + "\"/>";
-    filterString += "</feDiffuseLighting>";
-    filterString += "<feComposite in=\"SourceGraphic\" in2=\"light\" operator=\"arithmetic\" k1=\"1\" k2=\"0\" k3=\"0\" k4=\"0\"/>";
-    filterString += "</filter>";
-    return filterString;*/
-
 class FeComposite extends SVGBase  {
 
-  constructor (attr) {
-    super ("feComposite", attr);
+  constructor (attrs) {
+    super ("feComposite", attrs);
   }
 }
 
@@ -50,6 +20,12 @@ class FePointLight extends SVGBase {
   /** x, y, z */
   constructor (attrs) {
     super ("fePointLight", attrs);
+  }
+}
+
+class FeOffset  extends SVGBase {
+  constructor (attrs) {
+    super ("feOffset", attrs);
   }
 }
 
@@ -65,7 +41,7 @@ class FeTurbulence extends SVGBase {
     }
 }
 
-class FeDiffuseLighting extends Filter {
+class FeDiffuseLighting extends SVGBase {
 
     constructor() {
         super("feDiffuseLighting", { in: "noise",
@@ -85,7 +61,7 @@ class FeDistantLight extends SVGBase {
     }
 }
 
-class FeComponentTransfer extends Filter {
+class FeComponentTransfer extends SVGBase {
     constructor() {
         super("feComponentTransfer", {});
         this.append(new Filter("feFuncA", {
@@ -96,29 +72,61 @@ class FeComponentTransfer extends Filter {
 }
 
 class FeGaussianBlur extends SVGBase {
-    constructor() {
-        super("feGaussianBlur", {});
+    constructor(attrs) {
+      let inAttr = SVGBase.resolve(attrs, "in", "SourceGraphic");
+      let stdDev = SVGBase.resolve(attrs, "stdDeviation", 3);
+      let ats = attrs || {in:inAttr, stdDeviation:stdDev};
+      super("feGaussianBlur", ats);
     }
 };
 
+class FeMerge extends SVGBase {
+  constructor (attrs) {
+    super ("feMerge", attrs);
+  }
+};
+
+function SimpleLight () {
+  let filter = new SVGBase ("filter");
+  filter.setId();
+  let diffuseLight = new FeDiffuseLighting ({in:"SourceGraphic", result:"specOut", "lighting-color":"white", diffuseConstant:"1"});
+  diffuseLight.append (new FePointLight ({x: 100, y:50, z:200}));
+  filter.append(diffuseLight);
+  filter.append (new FeComposite ({in:"SourceGraphic", in2:"light", operator:"arithmetic", k1:0, k2:1, k3:1, k4:0}));
+  return filter;
+}
+
 function RoughPaper() {
-    var attrs = {
+    let attrs = {
         id: "roughpaper",
         x: "0%",
         y: "0%",
         width: "100%",
         height: "100%"
     };
-    var filter = new Filter("filter", attrs);
+    let filter = new SVGBase("filter", attrs);
     filter.append(new FeTurbulence());
-    var diffuse = new FeDiffuseLighting();
+    let diffuse = new FeDiffuseLighting();
     diffuse.append(new FeDistantLight());
     filter.append(diffuse);
     filter.append(new FeComponentTransfer());
     return filter;
 }
 
+function DropShadow (attrs) {
+  let filter = new SVGBase("filter", {x:0, y:0, width:"200%", height:"200%"});
+  let ats = attrs || {};
+  ats.dx = SVGBase.resolve (attrs,"dx",10);
+  ats.dy = SVGBase.resolve (attrs,"dy",10);
+  ats.stdDeviation = SVGBase.resolve (attrs, "stdDeviation", 5);
+  filter.setId();
+  filter.append (new FeOffset({dx: ats, dy:ats, result:"offOut", in:"SourceAlpha"}));
+  filter.append (new FeGaussianBlur({stdDeviation:ats, result:"blurOut"}));
+  filter.append (new SVGBase("feBlend", {in:"SourceGraphic", in2:"blurOut", mode:"normal"}));
+  return filter;
+}
+
 module.exports.RoughPaper = RoughPaper;
-module.exports.Filter = Filter;
 module.exports.FeDiffuseLighting = FeDiffuseLighting;
-module.exports.SimpleLightFilter = SimpleLightFilter;
+module.exports.SimpleLight = SimpleLight;
+module.exports.DropShadow = DropShadow;

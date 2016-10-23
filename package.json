@@ -9,7 +9,7 @@
   "scripts": {
     "test": "mocha ./tests",
     "test-travis": "./node_modules/istanbul/lib/cli.js cover -x '**/grammars/**' -x '**/node-particles/**' ./node_modules/mocha/bin/_mocha -- -R spec ./tests/",
-    "gendocs": "jsdoc -r src -d docs/out/ -t docs/jaguarjs-jsdoc/"
+    "gendocs": "jsdoc -r src -d docs/out/ -t docs/template/"
   },
   "readmeFilename": "README.md",
   "repository": {
@@ -38,6 +38,8 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "compressjs": "^1.0.3",
-    "sync-request": "^3.0.1"
+    "peg": "0.0.2",
+    "sync-request": "^3.0.1",
+    "colourlovers":"0.1.1"
   }
 }

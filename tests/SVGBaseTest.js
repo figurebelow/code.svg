@@ -32,11 +32,19 @@ describe ("SVGBase", function () {
 
   it ("resolves numeric value", function () {
     assert (10, SVGBase.resolve(10, "x", 50));
+  }); 
+
+  it ("resolves the default value from undefined parameters", function () {
+    assert (50, SVGBase.resolve(undefined, "x", 50));
+  }); 
+
+  it ("resolves a zero as numeric value", function () {
+    var params = {x:0, y:0};
+    assert.equal (0, SVGBase.resolve(params, "x", 50));
   });
 
   it ("resolves a function parameter", function () {
     function foo () { return 10; };
     assert (10, SVGBase.resolve({x: foo}, "x", 50));
   });
-
 });

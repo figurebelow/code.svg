@@ -96,6 +96,8 @@ class Scene extends SVGBase {
     content = content.replace(/clippath/g, "clipPath");
     content = content.replace(/lineargradient/g, "linearGradient");
     content = content.replace(/radialgradient/g, "radialGradient");
+    content = content.replace(/fegaussianblur/g, "feGaussianBlur");
+    content = content.replace(/feoffset/g, "feOffset");
     content = content.replace(/feturbulence/g, "feTurbulence");
     content = content.replace(/fediffuselighting/g, "feDiffuseLighting");
     content = content.replace(/fedistantlight/g, "feDistantLight");
@@ -113,7 +115,7 @@ class Scene extends SVGBase {
     for (var i = 0; i < arguments.length; i++) {
       if (typeof (arguments[i]) === 'object' &&
         (arguments[i].type == "filter" || arguments[i].type == "mask" || arguments[i].type == "linearGradient" || arguments[i].type == "radialGradient"))
-        this.defs.append(arguments[i]);
+          this.defs.append(arguments[i]);
       else
         this.children.push(arguments[i]);
     }
