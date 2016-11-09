@@ -32,4 +32,35 @@ describe ("Point", function () {
     assert.deepEqual(point, {x:120, y:120});
   });
 
+  it ("adds a constant value", function () {
+    var point = new Point (10, 10);
+    assert.deepEqual (point.add(10), {x:20,y:20});
+  });
+
+  it ("substracts a constant value", function () {
+    var point = new Point (10, 10);
+    assert.deepEqual (point.dec(3), {x:7,y:7});
+  });
+
+  it ("substracts a Point", function () {
+    var point1 = new Point (10, 30);
+    var point2 = new Point (8, 10);
+    assert.deepEqual (point1.dec(point2), {x:2,y:20});
+  });
+
+  it ("multiplies by a constant value", function () {
+    var point = new Point (10, 30);
+    assert.deepEqual (point.multiply(3), {x:30,y:90});
+  });
+
+  it ("multiplies by a Point", function () {
+    var point1 = new Point (10, 30);
+    var point2 = new Point (20, 9);
+    assert.deepEqual (point1.multiply(point2), {x:200,y:270});
+  });
+
+  it ("returns the power of the Point", function () {
+    var point = new Point (10, 20);
+    assert.deepEqual (point.pow(point), 500);
+  });
 });
