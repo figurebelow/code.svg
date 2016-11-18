@@ -103,6 +103,7 @@ class Scene extends SVGBase {
     content = content.replace(/fedistantlight/g, "feDistantLight");
     content = content.replace(/fefunca/g, "feFuncA");
     content = content.replace(/fecomponenttransfer/g, "feComponentTransfer");
+    content = content.replace(/femerge/g, "feMerge");
     return content;
   };
 

@@ -1,20 +1,21 @@
 "use strict";
 
-global.Scene     = require ( "./src/Scene.js").Scene;
-global.Rect      = require ( "./src/Rect.js").Rect;
-global.Circle    = require ( "./src/Circle.js").Circle;
-global.Line      = require ( "./src/Line.js").Line;
-global.Path      = require ( "./src/Path.js").Path;
-global.Ellipse   = require ( "./src/Ellipse.js").Ellipse;
-global.Polyline  = require ( "./src/Polyline.js").Polyline;
-global.Rnd       = require ( "./src/utils/Rnd.js").Rnd;
-global.Layout    = require ( "./src/utils/Layout.js").Layout;
-global.Gradients = require ( "./src/utils/Gradients.js");
-global.Filters   = require ( "./src/utils/Filters.js");
-global.PS        = require ( "./src/utils/node-particles/js/ParticleSystem.js");
-global.Colors    = require ( "./src/utils/Colors.js").Colors;
-global.Curves    = require ("./src/utils/Parametrics.js").Parametrics;
+global.Scene        = require ( "./src/Scene.js").Scene;
+global.Rect         = require ( "./src/Rect.js").Rect;
+global.Circle       = require ( "./src/Circle.js").Circle;
+global.Line         = require ( "./src/Line.js").Line;
+global.Path         = require ( "./src/Path.js").Path;
+global.Ellipse      = require ( "./src/Ellipse.js").Ellipse;
+global.Polyline     = require ( "./src/Polyline.js").Polyline;
+global.Rnd          = require ( "./src/utils/Rnd.js").Rnd;
+global.Layout       = require ( "./src/utils/Layout.js").Layout;
+global.Gradients    = require ( "./src/utils/Gradients.js");
+global.Filters      = require ( "./src/utils/Filters.js");
+global.PS           = require ( "./src/utils/node-particles/js/ParticleSystem.js");
+global.Colors       = require ( "./src/utils/Colors.js").Colors;
+global.Curves       = require ("./src/utils/Parametrics.js").Parametrics;
 global.Functions    = require ("./src/utils/Functions.js");
+global.Boids        = require ("./src/utils/node-particles/js/Boids.js");
 
 var fs = require ("fs");
 var compressjs = require('compressjs');
