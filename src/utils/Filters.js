@@ -114,11 +114,11 @@ function RoughPaper() {
 }
 
 function DropShadow (attrs) {
-  let filter = new SVGBase("filter", {x:0, y:0, width:"200%", height:"200%"});
+  let filter = new SVGBase("filter", {x:"-10%", y:"-10%", width:"140%", height:"140%"});
   let ats = attrs || {};
   ats.dx = SVGBase.resolve (attrs,"dx",10);
   ats.dy = SVGBase.resolve (attrs,"dy",10);
-  ats.stdDeviation = SVGBase.resolve (attrs, "stdDeviation", 5);
+  ats.stdDeviation = SVGBase.resolve (attrs, "stdDeviation", 10);
   filter.setId();
   filter.append (new FeOffset({dx: ats, dy:ats, result:"offOut", in:"SourceAlpha"}));
   filter.append (new FeGaussianBlur({stdDeviation:ats, result:"blurOut"}));

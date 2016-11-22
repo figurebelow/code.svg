@@ -11,18 +11,68 @@
    // Returns the magnitude of a point considering it a vector starting from (0,0)
    getMagnitude () {
     return Math.sqrt(this.x * this.x + this.y * this.y);
-    }
+   }
+
+   unit () {
+     var mag = this.getMagnitude();
+     return new Point (this.x / mag, this.y / mag);
+   }
+
+   pow () {
+    return Math.pow(this.x, 2) + Math.pow(this.y, 2);
+   }
 
     // Multiplies the point
     multiply (scaleFactor) {
-      this.x *= scaleFactor;
-      this.y *= scaleFactor;
+      if (typeof(scaleFactor) === 'object')
+      {
+        this.x *= scaleFactor.x;
+        this.y *= scaleFactor.y;
+      }
+      else {
+        this.x *= scaleFactor;
+        this.y *= scaleFactor;
+      }
+      return this;
     }
 
     // Translates the point
     add (increased) {
-      this.x += increased.x;
-      this.y += increased.y;
+      if (typeof(increased) === 'object')
+      {
+        this.x += increased.x;
+        this.y += increased.y;
+      }
+      else {
+        this.x += increased;
+        this.y += increased;
+      }
+      return this;
+    }
+
+    limit (max) {
+    	if (this.getMagnitude() > max) {
+    	  var unit = this.unit();
+    	  return new Point(unit.x * max, unit.y * max);
+      }
+      return this.copy();
+    }
+
+    dec (decrease) {
+      if (typeof(decrease) === 'object')
+      {
+        this.x -= decrease.x;
+        this.y -= decrease.y;
+      }
+      else {
+        this.x -= decrease;
+        this.y -= decrease;
+      }
+      return this;
+    }
+
+    div (factor) {
+      return new Point(this.x / factor, this.y / factor);
     }
 
     // Returns a new Point
@@ -81,6 +131,12 @@
     // Copies a Point
     copy() {
       return new Point(this.x,this.y);
+    }
+
+    static euc2d (source, target) {
+      let xdist = Math.pow(source.x - target.x);
+      let ydist = Math.pow(source.y - target.y);
+      return Math.sqrt (xdist + ydist);
     }
 
     // Returns a new point given the angle from (0,0) and a certain magnitude
