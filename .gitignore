@@ -1,3 +1,4 @@
 ./node_modules
 ./src/utils/node-particles/node_modules/
 *.svg
+samples

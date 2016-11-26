@@ -24,8 +24,8 @@ class Circle extends Path {
     var r = Path.resolve(values, "r", 5);
     var p0 = "M" + cx + "," + cy + " ";
     var p1 = "m" + (-r) + "," + 0 + " ";
-    var p2 = "a" + r + "," + r + " " + 0 + " " + "1,0 " + (r * 2) + ",0 ";
-    var p3 = "a" + r + "," + r + " " + 0 + " " + "1,0 " + -(r * 2) + ",0 ";
+    var p2 = "a" + r + "," + r + "," + 0 + "," + "1,0," + (r * 2) + ",0 ";
+    var p3 = "a" + r + "," + r + "," + 0 + "," + "1,0," + -(r * 2) + ",0 ";
     var d = p0 + " " + p1 + " " + p2 + " " + p3;
     var procParams = values;
     procParams["d"] = d;
@@ -53,10 +53,16 @@ class Circle extends Path {
     var r = this.getAttr("r");
     var p0 = "M" + xyPos.x + "," + xyPos.y + " ";
     var p1 = "m" + r + "," + 0 + " ";
-    var p2 = "a" + r + "," + r + " " + 0 + " " + "1,0 " + (r * 2) + ",0 ";
-    var p3 = "a" + r + "," + r + " " + 0 + " " + "1,0 " + -(r * 2) + ",0 ";
+    var p2 = "a" + r + "," + r + "," + 0 + "," + "1,0," + (r * 2) + ",0 ";
+    var p3 = "a" + r + "," + r + "," + 0 + "," + "1,0," + -(r * 2) + ",0 ";
     var d = p0 + " " + p1 + " " + p2 + " " + p3;
     this.setAttr({"d":d});
+    return this;
+  }
+
+  getHalf () {
+    this.parsedPoints.splice(3,1);
+    this.updateD();
     return this;
   }
 };
