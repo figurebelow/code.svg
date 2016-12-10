@@ -39,6 +39,10 @@ class Random {
       }
     }
 
+	rint (lower, upper) {
+		return Math.round(this.random(lower, upper));
+	}
+
     arcsine (min, max) {
         var q = Math.sin(PI_2 * this.uniform(0, 1));
 

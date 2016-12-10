@@ -109,7 +109,11 @@ class Path extends SVGBase {
     this.parsedPoints.forEach (function (point, i, sourceList) {
       newD += point.type;
       if (point.type != 'z') {
-        newD += point.values[0].x + "," + point.values[0].y;
+        //newD += point.values[0].x + "," + point.values[0].y;
+        for (let key in point.values[0]) {
+          newD += point.values[0][key] + ",";
+        }
+        newD = newD.slice(0,-1);
         if (i < sourceList.length-1)
           newD += " ";
       }

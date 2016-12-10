@@ -158,6 +158,15 @@ describe("Random", function () {
           });
         });
 
+		 it ("should generate integer values in [low,up] when two parameters are used", function () {
+          var r = new Random (900);
+          var results = [1,2,3,4,5,6,7,8,9,10].map(function () { return r.rint(15,23);});
+          results.forEach (function (item) {
+            expect(item).be.a("number").gte(15).lt(23);
+			expect(item + "").not.to.have.string(".");
+          });
+        });
+		
         it ("should generate values when a string is used as seed", function () {
           var r = new Random ("bluecoat");
           var results = [1,2,3,4,5,6,7,8,9,10].map(function () { return r.random(10);});
