@@ -68,8 +68,8 @@ class Path extends SVGBase {
    * @example
    * path.moveTo({x:10,y:10});
    */
-  moveTo (xyPos) {
-    var currentCenter = this.getCenter();
+  moveTo (xyPos, point) {
+    var currentCenter = point || this.getCenter();
     var distance = {x: xyPos.x - currentCenter.x, y: xyPos.y - currentCenter.y};
     this.parsedPoints.forEach (function (point) {
       if (point.values != undefined) {
@@ -92,12 +92,28 @@ class Path extends SVGBase {
    * @example
    * rect.rotate(45, new Point(12,14)); // rotates around the given point
    */
-  rot (deg, point) {
-    if (point !== undefined)
-      super.rotate(point, deg);
-    else
-      super.rotate(this.getCenter(), deg);
+  rot (deg, origin) {
+    var around = origin || this.getCenter();
+    var radians = deg * Math.PI / 180.0,
+        cos = Math.cos(radians),
+        sin = Math.sin(radians);
+    for (let i = 0; i < this.parsedPoints.length; i++) {
+      if (this.parsedPoints[i].type.toLowerCase() != "z") {
+        var x = this.parsedPoints[i].values[0].x;
+        var y = this.parsedPoints[i].values[0].y;
+        var dx = x - around.x,
+            dy = y - around.y;
+        this.parsedPoints[i].values[0].x = cos * dx - sin * dy + around.x;
+        this.parsedPoints[i].values[0].y = sin * dx + cos * dy + around.y;
+      }
+    };
+    this.updateD();
     return this;
+  }
+
+  pointAt (pos) {
+    let point = this.parsedPoints[pos].values[0];
+    return {x:point.x, y:point.y};
   }
 
   /**
@@ -108,7 +124,7 @@ class Path extends SVGBase {
     var newD = "";
     this.parsedPoints.forEach (function (point, i, sourceList) {
       newD += point.type;
-      if (point.type != 'z') {
+      if (point.type.toLowerCase() != 'z') {
         //newD += point.values[0].x + "," + point.values[0].y;
         for (let key in point.values[0]) {
           newD += point.values[0][key] + ",";
@@ -185,7 +201,8 @@ class Path extends SVGBase {
   static lineFromPoints (points) {
     var gen = D3.line()
       .x (function (d) { return d.x})
-      .y (function (d) { return d.y});
+      .y (function (d) { return d.y})
+      .curve(D3.curveLinearClosed);
     return gen(points);
   }
 
@@ -203,6 +220,12 @@ class Path extends SVGBase {
       .y (function (d) { return d.y})
       .curve (D3.curveNatural);
     return gen(points);
+  }
+
+  static fromPoints (points) {
+
+    var path = new Path ({d:Path.lineFromPoints(points)});
+    return path;
   }
 };
 
