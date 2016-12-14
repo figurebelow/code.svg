@@ -119,6 +119,9 @@ class Scene extends SVGBase {
           this.defs.append(arguments[i]);
       else
         this.children.push(arguments[i]);
+        //console.log(arguments[i].innerAttributes.innerDefs)
+        //console.log(arguments[i].type)
+        arguments[i].innerAttributes.innerDefs.forEach (elem => this.add(elem));
     }
   }
 

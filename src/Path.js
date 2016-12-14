@@ -116,6 +116,14 @@ class Path extends SVGBase {
     return {x:point.x, y:point.y};
   }
 
+  getPoints () {
+    let xyPoints = this.parsedPoints.map (function (item) {
+      if (item.type.toLowerCase() != "z")
+        return {x:item.values[0].x, y:item.values[0].y};
+    });
+    return xyPoints.filter (function (elem) { return elem != undefined });
+  }
+
   /**
    * Updates the 'd' coordinate of the Path.
    * @ignore
@@ -199,31 +207,39 @@ class Path extends SVGBase {
   }
 
   static lineFromPoints (points) {
+    let input = points;
+    if (points.getPoints != undefined)
+      input = points.getPoints();
     var gen = D3.line()
       .x (function (d) { return d.x})
       .y (function (d) { return d.y})
       .curve(D3.curveLinearClosed);
-    return gen(points);
+    return gen(input);
   }
 
   static curveBasis (points) {
+    let input = points;
+    if (points.getPoints != undefined)
+      input = points.getPoints();
     var gen = D3.line()
       .x (function (d) { return d.x})
       .y (function (d) { return d.y})
       .curve (D3.curveBasis);
-    return gen(points);
+    return gen(input);
   }
 
   static curveBundle (points) {
+    let input = points;
+    if (points.getPoints != undefined)
+      input = points.getPoints();
     var gen = D3.line()
       .x (function (d) { return d.x})
       .y (function (d) { return d.y})
       .curve (D3.curveNatural);
-    return gen(points);
+    return gen(input);
   }
 
   static fromPoints (points) {
-
     var path = new Path ({d:Path.lineFromPoints(points)});
     return path;
   }
