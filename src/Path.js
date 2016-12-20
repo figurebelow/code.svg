@@ -42,7 +42,7 @@ class Path extends SVGBase {
    */
   clone () {
     var newElem = new Path (this.attributes);
-    newElem.setInnerAttr (this.innerAttributes);
+    newElem.setInnerAttr (this.innerAttributes)
     return newElem;
   }
 
@@ -185,20 +185,22 @@ class Path extends SVGBase {
   noise (xyFun) {
     var that = this;
     for (var i = 0; i < this.parsedPoints.length; i++) {
-      var values = xyFun ();
-      if (!Array.isArray(values)) {
-        values = [values];
-      }
-      var mapped = (values == this.parsedPoints.length) || false;
       var point = this.parsedPoints[i];
-      if (point.type != 'z') {
-        if (mapped) {
-          point.values[0].x += values[i].x;
-          point.values[0].y += values[i].y;
+      if (point.type != "z") {
+        var values = xyFun (point.values[0], i);
+        if (!Array.isArray(values)) {
+          values = [values];
         }
-        else {
-          point.values[0].x += values[0].x;
-          point.values[0].y += values[0].y;
+        var mapped = (values == this.parsedPoints.length) || false;
+        if (point.type != 'z') {
+          if (mapped) {
+            point.values[0].x += values[i].x;
+            point.values[0].y += values[i].y;
+          }
+          else {
+            point.values[0].x += values[0].x;
+            point.values[0].y += values[0].y;
+          }
         }
       }
     }

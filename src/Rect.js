@@ -21,17 +21,17 @@ class Rect extends Path {
   constructor (values) {
     var x = Rect.resolve (values, "x", 0);
     var y = Rect.resolve (values, "y", 0);
-    var width = Rect.resolve (values, "width", 10);
-    var height = Rect.resolve (values, "height", 5);
-    var p0 = "M" + x + "," + y;
-    var p1 = "L" + (x + width) + "," + y;
-    var p2 = "L" + (x + width) + "," + (y + height);
-    var p3 = "L" + x + "," + (y + height) + "z";
-    var d = p0 + " " + p1 + " " + p2 + " " + p3;
-    var procParams = values;
-    procParams["d"] = d;
+    let width = Rect.resolve (values, "width", 10);
+    let height = Rect.resolve (values, "height", 5);
+    let p0 = "M" + x + "," + y;
+    let p1 = "L" + (x + width) + "," + y;
+    let p2 = "L" + (x + width) + "," + (y + height);
+    let p3 = "L" + x + "," + (y + height) + " z";
+    let d = p0 + " " + p1 + " " + p2 + " " + p3;
+    let procParams = values;
+    if (values["d"] == undefined)
+      procParams["d"] = d;
     super (procParams);
-    this.setInnerAttr({x:x, y:y, width:width, height:height})
   }
 
   static RectFromTwoPoints (point1, point2, values) {
@@ -45,40 +45,32 @@ class Rect extends Path {
     var d = p0 + " " + p1 + " " + p2 + " " + p3;
     var procParams = values;
     procParams["d"] = d;
-    var rect = new Path (procParams);
+    var rect = new Rect (procParams);
     var angle = Utils.calculateAngle(point1, point2);
     rect.rot(angle, point1);
     return rect;
   }
 
+  shrink (val) {
+    let shrinkFunc = function (point, i) {
+      if (i == 0)
+        return {x:val, y:val};
+      if (i == 1)
+        return {x:-val, y:val};
+      if (i == 2)
+        return {x:-val, y:-val};
+      if (i == 3)
+        return {x:val, y:-val};
+    }
+    this.noise(shrinkFunc);
+    return this;
+  }
+
   clone () {
     var newRect = new Rect (this.attributes);
-    newRect.setInnerAttr(this.innerAttributes);
     return newRect;
   }
 
-  shrink (val) {
-    var x = this.getInnerAttr("x");
-    var y = this.getInnerAttr("y");
-    var width = this.getInnerAttr("width");
-    var height = this.getInnerAttr("height");
-    x += val;
-    y += val;
-    width -= val * 2;
-    height -= val * 2;
-    this.setInnerAttr({x: x});
-    this.setInnerAttr({y: y});
-    this.setInnerAttr({width: width});
-    this.setInnerAttr({height: height});
-    var p0 = "M" + x + "," + y;
-    var p1 = "L" + (x + width) + "," + y;
-    var p2 = "L" + (x + width) + "," + (y + height);
-    var p3 = "L" + x + "," + (y + height) + "z";
-    var d = p0 + " " + p1 + " " + p2 + " " + p3;
-    this.setAttr({"d":d});
-    this.parsePoints(d);
-    return this;
-  }
 };
 
 module.exports.Rect = Rect;

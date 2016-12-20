@@ -157,8 +157,8 @@ class SVGBase {
     for (var attr in attrs) {
       if (typeof(attrs[attr]) === 'object') {
           this.attributes[attr] = attrs[attr].getRef();
-          if (attr == "filter") { // keep this to add it to the scene
-            this.innerAttributes.innerDefs.push(attrs[attr]);
+          if (attr == "filter") {
+            this.innerAttributes.innerDefs.push(attrs[attr]); // keep the ref to add it to the scene
           }
       }
       else
@@ -327,6 +327,12 @@ class SVGBase {
     this.transform.skewX = xfactor;
     this.transform.skewY = yfactor;
     return this;
+  }
+
+  addPattern (object, params) {
+    let pat = new Pattern(object, params);
+    this.setAttr({fill:pat});
+    this.innerAttributes.innerDefs.push(pat);
   }
 };
 

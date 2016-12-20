@@ -115,12 +115,11 @@ class Scene extends SVGBase {
   add (_) {
     for (var i = 0; i < arguments.length; i++) {
       if (typeof (arguments[i]) === 'object' &&
-        (arguments[i].type == "filter" || arguments[i].type == "mask" || arguments[i].type == "linearGradient" || arguments[i].type == "radialGradient"))
+        (arguments[i].type == "filter" || arguments[i].type == "mask" || arguments[i].type == "linearGradient" || arguments[i].type == "radialGradient" ||
+          arguments[i].type == "pattern"))
           this.defs.append(arguments[i]);
       else
         this.children.push(arguments[i]);
-        //console.log(arguments[i].innerAttributes.innerDefs)
-        //console.log(arguments[i].type)
         arguments[i].innerAttributes.innerDefs.forEach (elem => this.add(elem));
     }
   }

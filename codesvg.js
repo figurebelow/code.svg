@@ -11,6 +11,7 @@ global.Rnd          = require ( "./src/utils/Rnd.js").Rnd;
 global.Layout       = require ( "./src/utils/Layout.js").Layout;
 global.Gradients    = require ( "./src/utils/Gradients.js");
 global.Filters      = require ( "./src/utils/Filters.js");
+global.Pattern      = require ( "./src/Pattern.js").Pattern;
 global.PS           = require ( "./src/utils/node-particles/js/ParticleSystem.js");
 global.Colors       = require ( "./src/utils/Colors.js").Colors;
 global.Curves       = require ("./src/utils/Parametrics.js").Parametrics;
