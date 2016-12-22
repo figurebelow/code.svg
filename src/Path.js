@@ -112,6 +112,22 @@ class Path extends SVGBase {
   }
 
   pointAt (pos) {
+    if (pos == Path.UP) {
+      let yVals = this.parsedPoints.filter(p => p != undefined && p.values != undefined).map(p2 => p2.values[0].y);
+      return this.parsedPoints[yVals.indexOf(Math.min.apply(Math,yVals))].values[0];
+    }
+    else if (pos == Path.RIGHT) {
+        let xVals = this.parsedPoints.filter(p => p != undefined && p.values != undefined).map(p2 => p2.values[0].x);
+        return this.parsedPoints[xVals.indexOf(Math.max.apply(Math,xVals))].values[0];
+    }
+    else if (pos == Path.DOWN) {
+        let yVals = this.parsedPoints.filter(p => p != undefined && p.values != undefined).map(p2 => p2.values[0].y);
+        return this.parsedPoints[yVals.indexOf(Math.max.apply(Math,yVals))].values[0];
+    }
+    else if (pos == Path.LEFT) {
+        let xVals = this.parsedPoints.filter(p => p != undefined && p.values != undefined).map(p2 => p2.values[0].x);
+        return this.parsedPoints[xVals.indexOf(Math.min.apply(Math,xVals))].values[0];
+    }
     let point = this.parsedPoints[pos].values[0];
     return {x:point.x, y:point.y};
   }
@@ -192,15 +208,13 @@ class Path extends SVGBase {
           values = [values];
         }
         var mapped = (values == this.parsedPoints.length) || false;
-        if (point.type != 'z') {
-          if (mapped) {
-            point.values[0].x += values[i].x;
-            point.values[0].y += values[i].y;
-          }
-          else {
-            point.values[0].x += values[0].x;
-            point.values[0].y += values[0].y;
-          }
+        if (mapped) {
+          point.values[0].x += values[i].x;
+          point.values[0].y += values[i].y;
+        }
+        else {
+          point.values[0].x += values[0].x;
+          point.values[0].y += values[0].y;
         }
       }
     }
@@ -248,3 +262,7 @@ class Path extends SVGBase {
 };
 
 module.exports.Path = Path;
+module.exports.Path.UP = -1;
+module.exports.Path.RIGHT = -2;
+module.exports.Path.DOWN = -3;
+module.exports.Path.LEFT = -4;
