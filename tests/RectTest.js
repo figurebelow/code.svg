@@ -35,7 +35,7 @@ describe ("Rect", function ()
 
   it ("clones", function () {
     var newRect = rect.clone();
-    assert (newRect.equals(rect));
+    assert.deepEqual (newRect, rect);
   });
 
   it ("subdivides", function () {
@@ -58,7 +58,7 @@ describe ("Rect", function ()
 
   it ("shrink of zero has no effect", function () {
     var rect2 = rect.clone();
-    assert (rect.equals(rect2.shrink(0)));
+    assert.deepEqual (rect, rect2.shrink(0));
   });
 
   it ("shrinks", function () {
@@ -71,5 +71,13 @@ describe ("Rect", function ()
     assert.equal(rect.parsedPoints[2].values[0].y, 25);
     assert.equal(rect.parsedPoints[3].values[0].x, 15);
     assert.equal(rect.parsedPoints[3].values[0].y, 25);
+  });
+
+  it ("moves, clones", function() {
+	var rect2 = new Rect ({x:0, y:0, width:40, height:40});
+	rect2.moveTo({x:100, y:100});
+	var rect3 = rect2.clone();
+	assert.deepEqual (rect3, rect2);
+	assert.deepEqual({x:100, y:100}, rect3.getCenter());
   });
 });

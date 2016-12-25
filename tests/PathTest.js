@@ -80,4 +80,24 @@ describe ("Path", function () {
     path.noise(removeNoise);
     assert (path.equals(originalPath));
   });
+
+  it ("UP returns the upmost point in a path", function () {
+    var path = new Path ({d:'M10,10 L60,10 L60,4 L10,30'});
+    assert.deepEqual({x:60, y:4}, path.pointAt(Path.UP));
+  });
+
+  it ("RIGHT returns the rightmost point in a path", function () {
+    var path = new Path ({d:'M10,10 L80,10 L40,70 L10,30'});
+    assert.deepEqual({x:80, y:10}, path.pointAt(Path.RIGHT));
+  });
+
+  it ("DOWN returns the downmost point in a path", function () {
+    var path = new Path ({d:'M10,10 L60,10 L60,70 L10,130'});
+    assert.deepEqual({x:10, y:130}, path.pointAt(Path.DOWN));
+  });
+
+  it ("LEFT returns the leftmpst point in a path", function () {
+    var path = new Path ({d:'M10,10 L60,10 L60,70 L1,30'});
+    assert.deepEqual({x:1, y:30}, path.pointAt(Path.LEFT));
+  });
 });

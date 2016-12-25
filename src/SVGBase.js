@@ -25,6 +25,7 @@ class SVGBase {
     this.type = type;
     this.attributes = {};
     this.innerAttributes = {};  // attributes to be kept internally
+    this.innerAttributes.innerDefs = [];
     this.children = [];
     this.transform = {};
     this.transform.rotate = {}; // {x,y,deg}
@@ -154,10 +155,14 @@ class SVGBase {
    */
   setAttr (attrs) {
     for (var attr in attrs) {
-      if (typeof(attrs[attr]) === 'object')
+      if (typeof(attrs[attr]) === 'object') {
           this.attributes[attr] = attrs[attr].getRef();
-        else
-          this.attributes[attr] = attrs[attr];
+          if (attr == "filter") {
+            this.innerAttributes.innerDefs.push(attrs[attr]); // keep the ref to add it to the scene
+          }
+      }
+      else
+        this.attributes[attr] = attrs[attr];
     }
     return this;
   }
@@ -322,6 +327,12 @@ class SVGBase {
     this.transform.skewX = xfactor;
     this.transform.skewY = yfactor;
     return this;
+  }
+
+  addPattern (object, params) {
+    let pat = new Pattern(object, params);
+    this.setAttr({fill:pat});
+    this.innerAttributes.innerDefs.push(pat);
   }
 };
 

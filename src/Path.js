@@ -42,7 +42,7 @@ class Path extends SVGBase {
    */
   clone () {
     var newElem = new Path (this.attributes);
-    newElem.setInnerAttr (this.innerAttributes);
+    newElem.setInnerAttr (this.innerAttributes)
     return newElem;
   }
 
@@ -68,8 +68,8 @@ class Path extends SVGBase {
    * @example
    * path.moveTo({x:10,y:10});
    */
-  moveTo (xyPos) {
-    var currentCenter = this.getCenter();
+  moveTo (xyPos, point) {
+    var currentCenter = point || this.getCenter();
     var distance = {x: xyPos.x - currentCenter.x, y: xyPos.y - currentCenter.y};
     this.parsedPoints.forEach (function (point) {
       if (point.values != undefined) {
@@ -92,12 +92,52 @@ class Path extends SVGBase {
    * @example
    * rect.rotate(45, new Point(12,14)); // rotates around the given point
    */
-  rot (deg, point) {
-    if (point !== undefined)
-      super.rotate(point, deg);
-    else
-      super.rotate(this.getCenter(), deg);
+  rot (deg, origin) {
+    var around = origin || this.getCenter();
+    var radians = deg * Math.PI / 180.0,
+        cos = Math.cos(radians),
+        sin = Math.sin(radians);
+    for (let i = 0; i < this.parsedPoints.length; i++) {
+      if (this.parsedPoints[i].type.toLowerCase() != "z") {
+        var x = this.parsedPoints[i].values[0].x;
+        var y = this.parsedPoints[i].values[0].y;
+        var dx = x - around.x,
+            dy = y - around.y;
+        this.parsedPoints[i].values[0].x = cos * dx - sin * dy + around.x;
+        this.parsedPoints[i].values[0].y = sin * dx + cos * dy + around.y;
+      }
+    };
+    this.updateD();
     return this;
+  }
+
+  pointAt (pos) {
+    if (pos == Path.UP) {
+      let yVals = this.parsedPoints.filter(p => p != undefined && p.values != undefined).map(p2 => p2.values[0].y);
+      return this.parsedPoints[yVals.indexOf(Math.min.apply(Math,yVals))].values[0];
+    }
+    else if (pos == Path.RIGHT) {
+        let xVals = this.parsedPoints.filter(p => p != undefined && p.values != undefined).map(p2 => p2.values[0].x);
+        return this.parsedPoints[xVals.indexOf(Math.max.apply(Math,xVals))].values[0];
+    }
+    else if (pos == Path.DOWN) {
+        let yVals = this.parsedPoints.filter(p => p != undefined && p.values != undefined).map(p2 => p2.values[0].y);
+        return this.parsedPoints[yVals.indexOf(Math.max.apply(Math,yVals))].values[0];
+    }
+    else if (pos == Path.LEFT) {
+        let xVals = this.parsedPoints.filter(p => p != undefined && p.values != undefined).map(p2 => p2.values[0].x);
+        return this.parsedPoints[xVals.indexOf(Math.min.apply(Math,xVals))].values[0];
+    }
+    let point = this.parsedPoints[pos].values[0];
+    return {x:point.x, y:point.y};
+  }
+
+  getPoints () {
+    let xyPoints = this.parsedPoints.map (function (item) {
+      if (item.type.toLowerCase() != "z")
+        return {x:item.values[0].x, y:item.values[0].y};
+    });
+    return xyPoints.filter (function (elem) { return elem != undefined });
   }
 
   /**
@@ -108,7 +148,7 @@ class Path extends SVGBase {
     var newD = "";
     this.parsedPoints.forEach (function (point, i, sourceList) {
       newD += point.type;
-      if (point.type != 'z') {
+      if (point.type.toLowerCase() != 'z') {
         //newD += point.values[0].x + "," + point.values[0].y;
         for (let key in point.values[0]) {
           newD += point.values[0][key] + ",";
@@ -161,13 +201,13 @@ class Path extends SVGBase {
   noise (xyFun) {
     var that = this;
     for (var i = 0; i < this.parsedPoints.length; i++) {
-      var values = xyFun ();
-      if (!Array.isArray(values)) {
-        values = [values];
-      }
-      var mapped = (values == this.parsedPoints.length) || false;
       var point = this.parsedPoints[i];
-      if (point.type != 'z') {
+      if (point.type != "z") {
+        var values = xyFun (point.values[0], i);
+        if (!Array.isArray(values)) {
+          values = [values];
+        }
+        var mapped = (values == this.parsedPoints.length) || false;
         if (mapped) {
           point.values[0].x += values[i].x;
           point.values[0].y += values[i].y;
@@ -183,27 +223,46 @@ class Path extends SVGBase {
   }
 
   static lineFromPoints (points) {
+    let input = points;
+    if (points.getPoints != undefined)
+      input = points.getPoints();
     var gen = D3.line()
       .x (function (d) { return d.x})
-      .y (function (d) { return d.y});
-    return gen(points);
+      .y (function (d) { return d.y})
+      .curve(D3.curveLinearClosed);
+    return gen(input);
   }
 
   static curveBasis (points) {
+    let input = points;
+    if (points.getPoints != undefined)
+      input = points.getPoints();
     var gen = D3.line()
       .x (function (d) { return d.x})
       .y (function (d) { return d.y})
       .curve (D3.curveBasis);
-    return gen(points);
+    return gen(input);
   }
 
   static curveBundle (points) {
+    let input = points;
+    if (points.getPoints != undefined)
+      input = points.getPoints();
     var gen = D3.line()
       .x (function (d) { return d.x})
       .y (function (d) { return d.y})
       .curve (D3.curveNatural);
-    return gen(points);
+    return gen(input);
+  }
+
+  static fromPoints (points) {
+    var path = new Path ({d:Path.lineFromPoints(points)});
+    return path;
   }
 };
 
 module.exports.Path = Path;
+module.exports.Path.UP = -1;
+module.exports.Path.RIGHT = -2;
+module.exports.Path.DOWN = -3;
+module.exports.Path.LEFT = -4;
