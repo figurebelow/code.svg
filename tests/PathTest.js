@@ -96,8 +96,12 @@ describe ("Path", function () {
     assert.deepEqual({x:10, y:130}, path.pointAt(Path.DOWN));
   });
 
-  it ("LEFT returns the leftmpst point in a path", function () {
+  it ("LEFT returns the leftmost point in a path", function () {
     var path = new Path ({d:'M10,10 L60,10 L60,70 L1,30'});
     assert.deepEqual({x:1, y:30}, path.pointAt(Path.LEFT));
+  });
+
+  it ("returns the center of a bezier-defined path", function () {
+    var path = new Path ({d:"M10 10 C20,20,40,20,50,10 "});
   });
 });

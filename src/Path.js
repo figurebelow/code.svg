@@ -7,7 +7,7 @@
 "use strict";
 
 let SVGBase = require ("./SVGBase.js").SVGBase;
-let NonIntersecPolCenter = require ("./utils/Functions.js").NonIntersecPolCenter;
+let Functions = require ("./utils/Functions.js").Functions;
 let PointsParser = require ("./grammars/PathGrammar.js");
 let D3 = require ("./d3/d3.v4.min.js");
 
@@ -52,13 +52,8 @@ class Path extends SVGBase {
    * @override
    */
   getCenter () {
-    var vertices = [];
-    this.parsedPoints.forEach (function (instruction) {
-      if (instruction.values != undefined) {
-         vertices = vertices.concat (instruction.values)
-       }
-     });
-     return NonIntersecPolCenter (vertices);
+     let center = Functions.getPathCenter(this.parsedPoints);
+     return Functions.NonIntersecPolCenter (center);
   }
 
   /**
@@ -71,12 +66,7 @@ class Path extends SVGBase {
   moveTo (xyPos, point) {
     var currentCenter = point || this.getCenter();
     var distance = {x: xyPos.x - currentCenter.x, y: xyPos.y - currentCenter.y};
-    this.parsedPoints.forEach (function (point) {
-      if (point.values != undefined) {
-        point.values[0].x += distance.x;
-        point.values[0].y += distance.y;
-      }
-    });
+    Functions.moveInst (this.parsedPoints, distance);
     this.updateD();
     return this;
   }
@@ -128,8 +118,10 @@ class Path extends SVGBase {
         let xVals = this.parsedPoints.filter(p => p != undefined && p.values != undefined).map(p2 => p2.values[0].x);
         return this.parsedPoints[xVals.indexOf(Math.min.apply(Math,xVals))].values[0];
     }
-    let point = this.parsedPoints[pos].values[0];
-    return {x:point.x, y:point.y};
+    else {
+      let point = this.parsedPoints[pos].values[0];
+      return {x:point.x, y:point.y};
+    }
   }
 
   getPoints () {
@@ -149,7 +141,6 @@ class Path extends SVGBase {
     this.parsedPoints.forEach (function (point, i, sourceList) {
       newD += point.type;
       if (point.type.toLowerCase() != 'z') {
-        //newD += point.values[0].x + "," + point.values[0].y;
         for (let key in point.values[0]) {
           newD += point.values[0][key] + ",";
         }
@@ -175,12 +166,12 @@ class Path extends SVGBase {
       var interpolated = 0;
       for (var i  = 1; i < clonedPoints.length; i++) {
         if (clonedPoints[i].type == "L") {
-          var intermediatePoint = NonIntersecPolCenter ([clonedPoints[i].values[0], clonedPoints[i-1].values[0]]);
+          var intermediatePoint = Functions.NonIntersecPolCenter ([clonedPoints[i].values[0], clonedPoints[i-1].values[0]]);
           this.parsedPoints.splice (i + interpolated,0,{type:'L', values:[{x:intermediatePoint.x, y:intermediatePoint.y}]});
           interpolated++;
         }
         if (clonedPoints[i].type == "z") {
-          var intermediatePoint = NonIntersecPolCenter ([clonedPoints[0].values[0], clonedPoints[i-1].values[0]]);
+          var intermediatePoint = Functions.NonIntersecPolCenter ([clonedPoints[0].values[0], clonedPoints[i-1].values[0]]);
           this.parsedPoints.splice (i + interpolated,0,{type:'L', values:[{x:intermediatePoint.x, y:intermediatePoint.y}]});
         }
       }
@@ -240,7 +231,7 @@ class Path extends SVGBase {
     var gen = D3.line()
       .x (function (d) { return d.x})
       .y (function (d) { return d.y})
-      .curve (D3.curveBasis);
+      .curve (D3.curveBasisClosed);
     return gen(input);
   }
 

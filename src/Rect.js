@@ -7,7 +7,7 @@
 "use strict";
 
 let Path = require ("./Path.js").Path;
-let Utils = require ("./utils/Functions.js");
+let Functions = require ("./utils/Functions.js").Functions;
 
 /**
  * Rect class
@@ -46,7 +46,7 @@ class Rect extends Path {
     var procParams = values;
     procParams["d"] = d;
     var rect = new Rect (procParams);
-    var angle = Utils.calculateAngle(point1, point2);
+    var angle = Functions.calculateAngle(point1, point2);
     rect.rot(angle, point1);
     return rect;
   }
@@ -61,6 +61,8 @@ class Rect extends Path {
         return {x:-val, y:-val};
       if (i == 3)
         return {x:val, y:-val};
+      else
+        return {x:0, y:0};
     }
     this.noise(shrinkFunc);
     return this;
