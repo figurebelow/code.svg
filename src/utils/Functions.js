@@ -68,20 +68,20 @@ class Functions {
           centerList.push({x:inst.values[0].x,y:inst.values[0].y});
           break;
         case 'C': case 'c':
-          centerList.push(NonIntersecPolCenter([
+          centerList.push(Functions.NonIntersecPolCenter([
             {x:inst.values[0].x1, y:inst.values[0].y1},
             {x:inst.values[0].x2, y:inst.values[0].y2},
             {x:inst.values[0].x, y:inst.values[0].y}
           ]));
           break;
         case 'S': case 's':
-          centerList.push(NonIntersecPolCenter([
+          centerList.push(Functions.NonIntersecPolCenter([
             {x:inst.values[0].x2, y:inst.values[0].y2},
             {x:inst.values[0].x, y:inst.values[0].y},
           ]));
           break;
         case 'Q': case 'q':
-          centerList.push(NonIntersecPolCenter([
+          centerList.push(Functions.NonIntersecPolCenter([
             {x:inst.values[0].x1, y:inst.values[0].y1},
             {x:inst.values[0].x, y:inst.values[0].y},
           ]));

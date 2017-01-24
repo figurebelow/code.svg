@@ -20,7 +20,6 @@ class Noise {
     });
   }
 
-
 };
 
 module.exports.Noise = Noise;
