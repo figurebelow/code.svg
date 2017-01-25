@@ -169,4 +169,8 @@ describe ("PathGrammar", function () {
                       PathGrammar.parse("m10 10 q5 5 10 10 q10 10 20 20 z"));
   });
 
+  it ("parses decimal point", function () {
+    assert.deepEqual ([{type:'M', values:[{x:10.45, y:5.675}]}], PathGrammar.parse("M10.45,5.675"));
+  });
+
 });
