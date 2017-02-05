@@ -23,6 +23,9 @@ global.StrokeBuilder = require ("./src/utils/StrokeBuilder.js").StrokeBuilder;
 global.PListBuilder  = require ("./src/utils/PListBuilder.js").PListBuilder;
 global.Bezier        = require ("./src/Bezier.js").Bezier;
 
+// Global function to return random numbers
+global.Rand          = new Rnd(new Date().getMilliseconds());
+
 var fs = require ("fs");
 var compressjs = require('compressjs');
 
@@ -59,6 +62,10 @@ class CodeSvg {
       else
         this.outputFile = mainFile.substr (0, dot) + ".svg";
     }
+  }
+
+  setSeed(seed) {
+    global.Rand = new Rnd(seed);
   }
 
   save (scene) {

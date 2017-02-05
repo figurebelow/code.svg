@@ -67,7 +67,7 @@ class Rnd {
     }
   }
 
-  rint (lower, upper) {
+  int (lower, upper) {
     return Math.round(this.random(lower, upper));
   }
 

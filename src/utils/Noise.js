@@ -8,25 +8,25 @@
 
 class Noise {
 
-  static x (Rnd, val) {
+  static x (val) {
     return ( function f () {
-      return {x: Rnd.random(val), y:0};
+      return {x: Rand.random(val), y:0};
     });
   }
 
-  static y (Rnd, val) {
+  static y (val) {
     return ( function f () {
-      return {x: 0, y: Rnd.random(val)};
+      return {x: 0, y: Rand.random(val)};
     });
   }
 
-  static xy (Rnd, valx, valy) {
+  static xy (valx, valy) {
     return ( function f () {
-      return {x: Rnd.random(valx), y: Rnd.random(valy)};
+      return {x: Rand.random(valx), y: Rand.random(valy)};
     });
   }
 
-  static expand (Rnd, refPoint) {
+  static expand (refPoint) {
     function f (pathPoint) {
       let offset = 20;
       let distance = Math.sqrt(refPoint.x * refPoint.x + pathPoint.y * pathPoint.y);

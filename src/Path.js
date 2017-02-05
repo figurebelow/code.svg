@@ -90,6 +90,7 @@ class Path extends SVGBase {
         cos = Math.cos(radians),
         sin = Math.sin(radians);
     for (let i = 0; i < this.parsedPoints.length; i++) {
+      console.log(this.parsedPoints[i])
       if (this.parsedPoints[i].type.toLowerCase() != "z") {
         var x = this.parsedPoints[i].values[0].x;
         var y = this.parsedPoints[i].values[0].y;

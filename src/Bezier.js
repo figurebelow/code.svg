@@ -12,7 +12,9 @@ let Functions = require ("./utils/Functions.js").Functions;
 class Bezier extends Path {
 
   constructor(params) {
-    params["d"] = "M0,0 C0,0,0,0,0,0z";
+    let d = Functions.resolve (params, "d", "M0,0 C0,0,0,0,0,0z");
+    if (params === undefined)
+      params = {d:d};
     super(params);
   }
 
@@ -27,9 +29,9 @@ class Bezier extends Path {
     this.parsedPoints.push({type:"z", values:[]});
   }
 
-  setEnd (end, off) {
-    this.parsedPoints[1].values[0].x = end.x + off.x;
-    this.parsedPoints[1].values[0].y = end.y + off.y;
+  setEnd (end) {
+    this.parsedPoints[1].values[0].x = end.x;
+    this.parsedPoints[1].values[0].y = end.y;
     this.updateD();
     return this;
   }
@@ -59,6 +61,32 @@ class Bezier extends Path {
     this.parsedPoints[1].values[0].y2 += oc2.y;
     this.updateD();
     return this;
+  }
+
+  static createLine (p1, p2, values) {
+    let bezier = new Bezier();
+    let procParams = {};
+    for (let key in values)
+      procParams[key] = values[key];
+    delete procParams["height"];
+    var height = Functions.resolve(values, "height", 100);
+    var vector = {x: p2.x - p1.x, y: p2.y - p1.y};
+    var length = Math.sqrt(vector.x * vector.x + vector.y * vector.y);
+    //var p0 = "M" + point1.x + "," + (point1.y - height/2);
+    //var p1 = "L" + (point1.x + length) + "," + (point1.y - height/2);
+    //var p2 = "L" + (point1.x + length) + "," + (point1.y + height/2);
+    //var p3 = "L" + point1.x + "," + (point1.y + height/2) + "z";
+    //var d = p0 + " " + p1 + " " + p2 + " " + p3;
+    var c0 = "M" + p1.x + "," + (p1.y-height/2) + " ";
+    var c1 = "C" + (p1.x + length) + "," + (p2.y - height/2) + "," + p1.x + "," + (p1.y-height/2) + "," + p2.x + "," + (p2.y - height/2);
+    c1 += " v" + height + " ";
+    c1 += "C" + (p1.x + length) + "," + (p2.y + height/2) + "," + p1.x + "," + (p1.y+height/2) + "," + p1.x + "," + (p1.y + height/2);
+    var c2 = "z";
+    procParams["d"] = c0 + c1 + c2;
+    var rect = new Bezier (procParams);
+    var angle = Functions.calculateAngle(p1, p2);
+    rect.rot(angle, p1);
+    return rect;
   }
 };
 
