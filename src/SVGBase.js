@@ -26,6 +26,7 @@ class SVGBase {
     this.attributes = {};
     this.innerAttributes = {};  // attributes to be kept internally
     this.innerAttributes.innerDefs = [];
+    this.innerAttributes.z = 0;
     this.children = [];
     this.transform = {};
     this.transform.rotate = {}; // {x,y,deg}
@@ -33,6 +34,8 @@ class SVGBase {
     this.transform.skew = {};
     if (values != undefined)
       for (var opt in values) {
+        // if (typeof(values[opt]) === 'function')
+        //   this.attributes[opt] = values[opt]();
         if (typeof(values[opt]) === 'object') {
           if (values[opt].type)   // SVGBase object
             this.attributes[opt] = values[opt].getRef();
@@ -162,7 +165,7 @@ class SVGBase {
           }
       }
       else
-        this.attributes[attr] = attrs[attr];
+        this.attributes[attr] = Functions.funct(attrs[attr]);
     }
     return this;
   }
@@ -173,7 +176,7 @@ class SVGBase {
    */
   setInnerAttr (attrs) {
     for (var attr in attrs)
-      this.innerAttributes[attr] = attrs[attr];
+      this.innerAttributes[attr] = Functions.funct(attrs[attr]);
   }
 
   getInnerAttr (attr) {
@@ -230,28 +233,6 @@ class SVGBase {
    */
   setId (id) {
     this.attributes.id = id || Rnd.genId();
-  }
-
-  /**
-   * Checks the set of values for the attribute.
-   * If values is a map, it returns the attr field, values itself it its a
-   * primitive object, and defValue if values is undefined.
-   * @param {object} values - set of objects
-   * @param {string} attr - attr to look for in the values
-   * @param {number} defValue - default value
-   * @ignore
-   */
-  static resolve (values, at, defValue) {
-    var retValue = defValue;
-    if (values && values[at] != undefined) {
-      if (typeof(values[at]) === "function")
-        retValue = values[at]();
-      else if (typeof(values[at]) === 'object')
-        retValue = values[at][at];
-      else
-        retValue = values[at];
-    }
-    return retValue;
   }
 
   /**

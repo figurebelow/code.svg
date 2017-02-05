@@ -13,6 +13,7 @@ class PathBuilder {
     str += "M" + points[0].x + "," + points[0].y + " ";
     for (let i = 1; i < points.length; i++)
       str += "L" + " " + points[i].x + "," + points[i].y + " ";
+    str += "z";
     return str;
   }
 
@@ -24,7 +25,7 @@ class PathBuilder {
         points[i+1].x + "," + points[i+1].y + " " +
         points[i+2].x + "," + points[i+2].y + " ";
     }
-    str += "z";
+    //str += "z";
     return str;
   }
 

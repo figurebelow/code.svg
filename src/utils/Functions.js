@@ -8,6 +8,34 @@
 
 class Functions {
 
+  /**
+   * Checks the set of values for the attribute.
+   * If values is a map, it returns the attr field, values itself it its a
+   * primitive object, and defValue if values is undefined.
+   * @param {object} values - set of objects
+   * @param {string} attr - attr to look for in the values
+   * @param {number} defValue - default value
+   * @ignore
+   */
+  static resolve (values, at, defValue) {
+    var retValue = defValue;
+    if (values && values[at] != undefined) {
+      if (typeof(values[at]) === "function")
+        retValue = values[at];
+      else if (typeof(values[at]) === 'object')
+        retValue = values[at][at];
+      else
+        retValue = values[at];
+    }
+    return retValue;
+  }
+
+  static funct (p) {
+    if (typeof(p) === "function")
+      return p();
+    return p;
+  }
+
   /*
   * Center of a non-intersecting polygon,
   * as described in http://en.wikipedia.org/wiki/Centroid#Centroid_of_polygon
@@ -52,6 +80,16 @@ class Functions {
     return Math.atan2 (yDiff, xDiff) * (180 / Math.PI);
   }
 
+  static group (arr, groupSize, f) {
+    let returnVals = [];
+    arr.forEach (function (point, i) {
+      if (i >= (groupSize-1)) {
+        returnVals.push(f([arr[i-(groupSize-1)],arr[i]], i));
+      }
+    });
+    return returnVals;
+  }
+
   /*
   * Calculates the center of a list of Path instructions
   */
@@ -65,7 +103,7 @@ class Functions {
           break;
         case 'M': case 'm':
         case 'T': case 't':
-          centerList.push({x:inst.values[0].x,y:inst.values[0].y});
+          centerList.push({x:inst.values[0].x, y:inst.values[0].y});
           break;
         case 'C': case 'c':
           centerList.push(Functions.NonIntersecPolCenter([
@@ -133,6 +171,19 @@ class Functions {
       }
     });
   };
+
+  // S x1,y1 x,y
+  static genSmoothBezier (p1, p2, params) {
+    let height = Functions.resolve(params, "height",10);
+    var vector = {x: p2.x - p1.x, y: p2.y - p1.y};
+    var length = Math.sqrt(vector.x * vector.x + vector.y * vector.y);
+    var p0 = "M" + p1.x + "," + (p1.y - height/2) + " ";
+    var x1 = "S"+(p1.x + 4) + "," + (p1.y + 30) + " ";
+    var x2 = p2.x + "," + p2.y + "z";
+    var d = p0 + x1 + x2;
+    params.d = d;
+    return new Path (params);
+  }
 };
 
 module.exports.Functions = Functions;

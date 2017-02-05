@@ -23,7 +23,7 @@ class Path extends SVGBase {
    */
   constructor (values) {
     super ("path", values);
-    if ("d" in values)
+    if (values && "d" in values)
       this.parsePoints (values["d"]);
     else {
       this.setAttr({d:""});
@@ -84,6 +84,8 @@ class Path extends SVGBase {
    */
   rot (deg, origin) {
     var around = origin || this.getCenter();
+    if (around == Path.UP || around == Path.DOWN || around == Path.RIGHT || around == Path.LEFT)
+      around = this.pointAt(around);
     var radians = deg * Math.PI / 180.0,
         cos = Math.cos(radians),
         sin = Math.sin(radians);

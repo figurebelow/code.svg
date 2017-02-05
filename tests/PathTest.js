@@ -101,7 +101,21 @@ describe ("Path", function () {
     assert.deepEqual({x:1, y:30}, path.pointAt(Path.LEFT));
   });
 
-  it ("returns the center of a bezier-defined path", function () {
-    var path = new Path ({d:"M10 10 C20,20,40,20,50,10 "});
+  it ("rotates using constant point values", function () {
+    var path = new Path ({d:'M10,10 L60,10 L60,70 L1,30'});
+    var path2 = new Path ({d:'M10,10 L60,10 L60,70 L1,30'});
+	path.rot(45, Path.UP);
+	path2.rot(45, path.pointAt(Path.UP));
+	assert.deepEqual(path, path2);
+  });
+
+  it ("applies function values", function () {
+    var path = new Path ({d: "M10 10 C20,40,30,30,50,10z"})
+    function f () {
+      return 45;
+    }
+    path.setAttr({opacity:f, "stroke-width":f});
+    assert.equal(45, path.getAttr("opacity"));
+    assert.equal(45, path.getAttr("stroke-width"));
   });
 });
