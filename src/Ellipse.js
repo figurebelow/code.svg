@@ -7,6 +7,7 @@
 "use strict";
 
 let Path = require ("./Path.js").Path;
+let Functions = require ("./utils/Functions.js").Functions;
 
 /**
  * Class Ellipse
@@ -19,10 +20,10 @@ class Ellipse extends Path {
    * @param {map} values - initial values
    */
   constructor (values) {
-    var cx = Ellipse.resolve (values, "cx", 0);
-    var cy = Ellipse.resolve (values, "cy", 0);
-    var rx = Ellipse.resolve (values, "rx", 5);
-    var ry = Ellipse.resolve (values, "ry", 5);
+    var cx = Functions.resolve (values, "cx", 0);
+    var cy = Functions.resolve (values, "cy", 0);
+    var rx = Functions.resolve (values, "rx", 5);
+    var ry = Functions.resolve (values, "ry", 5);
     var p0 = "M" + cx + "," + cy + " ";
     var p1 = "m" + (-rx) + "," + 0 + " ";
     var p2 = "a" + rx + "," + ry + " " + 0 + " " + "1,0 " + (rx * 2) + ",0 ";

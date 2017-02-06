@@ -30,9 +30,7 @@ class Layout {
     let yspan = height / yrows;
     for (let ypoints = 1; ypoints < yrows ; ypoints++)
       for (let xpoints = 1;  xpoints < xrows; xpoints++)
-      {
         points.push ({x: xpoints * xspan, y: ypoints * yspan});
-      }
     return points;
   }
 

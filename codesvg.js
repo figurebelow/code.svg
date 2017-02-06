@@ -15,10 +15,16 @@ global.Pattern       = require ( "./src/Pattern.js").Pattern;
 global.PS            = require ( "./src/utils/node-particles/js/ParticleSystem.js");
 global.Colors        = require ( "./src/utils/Colors.js").Colors;
 global.Curves        = require ("./src/utils/Parametrics.js").Parametrics;
-global.Functions     = require ("./src/utils/Functions.js");
+global.Functions     = require ("./src/utils/Functions.js").Functions;
 global.Boids         = require ("./src/utils/node-particles/js/Boids.js");
 global.Noise         = require ("./src/utils/Noise.js").Noise;
 global.PathBuilder   = require ("./src/utils/PathBuilder.js").PathBuilder;
+global.StrokeBuilder = require ("./src/utils/StrokeBuilder.js").StrokeBuilder;
+global.PListBuilder  = require ("./src/utils/PListBuilder.js").PListBuilder;
+global.Bezier        = require ("./src/Bezier.js").Bezier;
+
+// Global function to return random numbers
+global.Rand          = new Rnd(new Date().getMilliseconds());
 
 var fs = require ("fs");
 var compressjs = require('compressjs');
@@ -56,6 +62,10 @@ class CodeSvg {
       else
         this.outputFile = mainFile.substr (0, dot) + ".svg";
     }
+  }
+
+  setSeed(seed) {
+    global.Rand = new Rnd(seed);
   }
 
   save (scene) {

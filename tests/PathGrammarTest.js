@@ -49,8 +49,8 @@ describe ("PathGrammar", function () {
     var points = PathGrammar.parse("M0,0 H10 H20Z");
     assert.equal (4, points.length);
     assert.deepEqual ({x:0, y:0}, points[0].values[0]);
-    assert.equal (10, points[1].values);
-    assert.equal (20, points[2].values);
+    assert.deepEqual ([{x:10, y:0}], points[1].values);
+    assert.deepEqual ([{x:20, y:0}], points[2].values);
     assert.equal ("M", points[0].type);
     assert.equal ("H", points[1].type);
     assert.equal ("H", points[2].type);
@@ -61,8 +61,8 @@ describe ("PathGrammar", function () {
     var points = PathGrammar.parse("M0,0 V10 V20Z");
     assert.equal (4, points.length);
     assert.deepEqual ({x:0, y:0}, points[0].values[0]);
-    assert.equal (10, points[1].values);
-    assert.equal (20, points[2].values);
+    assert.deepEqual ([{x:0, y:10}], points[1].values);
+    assert.deepEqual ([{x:0, y:20}], points[2].values);
     assert.equal ("M", points[0].type);
     assert.equal ("V", points[1].type);
     assert.equal ("V", points[2].type);

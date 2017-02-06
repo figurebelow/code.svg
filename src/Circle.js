@@ -7,6 +7,7 @@
 "use strict";
 
 let Path = require ("./Path.js").Path;
+let Functions = require ("./utils/Functions.js").Functions;
 
 /**
  * Circle class
@@ -19,9 +20,9 @@ class Circle extends Path {
    * @param {map} values - values to initialize the Circle
    */
   constructor (values) {
-    var cx = Path.resolve(values, "cx", 0);
-    var cy = Path.resolve(values, "cy", 0);
-    var r = Path.resolve(values, "r", 5);
+    var cx = Functions.resolve(values, "cx", 0);
+    var cy = Functions.resolve(values, "cy", 0);
+    var r = Functions.resolve(values, "r", 5);
     var p0 = "M" + cx + "," + cy + " ";
     var p1 = "m" + (-r) + "," + 0 + " ";
     var p2 = "a" + r + "," + r + "," + 0 + "," + "1,0," + (r * 2) + ",0 ";

@@ -32,11 +32,11 @@ lineTo
 
 horLineTo
   = key:("H" / "h") ws* val:([ ]* x:number [ ]*)
-    { return { type:key, values: val[1] }}
+    { return { type:key, values: [{x:val[1], y:0}] }}
 
 verLineTo
   = key:("V" / "v") ws* val:([ ]* x:number [ ]*)
-    { return { type:key, values: val[1] }}
+    { return { type:key, values: [{x:0, y:val[1]} ] }}
 
 curveTo
   = key:("C" / "c") ws* val:([ ]* x1:number ws y1:number ws x2:number ws y2:number ws x:number ws y:number [ ]*

@@ -7,6 +7,7 @@
 "use strict";
 
 let SVGBase = require("../SVGBase.js").SVGBase;
+let Functions = require ("./Functions.js").Functions;
 
 class FeComposite extends SVGBase  {
 
@@ -64,7 +65,7 @@ class FeDistantLight extends SVGBase {
 class FeComponentTransfer extends SVGBase {
     constructor() {
         super("feComponentTransfer", {});
-        this.append(new Filter("feFuncA", {
+        this.append(new SVGBase("feFuncA", {
             type: "linear",
             slope: 0.8
         }));
@@ -73,8 +74,8 @@ class FeComponentTransfer extends SVGBase {
 
 class FeGaussianBlur extends SVGBase {
     constructor(attrs) {
-      let inAttr = SVGBase.resolve(attrs, "in", "SourceGraphic");
-      let stdDev = SVGBase.resolve(attrs, "stdDeviation", 3);
+      let inAttr = Functions.resolve(attrs, "in", "SourceGraphic");
+      let stdDev = Functions.resolve(attrs, "stdDeviation", 3);
       let ats = attrs || {in:inAttr, stdDeviation:stdDev};
       super("feGaussianBlur", ats);
     }
@@ -116,9 +117,9 @@ function RoughPaper() {
 function DropShadow (attrs) {
   let filter = new SVGBase("filter", {x:"-10%", y:"-10%", width:"140%", height:"140%"});
   let ats = attrs || {};
-  ats.dx = SVGBase.resolve (attrs,"dx",10);
-  ats.dy = SVGBase.resolve (attrs,"dy",10);
-  ats.stdDeviation = SVGBase.resolve (attrs, "stdDeviation", 10);
+  ats.dx = Functions.resolve (attrs,"dx",10);
+  ats.dy = Functions.resolve (attrs,"dy",10);
+  ats.stdDeviation = Functions.resolve (attrs, "stdDeviation", 10);
   filter.setId();
   filter.append (new FeOffset({dx: ats, dy:ats, result:"offOut", in:"SourceAlpha"}));
   filter.append (new FeGaussianBlur({stdDeviation:ats, result:"blurOut"}));
