@@ -69,18 +69,13 @@ class Bezier extends Path {
     for (let key in values)
       procParams[key] = values[key];
     delete procParams["height"];
-    var height = Functions.resolve(values, "height", 100);
+    var height = Functions.resolve(values, "height", 10);
     var vector = {x: p2.x - p1.x, y: p2.y - p1.y};
     var length = Math.sqrt(vector.x * vector.x + vector.y * vector.y);
-    //var p0 = "M" + point1.x + "," + (point1.y - height/2);
-    //var p1 = "L" + (point1.x + length) + "," + (point1.y - height/2);
-    //var p2 = "L" + (point1.x + length) + "," + (point1.y + height/2);
-    //var p3 = "L" + point1.x + "," + (point1.y + height/2) + "z";
-    //var d = p0 + " " + p1 + " " + p2 + " " + p3;
     var c0 = "M" + p1.x + "," + (p1.y-height/2) + " ";
-    var c1 = "C" + (p1.x + length) + "," + (p2.y - height/2) + "," + p1.x + "," + (p1.y-height/2) + "," + p2.x + "," + (p2.y - height/2);
-    c1 += " v" + height + " ";
-    c1 += "C" + (p1.x + length) + "," + (p2.y + height/2) + "," + p1.x + "," + (p1.y+height/2) + "," + p1.x + "," + (p1.y + height/2);
+    var c1 = "C" + (p1.x + length) + "," + (p1.y - height/2) + "," + p1.x + "," + (p1.y-height/2) + "," + (p1.x + length) + "," + (p1.y - height/2);
+    c1 += "L" + (p1.x + length) + "," + (p1.y + height/2) + " ";
+    c1 += "C" + (p1.x + length) + "," + (p1.y + height/2) + "," + p1.x + "," + (p1.y+height/2) + "," + p1.x + "," + (p1.y + height/2);
     var c2 = "z";
     procParams["d"] = c0 + c1 + c2;
     var rect = new Bezier (procParams);

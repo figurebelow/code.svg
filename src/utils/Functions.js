@@ -134,43 +134,79 @@ class Functions {
   /*
   * Applies a function to each instruction of a Path
   */
-  static moveInst (instList, distance) {
+  static moveInsts (instList, distance) {
     instList.forEach (function (inst) {
-      let type = inst.type;
-      switch (type) {
-        case 'L': case 'l':
-        case 'T': case 'l':
-          inst.values[0].x += distance.x;
-          inst.values[0].y += distance.y;
-          break;
-        case 'M': case 'm':
-          inst.values[0].x += distance.x;
-          inst.values[0].y += distance.y;
-          break;
-        case 'C' : case 'c':
-          inst.values[0].x += distance.x;
-          inst.values[0].x1 += distance.x;
-          inst.values[0].x2 += distance.x;
-          inst.values[0].y += distance.y;
-          inst.values[0].y1 += distance.y;
-          inst.values[0].y2 += distance.y;
-          break;
-        case 'S': case 's':
-          inst.values[0].x2 += distance.x;
-          inst.values[0].x += distance.x;
-          inst.values[0].y2 += distance.y;
-          inst.values[0].y += distance.y;
-          break;
-        case 'Q': case 'q':
-          inst.values[0].x1 += distance.x;
-          inst.values[0].x += distance.x;
-          inst.values[0].y1 += distance.y;
-          inst.values[0].y += distance.y;
-          break;
-        default:
-      }
+      Functions.moveInst(inst, distance);
     });
   };
+
+  static moveInst (inst, distance) {
+    let type = inst.type;
+    switch (type) {
+      case 'L': case 'l':
+      case 'T': case 'l':
+        inst.values[0].x += distance.x;
+        inst.values[0].y += distance.y;
+        break;
+      case 'M': case 'm':
+        inst.values[0].x += distance.x;
+        inst.values[0].y += distance.y;
+        break;
+      case 'C' : case 'c':
+        inst.values[0].x += distance.x;
+        inst.values[0].x1 += distance.x;
+        inst.values[0].x2 += distance.x;
+        inst.values[0].y += distance.y;
+        inst.values[0].y1 += distance.y;
+        inst.values[0].y2 += distance.y;
+        break;
+      case 'S': case 's':
+        inst.values[0].x2 += distance.x;
+        inst.values[0].x += distance.x;
+        inst.values[0].y2 += distance.y;
+        inst.values[0].y += distance.y;
+        break;
+      case 'Q': case 'q':
+        inst.values[0].x1 += distance.x;
+        inst.values[0].x += distance.x;
+        inst.values[0].y1 += distance.y;
+        inst.values[0].y += distance.y;
+        break;
+      case 'V' : case 'v':
+        inst.values[0].y += distance.y;
+        break;
+      case 'H' : case 'h':
+        inst.values[0].y += distance.y;
+        break;
+      default:
+    }
+  };
+
+  static rotateInst (inst, deg, around) {
+    if (inst.type != 'z') {
+      Functions.rotateAttrs(inst.values[0], "x", "y", deg, around);
+      switch (inst.type) {
+        case "C" : case "c" :
+          Functions.rotateAttrs(inst.values[0], "x1", "y1", deg, around);
+          Functions.rotateAttrs(inst.values[0], "x2", "y2", deg, around);
+          break;
+      }
+    }
+  }
+
+  static rotateAttrs (inst, at1, at2, deg, around) {
+    let radians = deg * Math.PI / 180.0,
+        cos = Math.cos(radians),
+        sin = Math.sin(radians);
+    let val1 = inst[at1];
+    let val2 = inst[at2];
+    let dx = val1 - around.x,
+        dy = val2 - around.y;
+    let newx = cos * dx - sin * dy + around.x;
+    let newy = sin * dx + cos * dy + around.y;
+    inst[at1] = newx;
+    inst[at2] = newy;
+  }
 
   // S x1,y1 x,y
   static genSmoothBezier (p1, p2, params) {

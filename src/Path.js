@@ -23,8 +23,9 @@ class Path extends SVGBase {
    */
   constructor (values) {
     super ("path", values);
-    if (values && "d" in values)
+    if (values && "d" in values) {
       this.parsePoints (values["d"]);
+    }
     else {
       this.setAttr({d:""});
       this.parsedPoints = [];
@@ -33,6 +34,7 @@ class Path extends SVGBase {
 
   parsePoints (dStr) {
     this.parsedPoints = PointsParser.parse (dStr);
+    this.updateD();
   }
 
   /**
@@ -66,7 +68,7 @@ class Path extends SVGBase {
   moveTo (xyPos, point) {
     var currentCenter = point || this.getCenter();
     var distance = {x: xyPos.x - currentCenter.x, y: xyPos.y - currentCenter.y};
-    Functions.moveInst (this.parsedPoints, distance);
+    Functions.moveInsts (this.parsedPoints, distance);
     this.updateD();
     return this;
   }
@@ -82,27 +84,29 @@ class Path extends SVGBase {
    * @example
    * rect.rotate(45, new Point(12,14)); // rotates around the given point
    */
-  rot (deg, origin) {
-    var around = origin || this.getCenter();
-    if (around == Path.UP || around == Path.DOWN || around == Path.RIGHT || around == Path.LEFT)
-      around = this.pointAt(around);
-    var radians = deg * Math.PI / 180.0,
-        cos = Math.cos(radians),
-        sin = Math.sin(radians);
-    for (let i = 0; i < this.parsedPoints.length; i++) {
-      console.log(this.parsedPoints[i])
-      if (this.parsedPoints[i].type.toLowerCase() != "z") {
-        var x = this.parsedPoints[i].values[0].x;
-        var y = this.parsedPoints[i].values[0].y;
-        var dx = x - around.x,
-            dy = y - around.y;
-        this.parsedPoints[i].values[0].x = cos * dx - sin * dy + around.x;
-        this.parsedPoints[i].values[0].y = sin * dx + cos * dy + around.y;
-      }
-    };
-    this.updateD();
-    return this;
-  }
+   rot (deg, origin) {
+     var around = origin || this.getCenter();
+     if (around == Path.UP || around == Path.DOWN || around == Path.RIGHT || around == Path.LEFT)
+       around = this.pointAt(around);
+     var radians = deg * Math.PI / 180.0,
+         cos = Math.cos(radians),
+         sin = Math.sin(radians);
+    //  for (let i = 0; i < this.parsedPoints.length; i++) {
+    //    if (this.parsedPoints[i].type.toLowerCase() != "z") {
+    //      var x = this.parsedPoints[i].values[0].x;
+    //      var y = this.parsedPoints[i].values[0].y;
+    //      var dx = x - around.x,
+    //          dy = y - around.y;
+    //      this.parsedPoints[i].values[0].x = cos * dx - sin * dy + around.x;
+    //      this.parsedPoints[i].values[0].y = sin * dx + cos * dy + around.y;
+    //    }
+    //  };
+     this.parsedPoints.forEach (function (inst) {
+       Functions.rotateInst(inst, deg, around);
+     });
+     this.updateD();
+     return this;
+   }
 
   pointAt (pos) {
     if (pos == Path.UP) {
