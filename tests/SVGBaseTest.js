@@ -48,4 +48,15 @@ describe ("SVGBase", function () {
     function foo () { return 10; };
     assert (10, Functions.resolve({x: foo}, "x", 50));
   });
+
+  it ("resolves a function that returns a map with the value", function () {
+	function foo () { return {x:10, y:20} };
+	assert (20, Functions.resolve(foo, "y"));
+  });
+
+  it ("resolves a function from a function that returns map with the value", function () {
+	function foo2 () { function foo () { return {x:10, y:20}}; return foo; };
+	assert (20, Functions.resolve(foo2, "y"));
+  });
+
 });

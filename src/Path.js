@@ -88,19 +88,6 @@ class Path extends SVGBase {
      var around = origin || this.getCenter();
      if (around == Path.UP || around == Path.DOWN || around == Path.RIGHT || around == Path.LEFT)
        around = this.pointAt(around);
-     var radians = deg * Math.PI / 180.0,
-         cos = Math.cos(radians),
-         sin = Math.sin(radians);
-    //  for (let i = 0; i < this.parsedPoints.length; i++) {
-    //    if (this.parsedPoints[i].type.toLowerCase() != "z") {
-    //      var x = this.parsedPoints[i].values[0].x;
-    //      var y = this.parsedPoints[i].values[0].y;
-    //      var dx = x - around.x,
-    //          dy = y - around.y;
-    //      this.parsedPoints[i].values[0].x = cos * dx - sin * dy + around.x;
-    //      this.parsedPoints[i].values[0].y = sin * dx + cos * dy + around.y;
-    //    }
-    //  };
      this.parsedPoints.forEach (function (inst) {
        Functions.rotateInst(inst, deg, around);
      });

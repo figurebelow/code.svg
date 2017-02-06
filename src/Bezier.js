@@ -55,10 +55,10 @@ class Bezier extends Path {
   }
 
   setControl (oc1, oc2) {
-    this.parsedPoints[1].values[0].x1 += oc1.x;
-    this.parsedPoints[1].values[0].y1 += oc1.y;
-    this.parsedPoints[1].values[0].x2 += oc2.x;
-    this.parsedPoints[1].values[0].y2 += oc2.y;
+    this.parsedPoints[1].values[0].x1 += Functions.resolve(oc1, "x");
+    this.parsedPoints[1].values[0].y1 += Functions.resolve(oc1, "y");
+    this.parsedPoints[1].values[0].x2 += Functions.resolve(oc2, "x");
+    this.parsedPoints[1].values[0].y2 += Functions.resolve(oc2, "y");
     this.updateD();
     return this;
   }

@@ -19,6 +19,8 @@ class Functions {
    */
   static resolve (values, at, defValue) {
     var retValue = defValue;
+    if (typeof(values) === "function")
+      return Functions.resolve(values(), at, defValue);
     if (values && values[at] != undefined) {
       if (typeof(values[at]) === "function")
         retValue = values[at];
