@@ -60,7 +60,7 @@ class Path extends SVGBase {
 
   /**
    * Moves the object to the given xy point
-   * @param {object} {x:va;,y:val} position to move the Path's center to.
+   * @param {object} {x:val,y:val} position to move the Path's center to.
    * @return the object
    * @example
    * path.moveTo({x:10,y:10});

@@ -82,11 +82,11 @@ class Functions {
     return Math.atan2 (yDiff, xDiff) * (180 / Math.PI);
   }
 
-  static group (arr, groupSize, f) {
+  static group (arr, groupSize, fun) {
     let returnVals = [];
     arr.forEach (function (point, i) {
       if (i >= (groupSize-1)) {
-        returnVals.push(f([arr[i-(groupSize-1)],arr[i]], i));
+        returnVals.push(fun([arr[i-(groupSize-1)],arr[i]], i));
       }
     });
     return returnVals;

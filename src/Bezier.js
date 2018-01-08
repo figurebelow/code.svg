@@ -41,6 +41,7 @@ class Bezier extends Path {
     let startPoint = this.parsedPoints[0];
     // this.parsedPoints.push({type:"M", values:[{x: endPoint.values[0].x,
     //                                   y: endPoint.values[0].y}]});
+    
     let middle = Functions.NonIntersecPolCenter([{x:startPoint.values[0].x,
                                                   y:startPoint.values[0].y},
                                                 {x:endPoint.values[0].x,
@@ -54,7 +55,7 @@ class Bezier extends Path {
     return this;
   }
 
-  setControl (oc1, oc2) {
+  setControl (i, oc1, oc2) {
     this.parsedPoints[1].values[0].x1 += Functions.resolve(oc1, "x");
     this.parsedPoints[1].values[0].y1 += Functions.resolve(oc1, "y");
     this.parsedPoints[1].values[0].x2 += Functions.resolve(oc2, "x");
