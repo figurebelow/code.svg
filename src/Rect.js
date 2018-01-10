@@ -1,6 +1,6 @@
 /**
 * @license
-* Copyright 2016 Ruben Afonso, ruben@figurebelow.com
+* Copyright 2016 Ruben Afonso, rbfrancos@gmail.com
 * This source code is licensed under the Apache license (see LICENSE file)
 **/
 

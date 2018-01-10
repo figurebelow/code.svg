@@ -1,6 +1,6 @@
 /**
 * @license
-* Copyright 2016 Ruben Afonso, ruben@figurebelow.com
+* Copyright 2018 Ruben Afonso, rbfrancos@gmail.com
 * This source code is licensed under the Apache license (see LICENSE file)
 **/
 
@@ -26,7 +26,6 @@ class SVGBase {
     this.attributes = {};
     this.innerAttributes = {};  // attributes to be kept internally
     this.innerAttributes.innerDefs = [];
-    this.innerAttributes.z = 0;
     this.children = [];
     this.transform = {};
     this.transform.rotate = {}; // {x,y,deg}
@@ -68,7 +67,17 @@ class SVGBase {
       svgStr += key + "=\"" + this.attributes[key] + "\" ";
     }
     svgStr += ">";
+    this.children.sort(function (a,b) {
+      let za = a.attributes["z"];
+      let zb = b.attributes["z"];
+      if (za == undefined && zb == undefined)
+        return 0
+      else if (za == undefined)
+        return -1;
+      else return +1;
+    });
     this.children.forEach(child => svgStr += child.toSVG());
+    console.log(this.children)
     svgStr += "</" + this.type + ">";
     return svgStr;
   }

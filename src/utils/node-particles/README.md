@@ -1,6 +1,6 @@
-[![CircleCI](https://circleci.com/gh/figurebelow/node-particles/tree/master.svg?style=svg)](https://circleci.com/gh/figurebelow/node-particles/tree/master)
-[![Coverage Status](https://coveralls.io/repos/github/figurebelow/node-particles/badge.svg?branch=master)](https://coveralls.io/github/figurebelow/node-particles?branch=master)
-[![npm version](https://badge.fury.io/js/node-particles.svg)](https://badge.fury.io/js/node-particles)
+[![CircleCI](https://circleci.com/gh/rubenafo/node-particles/tree/master.svg?style=svg)](https://circleci.com/gh/rubenafo/node-particles/tree/master)
+[![Coverage Status](https://coveralls.io/repos/github/rubenafo/node-particles/badge.svg?branch=master)](https://coveralls.io/github/rubenafo/node-particles?branch=master)
+[![npm version](https://badge.fury.io/js/node-particles.svg)](https://badge.fury.io/js/node-particles)   
 Node-Particles
 ====================
 
@@ -11,9 +11,9 @@ There is also a very nice article from the same author [here](https://software.i
 
 ## Screenshots
 
-<img src="https://raw.githubusercontent.com/figurebelow/node-particles/master/docs/scrs/part1.png" width="200">
-<img src="https://raw.githubusercontent.com/figurebelow/node-particles/master/docs/scrs/part2.png" width="200">
-<img src="https://raw.githubusercontent.com/figurebelow/node-particles/master/docs/scrs/part3.png" width="200">
+<img src="https://raw.githubusercontent.com/rubenafo/node-particles/master/docs/scrs/part1.png" width="200">
+<img src="https://raw.githubusercontent.com/rubenafo/node-particles/master/docs/scrs/part2.png" width="200">
+<img src="https://raw.githubusercontent.com/rubenafo/node-particles/master/docs/scrs/part3.png" width="200">
 
 ## Usage
 The easiest way to get the library is to use npm:

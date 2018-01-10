@@ -14,7 +14,7 @@
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/figurebelow/code.svg.git"
+    "url": "git+https://github.com/rubenafo/code.svg.git"
   },
   "keywords": [
     "svg",
@@ -23,10 +23,10 @@
     "art",
     "generative"
   ],
-  "author": "Ruben <ruben@figurebelow.com>",
+  "author": "Ruben Afonso <rbfrancos@gmail.com>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/figurebelow/code.svg/issues"
+    "url": "https://github.com/rubenafo/code.svg/issues"
   },
   "devDependencies": {
     "coveralls": "^2.11.6",
@@ -34,7 +34,7 @@
     "mocha": "2.4.5",
     "jsdoc": "^3.4.0"
   },
-  "homepage": "https://github.com/figurebelow/code.svg#readme",
+  "homepage": "https://github.com/rubenafo/code.svg#readme",
   "dependencies": {
     "body-parser": "^1.15.2",
     "compressjs": "^1.0.3",
