@@ -339,6 +339,45 @@
             </ul>
         </li>
     
+        <li class="item" data-name="Pattern">
+            <span class="title">
+                <a href="Pattern.html">Pattern</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Pattern#getAttr"><a href="Pattern.html#getAttr">getAttr</a></li>
+            
+                <li data-name="Pattern#moveTo"><a href="Pattern.html#moveTo">moveTo</a></li>
+            
+                <li data-name="Pattern#noise"><a href="Pattern.html#noise">noise</a></li>
+            
+                <li data-name="Pattern#rot"><a href="Pattern.html#rot">rot</a></li>
+            
+                <li data-name="Pattern#sca"><a href="Pattern.html#sca">sca</a></li>
+            
+                <li data-name="Pattern#setAttr"><a href="Pattern.html#setAttr">setAttr</a></li>
+            
+                <li data-name="Pattern#setInnerAttr"><a href="Pattern.html#setInnerAttr">setInnerAttr</a></li>
+            
+                <li data-name="Pattern#ske"><a href="Pattern.html#ske">ske</a></li>
+            
+                <li data-name="Pattern#subdivide"><a href="Pattern.html#subdivide">subdivide</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
         <li class="item" data-name="Polygon">
             <span class="title">
                 <a href="Polygon.html">Polygon</a>
@@ -573,7 +612,7 @@
         <article>
             <pre class="prettyprint source "><code>/**
 * @license
-* Copyright 2016 Ruben Afonso, ruben@figurebelow.com
+* Copyright 2018 Ruben Afonso, rbfrancos@gmail.com
 * This source code is licensed under the Apache license (see LICENSE file)
 **/
 
@@ -598,6 +637,7 @@ class SVGBase {
     this.type = type;
     this.attributes = {};
     this.innerAttributes = {};  // attributes to be kept internally
+    this.innerAttributes.innerDefs = [];
     this.children = [];
     this.transform = {};
     this.transform.rotate = {}; // {x,y,deg}
@@ -605,6 +645,8 @@ class SVGBase {
     this.transform.skew = {};
     if (values != undefined)
       for (var opt in values) {
+        // if (typeof(values[opt]) === 'function')
+        //   this.attributes[opt] = values[opt]();
         if (typeof(values[opt]) === 'object') {
           if (values[opt].type)   // SVGBase object
             this.attributes[opt] = values[opt].getRef();
@@ -637,7 +679,17 @@ class SVGBase {
       svgStr += key + "=\"" + this.attributes[key] + "\" ";
     }
     svgStr += ">";
+    this.children.sort(function (a,b) {
+      let za = a.attributes["z"];
+      let zb = b.attributes["z"];
+      if (za == undefined &amp;&amp; zb == undefined)
+        return 0
+      else if (za == undefined)
+        return -1;
+      else return +1;
+    });
     this.children.forEach(child => svgStr += child.toSVG());
+    console.log(this.children)
     svgStr += "&lt;/" + this.type + ">";
     return svgStr;
   }
@@ -727,10 +779,14 @@ class SVGBase {
    */
   setAttr (attrs) {
     for (var attr in attrs) {
-      if (typeof(attrs[attr]) === 'object')
+      if (typeof(attrs[attr]) === 'object') {
           this.attributes[attr] = attrs[attr].getRef();
-        else
-          this.attributes[attr] = attrs[attr];
+          if (attr == "filter") {
+            this.innerAttributes.innerDefs.push(attrs[attr]); // keep the ref to add it to the scene
+          }
+      }
+      else
+        this.attributes[attr] = Functions.funct(attrs[attr]);
     }
     return this;
   }
@@ -741,7 +797,7 @@ class SVGBase {
    */
   setInnerAttr (attrs) {
     for (var attr in attrs)
-      this.innerAttributes[attr] = attrs[attr];
+      this.innerAttributes[attr] = Functions.funct(attrs[attr]);
   }
 
   getInnerAttr (attr) {
@@ -798,28 +854,6 @@ class SVGBase {
    */
   setId (id) {
     this.attributes.id = id || Rnd.genId();
-  }
-
-  /**
-   * Checks the set of values for the attribute.
-   * If values is a map, it returns the attr field, values itself it its a
-   * primitive object, and defValue if values is undefined.
-   * @param {object} values - set of objects
-   * @param {string} attr - attr to look for in the values
-   * @param {number} defValue - default value
-   * @ignore
-   */
-  static resolve (values, at, defValue) {
-    var retValue = defValue;
-    if (values &amp;&amp; values[at]) {
-      if (typeof(values[at]) === "function")
-        retValue = values[at]();
-      else if (typeof(values[at]) === 'object')
-        retValue = values[at][at];
-      else
-        retValue = values[at];
-    }
-    return retValue;
   }
 
   /**
@@ -896,6 +930,12 @@ class SVGBase {
     this.transform.skewY = yfactor;
     return this;
   }
+
+  addPattern (object, params) {
+    let pat = new Pattern(object, params);
+    this.setAttr({fill:pat});
+    this.innerAttributes.innerDefs.push(pat);
+  }
 };
 
 module.exports.SVGBase = SVGBase;
@@ -911,7 +951,7 @@ module.exports.SVGBase = SVGBase;
         
 
         <footer>
-            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Fri Oct 21 2016 19:50:59 GMT+0100 (IST)
+            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Jan 11 2018 08:22:12 GMT+0000 (GMT)
         </footer>
     </div>
 </div>
