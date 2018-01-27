@@ -67,17 +67,7 @@ class SVGBase {
       svgStr += key + "=\"" + this.attributes[key] + "\" ";
     }
     svgStr += ">";
-    this.children.sort(function (a,b) {
-      let za = a.attributes["z"];
-      let zb = b.attributes["z"];
-      if (za == undefined && zb == undefined)
-        return 0
-      else if (za == undefined)
-        return -1;
-      else return +1;
-    });
     this.children.forEach(child => svgStr += child.toSVG());
-    console.log(this.children)
     svgStr += "</" + this.type + ">";
     return svgStr;
   }

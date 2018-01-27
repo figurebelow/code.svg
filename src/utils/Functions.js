@@ -10,7 +10,7 @@ class Functions {
 
   /**
    * Checks the set of values for the attribute.
-   * If values is a map, it returns the attr field, values itself it its a
+   * If values is a map, it returns the attr field, values itself if its a
    * primitive object, and defValue if values is undefined.
    * @param {object} values - set of objects
    * @param {string} attr - attr to look for in the values

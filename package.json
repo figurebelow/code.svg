@@ -37,9 +37,10 @@
   "homepage": "https://github.com/rubenafo/code.svg#readme",
   "dependencies": {
     "body-parser": "^1.15.2",
+    "colourlovers": "0.1.1",
     "compressjs": "^1.0.3",
+    "nodemon": "^1.14.11",
     "peg": "0.0.2",
-    "sync-request": "^3.0.1",
-    "colourlovers":"0.1.1"
+    "sync-request": "^3.0.1"
   }
 }

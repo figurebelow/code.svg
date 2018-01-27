@@ -51,13 +51,15 @@ class Layout {
         centerY = params.y,
         radius = params.radius,
         coils = params.coils,
-        chord = params.chord;
-
+        chord = params.chord,
+        maxPoints = params.points;
     let rotation = 2 * Math.PI;
     let thetaMax = coils * 2 * Math.PI;
     let awayStep = radius / thetaMax;
-
-    for (let theta = chord / awayStep, i = 0; theta <= thetaMax && i < params.points; i++) {
+    let theta = chord/awayStep;
+    for (let i = 0; i < maxPoints; i++) {
+      if (theta > thetaMax)
+        break;
       let away = awayStep * theta;
       let around = theta + rotation;
       let x = centerX + Math.cos ( around ) * away;

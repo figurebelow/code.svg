@@ -131,3 +131,4 @@ module.exports.RoughPaper = RoughPaper;
 module.exports.FeDiffuseLighting = FeDiffuseLighting;
 module.exports.SimpleLight = SimpleLight;
 module.exports.DropShadow = DropShadow;
+module.exports.FeGaussianBlur = FeGaussianBlur
