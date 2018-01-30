@@ -37,7 +37,7 @@ describe ("Circle", function ()
 
   it ("clones", function () {
     var newCircle = circle.clone();
-    assert (circle.equals(newCircle));
+    assert.deepEqual (circle, newCircle);
   });
 
 })

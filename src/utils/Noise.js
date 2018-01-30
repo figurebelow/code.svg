@@ -1,6 +1,6 @@
 /**
 * @license
-* Copyright 2017 Ruben Afonso, rubenaf.com
+* Copyright 2018 Ruben Afonso, rubenaf.com
 * This source code is licensed under the Apache license (see LICENSE file)
 **/
 
@@ -38,7 +38,7 @@ class Noise {
   }
 
   static shrink (Rnd, point) {
-
+    throw ("not implemented")
   }
 };
 

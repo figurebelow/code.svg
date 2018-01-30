@@ -66,6 +66,10 @@ class Circle extends Path {
     this.updateD();
     return this;
   }
+
+  setAttr(attrs) {
+    return constructor(attrs);
+  }
 };
 
 module.exports.Circle = Circle;

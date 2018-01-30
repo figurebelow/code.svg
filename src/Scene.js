@@ -8,6 +8,7 @@
 
 let SVGBase = require ("./SVGBase.js").SVGBase;
 let Rect = require ("./Rect.js").Rect;
+let Filter = require("./utils/Filters.js").Filter;
 
 const DEFAULT_WIDTH = 800;
 const DEFAULT_HEIGHT = 600;
@@ -144,3 +145,4 @@ class Scene extends SVGBase {
 };
 
 module.exports.Scene = Scene;
+module.exports.Filter = Filter;

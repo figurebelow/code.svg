@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2016 Ruben Afonso, rubenaf.com
+ * Copyright 2018 Ruben Afonso, rubenaf.com
  * This source code is licensed under the Apache license (see LICENSE file)
  **/
 
@@ -8,6 +8,13 @@
 
 let SVGBase = require("../SVGBase.js").SVGBase;
 let Functions = require ("./Functions.js").Functions;
+
+class Filter extends SVGBase {
+
+  constructor (attrs) {
+    super("filter", attrs);
+  }
+}
 
 class FeComposite extends SVGBase  {
 
@@ -42,6 +49,17 @@ class FeTurbulence extends SVGBase {
     }
 }
 
+class FeSpecularLighting extends SVGBase {
+  constructor(attrs) {
+    super("feSpecularLighting", attrs)
+  }
+
+  addPointLight (attrs) {
+    this.append(new SVGBase("fePointLight", attrs));
+    return this;
+  }
+}
+
 class FeDiffuseLighting extends SVGBase {
 
     constructor() {
@@ -63,21 +81,29 @@ class FeDistantLight extends SVGBase {
 }
 
 class FeComponentTransfer extends SVGBase {
-    constructor() {
-        super("feComponentTransfer", {});
-        this.append(new SVGBase("feFuncA", {
-            type: "linear",
-            slope: 0.8
-        }));
+    constructor(attrs) {
+        super("feComponentTransfer", attrs);
     };
+
+    addFeFuncA (attrs) {
+      this.append (new SVGBase("feFuncA", attrs));
+      return this;
+    }
+
+    addFeFuncB(attrs) {
+      this.append (new SVGBase("feFuncB", attrs));
+      return this;
+    }
+
+    addFeFuncR(attrs) {
+      this.append(new SVGBase("feFuncR", attrs));
+      return this;
+    }
 }
 
 class FeGaussianBlur extends SVGBase {
     constructor(attrs) {
-      let inAttr = Functions.resolve(attrs, "in", "SourceGraphic");
-      let stdDev = Functions.resolve(attrs, "stdDeviation", 3);
-      let ats = attrs || {in:inAttr, stdDeviation:stdDev};
-      super("feGaussianBlur", ats);
+      super("feGaussianBlur", attrs);
     }
 };
 
@@ -85,7 +111,24 @@ class FeMerge extends SVGBase {
   constructor (attrs) {
     super ("feMerge", attrs);
   }
+
+  addFeMergeNode (attrs) {
+    this.append(new SVGBase("feMergeNode", attrs));
+    return this;
+  }
 };
+
+class FeFlood extends SVGBase {
+  constructor (attrs) {
+    super("feFlood", attrs);
+  }
+}
+
+class FeMorphology extends SVGBase {
+  constructor(attrs) {
+    super("feMorphology", attrs);
+  }
+}
 
 function SimpleLight () {
   let filter = new SVGBase ("filter");
@@ -127,7 +170,14 @@ function DropShadow (attrs) {
   return filter;
 }
 
+module.exports.Filter = Filter;
+module.exports.FeFlood = FeFlood;
+module.exports.FeMorphology = FeMorphology;
+module.exports.FeComposite = FeComposite;
+module.exports.FeSpecularLighting = FeSpecularLighting;
+module.exports.FeMerge = FeMerge;
 module.exports.RoughPaper = RoughPaper;
+module.exports.FeComponentTransfer = FeComponentTransfer;
 module.exports.FeDiffuseLighting = FeDiffuseLighting;
 module.exports.SimpleLight = SimpleLight;
 module.exports.DropShadow = DropShadow;
