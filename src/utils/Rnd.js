@@ -6,7 +6,7 @@
 
 "use strict";
 
-let D3 = require ("../d3/d3.v4.min.js");
+let D3 = require ("d3")
 
 const E = Math.E;
 const PI = Math.PI;
