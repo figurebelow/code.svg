@@ -1,6 +1,6 @@
 /**
 * @license
-* Copyright 2016 Ruben Afonso, ruben@figurebelow.com
+* Copyright 2016 Ruben Afonso, rubenaf.com
 * This source code is licensed under the Apache license (see LICENSE file)
 **/
 
@@ -65,6 +65,10 @@ class Circle extends Path {
     this.parsedPoints.splice(3,1);
     this.updateD();
     return this;
+  }
+
+  setAttr(attrs) {
+    return constructor(attrs);
   }
 };
 

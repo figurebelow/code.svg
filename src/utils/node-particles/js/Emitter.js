@@ -21,6 +21,13 @@ class Emitter {
     this.rand         = new Random();
   }
 
+  setPos (xy) { this.position = xy; return this; }
+  setSpeed (sp) { this.velocity = sp; return this; }
+  setSize (xy) { this.xsize = xy.x; this.ysize = xy.y; return this; }
+  setJitter (x) { this.jitter = x; return this; }
+  setSpread (x) { this.spread = x; return this; }
+  setLifetime (x) { this.particleLife = x; return this; }
+
   // Sets the distribution function
   seed (val) {
     if (val !== undefined) {
@@ -35,7 +42,7 @@ class Emitter {
     pPosition.x += this.rand.random() * this.xsize;
     pPosition.y += this.rand.random() * this.ysize;
     var particle = new Particle (pPosition,
-                                 Point.fromAngle(this.velocity.getAngle() + this.spread * this.rand.random()
+                                 Point.fromAngle(this.velocity.getAngle() - this.spread * this.rand.random()
                                                   - (0 * this.spread * 2),
                                   this.velocity.getMagnitude())
     );

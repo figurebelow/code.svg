@@ -9,12 +9,12 @@
   "scripts": {
     "test": "mocha ./tests",
     "test-travis": "./node_modules/istanbul/lib/cli.js cover -x '**/grammars/**' -x '**/node-particles/**' ./node_modules/mocha/bin/_mocha -- -R spec ./tests/",
-    "gendocs": "jsdoc -r src -d docs/out/ -t docs/template/"
+    "gendocs": "./node_modules/.bin/jsdoc -r src -d docs/out/ -t docs/template/"
   },
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/figurebelow/code.svg.git"
+    "url": "git+https://github.com/rubenafo/code.svg.git"
   },
   "keywords": [
     "svg",
@@ -23,10 +23,10 @@
     "art",
     "generative"
   ],
-  "author": "Ruben <ruben@figurebelow.com>",
+  "author": "Ruben Afonso <rbfrancos@gmail.com>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/figurebelow/code.svg/issues"
+    "url": "https://github.com/rubenafo/code.svg/issues"
   },
   "devDependencies": {
     "coveralls": "^2.11.6",
@@ -34,12 +34,15 @@
     "mocha": "2.4.5",
     "jsdoc": "^3.4.0"
   },
-  "homepage": "https://github.com/figurebelow/code.svg#readme",
+  "homepage": "https://github.com/rubenafo/code.svg#readme",
   "dependencies": {
     "body-parser": "^1.15.2",
+    "chroma-js": "^1.3.6",
+    "colourlovers": "0.1.1",
     "compressjs": "^1.0.3",
+    "nodemon": "^1.14.11",
     "peg": "0.0.2",
     "sync-request": "^3.0.1",
-    "colourlovers":"0.1.1"
+    "d3": "^4.0.0"
   }
 }

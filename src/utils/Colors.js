@@ -1,11 +1,12 @@
 /**
 * @license
-* Copyright 2016 Ruben Afonso, ruben@figurebelow.com
+* Copyright 2016 Ruben Afonso, rubenaf.com
 * This source code is licensed under the Apache license (see LICENSE file)
 **/
 
 "use strict";
 let request = require("sync-request");
+let chroma = require ("chroma-js")
 
 /**
  * @class
@@ -25,16 +26,15 @@ class Colors {
    * Returns a random palette
    * @return {Object} returns a {id,colors} object containing the Palette Id and colors
    */
-  static getRndPalette () {
+  static getRndPalette (n) {
     let res = request ("GET", "http://www.colourlovers.com/api/palettes/random", {
       qs: {"format":"json"}
     });
     let jsonRes = JSON.parse(res.getBody('utf8'))[0];
-    return {id:jsonRes.id,
-            colors: jsonRes.colors.map (function(elem) {
-                          return '#' + elem
-                       })
-             }
+    let palette = {id:jsonRes.id};
+    let numColors = n || jsonRes.colors.length
+    let colors = jsonRes.colors.map (c => '#' + c);
+    return {id: jsonRes.id, colors: chroma.scale(colors).colors(numColors)};
   };
 
   /**

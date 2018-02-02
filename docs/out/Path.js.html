@@ -339,6 +339,45 @@
             </ul>
         </li>
     
+        <li class="item" data-name="Pattern">
+            <span class="title">
+                <a href="Pattern.html">Pattern</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Pattern#getAttr"><a href="Pattern.html#getAttr">getAttr</a></li>
+            
+                <li data-name="Pattern#moveTo"><a href="Pattern.html#moveTo">moveTo</a></li>
+            
+                <li data-name="Pattern#noise"><a href="Pattern.html#noise">noise</a></li>
+            
+                <li data-name="Pattern#rot"><a href="Pattern.html#rot">rot</a></li>
+            
+                <li data-name="Pattern#sca"><a href="Pattern.html#sca">sca</a></li>
+            
+                <li data-name="Pattern#setAttr"><a href="Pattern.html#setAttr">setAttr</a></li>
+            
+                <li data-name="Pattern#setInnerAttr"><a href="Pattern.html#setInnerAttr">setInnerAttr</a></li>
+            
+                <li data-name="Pattern#ske"><a href="Pattern.html#ske">ske</a></li>
+            
+                <li data-name="Pattern#subdivide"><a href="Pattern.html#subdivide">subdivide</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
         <li class="item" data-name="Polygon">
             <span class="title">
                 <a href="Polygon.html">Polygon</a>
@@ -573,14 +612,14 @@
         <article>
             <pre class="prettyprint source "><code>/**
 * @license
-* Copyright 2016 Ruben Afonso, ruben@figurebelow.com
+* Copyright 2017 Ruben Afonso, ruben@figurebelow.com
 * This source code is licensed under the Apache license (see LICENSE file)
 **/
 
 "use strict";
 
 let SVGBase = require ("./SVGBase.js").SVGBase;
-let NonIntersecPolCenter = require ("./utils/Functions.js").NonIntersecPolCenter;
+let Functions = require ("./utils/Functions.js").Functions;
 let PointsParser = require ("./grammars/PathGrammar.js");
 let D3 = require ("./d3/d3.v4.min.js");
 
@@ -596,8 +635,9 @@ class Path extends SVGBase {
    */
   constructor (values) {
     super ("path", values);
-    if ("d" in values)
+    if (values &amp;&amp; "d" in values) {
       this.parsePoints (values["d"]);
+    }
     else {
       this.setAttr({d:""});
       this.parsedPoints = [];
@@ -606,6 +646,7 @@ class Path extends SVGBase {
 
   parsePoints (dStr) {
     this.parsedPoints = PointsParser.parse (dStr);
+    this.updateD();
   }
 
   /**
@@ -615,7 +656,7 @@ class Path extends SVGBase {
    */
   clone () {
     var newElem = new Path (this.attributes);
-    newElem.setInnerAttr (this.innerAttributes);
+    newElem.setInnerAttr (this.innerAttributes)
     return newElem;
   }
 
@@ -625,31 +666,21 @@ class Path extends SVGBase {
    * @override
    */
   getCenter () {
-    var vertices = [];
-    this.parsedPoints.forEach (function (instruction) {
-      if (instruction.values != undefined) {
-         vertices = vertices.concat (instruction.values)
-       }
-     });
-     return NonIntersecPolCenter (vertices);
+     let center = Functions.getPathCenter(this.parsedPoints);
+     return Functions.NonIntersecPolCenter (center);
   }
 
   /**
    * Moves the object to the given xy point
-   * @param {object} {x:va;,y:val} position to move the Path's center to.
+   * @param {object} {x:val,y:val} position to move the Path's center to.
    * @return the object
    * @example
    * path.moveTo({x:10,y:10});
    */
-  moveTo (xyPos) {
-    var currentCenter = this.getCenter();
+  moveTo (xyPos, point) {
+    var currentCenter = point || this.getCenter();
     var distance = {x: xyPos.x - currentCenter.x, y: xyPos.y - currentCenter.y};
-    this.parsedPoints.forEach (function (point) {
-      if (point.values != undefined) {
-        point.values[0].x += distance.x;
-        point.values[0].y += distance.y;
-      }
-    });
+    Functions.moveInsts (this.parsedPoints, distance);
     this.updateD();
     return this;
   }
@@ -665,12 +696,46 @@ class Path extends SVGBase {
    * @example
    * rect.rotate(45, new Point(12,14)); // rotates around the given point
    */
-  rot (deg, point) {
-    if (point !== undefined)
-      super.rotate(point, deg);
-    else
-      super.rotate(this.getCenter(), deg);
-    return this;
+   rot (deg, origin) {
+     var around = origin || this.getCenter();
+     if (around == Path.UP || around == Path.DOWN || around == Path.RIGHT || around == Path.LEFT)
+       around = this.pointAt(around);
+     this.parsedPoints.forEach (function (inst) {
+       Functions.rotateInst(inst, deg, around);
+     });
+     this.updateD();
+     return this;
+   }
+
+  pointAt (pos) {
+    if (pos == Path.UP) {
+      let yVals = this.parsedPoints.filter(p => p != undefined &amp;&amp; p.values != undefined).map(p2 => p2.values[0].y);
+      return this.parsedPoints[yVals.indexOf(Math.min.apply(Math,yVals))].values[0];
+    }
+    else if (pos == Path.RIGHT) {
+        let xVals = this.parsedPoints.filter(p => p != undefined &amp;&amp; p.values != undefined).map(p2 => p2.values[0].x);
+        return this.parsedPoints[xVals.indexOf(Math.max.apply(Math,xVals))].values[0];
+    }
+    else if (pos == Path.DOWN) {
+        let yVals = this.parsedPoints.filter(p => p != undefined &amp;&amp; p.values != undefined).map(p2 => p2.values[0].y);
+        return this.parsedPoints[yVals.indexOf(Math.max.apply(Math,yVals))].values[0];
+    }
+    else if (pos == Path.LEFT) {
+        let xVals = this.parsedPoints.filter(p => p != undefined &amp;&amp; p.values != undefined).map(p2 => p2.values[0].x);
+        return this.parsedPoints[xVals.indexOf(Math.min.apply(Math,xVals))].values[0];
+    }
+    else {
+      let point = this.parsedPoints[pos].values[0];
+      return {x:point.x, y:point.y};
+    }
+  }
+
+  getPoints () {
+    let xyPoints = this.parsedPoints.map (function (item) {
+      if (item.type.toLowerCase() != "z")
+        return {x:item.values[0].x, y:item.values[0].y};
+    });
+    return xyPoints.filter (function (elem) { return elem != undefined });
   }
 
   /**
@@ -681,8 +746,11 @@ class Path extends SVGBase {
     var newD = "";
     this.parsedPoints.forEach (function (point, i, sourceList) {
       newD += point.type;
-      if (point.type != 'z') {
-        newD += point.values[0].x + "," + point.values[0].y;
+      if (point.type.toLowerCase() != 'z') {
+        for (let key in point.values[0]) {
+          newD += point.values[0][key] + ",";
+        }
+        newD = newD.slice(0,-1);
         if (i &lt; sourceList.length-1)
           newD += " ";
       }
@@ -704,12 +772,12 @@ class Path extends SVGBase {
       var interpolated = 0;
       for (var i  = 1; i &lt; clonedPoints.length; i++) {
         if (clonedPoints[i].type == "L") {
-          var intermediatePoint = NonIntersecPolCenter ([clonedPoints[i].values[0], clonedPoints[i-1].values[0]]);
+          var intermediatePoint = Functions.NonIntersecPolCenter ([clonedPoints[i].values[0], clonedPoints[i-1].values[0]]);
           this.parsedPoints.splice (i + interpolated,0,{type:'L', values:[{x:intermediatePoint.x, y:intermediatePoint.y}]});
           interpolated++;
         }
         if (clonedPoints[i].type == "z") {
-          var intermediatePoint = NonIntersecPolCenter ([clonedPoints[0].values[0], clonedPoints[i-1].values[0]]);
+          var intermediatePoint = Functions.NonIntersecPolCenter ([clonedPoints[0].values[0], clonedPoints[i-1].values[0]]);
           this.parsedPoints.splice (i + interpolated,0,{type:'L', values:[{x:intermediatePoint.x, y:intermediatePoint.y}]});
         }
       }
@@ -730,13 +798,13 @@ class Path extends SVGBase {
   noise (xyFun) {
     var that = this;
     for (var i = 0; i &lt; this.parsedPoints.length; i++) {
-      var values = xyFun ();
-      if (!Array.isArray(values)) {
-        values = [values];
-      }
-      var mapped = (values == this.parsedPoints.length) || false;
       var point = this.parsedPoints[i];
-      if (point.type != 'z') {
+      if (point.type != "z") {
+        var values = xyFun (point.values[0], i);
+        if (!Array.isArray(values)) {
+          values = [values];
+        }
+        var mapped = (values == this.parsedPoints.length) || false;
         if (mapped) {
           point.values[0].x += values[i].x;
           point.values[0].y += values[i].y;
@@ -752,30 +820,49 @@ class Path extends SVGBase {
   }
 
   static lineFromPoints (points) {
-    var gen = D3.line()
-      .x (function (d) { return d.x})
-      .y (function (d) { return d.y});
-    return gen(points);
-  }
-
-  static curveBasis (points) {
+    let input = points;
+    if (points.getPoints != undefined)
+      input = points.getPoints();
     var gen = D3.line()
       .x (function (d) { return d.x})
       .y (function (d) { return d.y})
-      .curve (D3.curveBasis);
-    return gen(points);
+      .curve(D3.curveLinearClosed);
+    return gen(input);
+  }
+
+  static curveBasis (points) {
+    let input = points;
+    if (points.getPoints != undefined)
+      input = points.getPoints();
+    var gen = D3.line()
+      .x (function (d) { return d.x})
+      .y (function (d) { return d.y})
+      .curve (D3.curveBasisClosed);
+    return gen(input);
   }
 
   static curveBundle (points) {
+    let input = points;
+    if (points.getPoints != undefined)
+      input = points.getPoints();
     var gen = D3.line()
       .x (function (d) { return d.x})
       .y (function (d) { return d.y})
       .curve (D3.curveNatural);
-    return gen(points);
+    return gen(input);
+  }
+
+  static fromPoints (points) {
+    var path = new Path ({d:Path.lineFromPoints(points)});
+    return path;
   }
 };
 
 module.exports.Path = Path;
+module.exports.Path.UP = -1;
+module.exports.Path.RIGHT = -2;
+module.exports.Path.DOWN = -3;
+module.exports.Path.LEFT = -4;
 </code></pre>
         </article>
     </section>
@@ -788,7 +875,7 @@ module.exports.Path = Path;
         
 
         <footer>
-            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Fri Oct 21 2016 19:50:59 GMT+0100 (IST)
+            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Jan 11 2018 08:22:12 GMT+0000 (GMT)
         </footer>
     </div>
 </div>

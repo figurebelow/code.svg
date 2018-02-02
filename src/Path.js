@@ -1,6 +1,6 @@
 /**
 * @license
-* Copyright 2017 Ruben Afonso, ruben@figurebelow.com
+* Copyright 2017 Ruben Afonso, rubenaf.com
 * This source code is licensed under the Apache license (see LICENSE file)
 **/
 
@@ -9,7 +9,7 @@
 let SVGBase = require ("./SVGBase.js").SVGBase;
 let Functions = require ("./utils/Functions.js").Functions;
 let PointsParser = require ("./grammars/PathGrammar.js");
-let D3 = require ("./d3/d3.v4.min.js");
+let D3 = require ("d3");
 
 /**
  * Class Path
@@ -60,7 +60,7 @@ class Path extends SVGBase {
 
   /**
    * Moves the object to the given xy point
-   * @param {object} {x:va;,y:val} position to move the Path's center to.
+   * @param {object} {x:val,y:val} position to move the Path's center to.
    * @return the object
    * @example
    * path.moveTo({x:10,y:10});
@@ -207,36 +207,14 @@ class Path extends SVGBase {
     return this;
   }
 
-  static lineFromPoints (points) {
+  static d(points, fun) {
     let input = points;
     if (points.getPoints != undefined)
       input = points.getPoints();
     var gen = D3.line()
       .x (function (d) { return d.x})
       .y (function (d) { return d.y})
-      .curve(D3.curveLinearClosed);
-    return gen(input);
-  }
-
-  static curveBasis (points) {
-    let input = points;
-    if (points.getPoints != undefined)
-      input = points.getPoints();
-    var gen = D3.line()
-      .x (function (d) { return d.x})
-      .y (function (d) { return d.y})
-      .curve (D3.curveBasisClosed);
-    return gen(input);
-  }
-
-  static curveBundle (points) {
-    let input = points;
-    if (points.getPoints != undefined)
-      input = points.getPoints();
-    var gen = D3.line()
-      .x (function (d) { return d.x})
-      .y (function (d) { return d.y})
-      .curve (D3.curveNatural);
+      .curve(fun);
     return gen(input);
   }
 
@@ -251,3 +229,19 @@ module.exports.Path.UP = -1;
 module.exports.Path.RIGHT = -2;
 module.exports.Path.DOWN = -3;
 module.exports.Path.LEFT = -4;
+
+module.exports.Path.Type = {}
+module.exports.Path.Type.BASIS = D3.curveBasis
+module.exports.Path.Type.BASIS_OPEN = D3.curveBasisOpen
+module.exports.Path.Type.BASIS_CLOSED = D3.curveBasisClosed
+module.exports.Path.Type.BUNDLE= D3.curveBundle
+module.exports.Path.Type.CARDINAL_CLOSED = D3.curveCardinalClosed
+module.exports.Path.Type.CARDINAL_OPEN = D3.curveCardinalOpen
+module.exports.Path.Type.CARDINAL = D3.curveCardinal
+module.exports.Path.Type.CATMUL_CLOSED = D3.curveCatmullRomClosed
+module.exports.Path.Type.CATMUL_OPEN = D3.curveCatmullRomOpen
+module.exports.Path.Type.CATMUL = D3.curveCatmullRom
+module.exports.Path.Type.LINEAR_CLOSED = D3.curveLinearClosed
+module.exports.Path.Type.LINEAR = D3.curveLinear
+module.exports.Path.Type.LINEAR_OPEN = D3.curveLinearOpen
+module.exports.Path.Type.NATURAL = D3.curveNatural

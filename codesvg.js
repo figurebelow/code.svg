@@ -18,7 +18,6 @@ global.Curves        = require ("./src/utils/Parametrics.js").Parametrics;
 global.Functions     = require ("./src/utils/Functions.js").Functions;
 global.Boids         = require ("./src/utils/node-particles/js/Boids.js");
 global.Noise         = require ("./src/utils/Noise.js").Noise;
-global.PathBuilder   = require ("./src/utils/PathBuilder.js").PathBuilder;
 global.StrokeBuilder = require ("./src/utils/StrokeBuilder.js").StrokeBuilder;
 global.PListBuilder  = require ("./src/utils/PListBuilder.js").PListBuilder;
 global.Bezier        = require ("./src/Bezier.js").Bezier;
@@ -48,7 +47,7 @@ class CodeSvg {
     var mainFile = params[1];
     this.mainFile = mainFile;
     this.outputFile = params[3];
-    if (params.length != 2 &&             // node file.js
+    if (params.length != 2 && // node file.js
        (params.length == 3 || params[2] != "-o"))
     {
       this.showInfoHelp();

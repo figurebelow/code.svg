@@ -1,6 +1,6 @@
 /**
 * @license
-* Copyright 2017 Ruben Afonso, ruben@figurebelow.com
+* Copyright 2017 Ruben Afonso, rubenaf.com
 * This source code is licensed under the Apache license (see LICENSE file)
 **/
 
@@ -10,7 +10,7 @@ class Functions {
 
   /**
    * Checks the set of values for the attribute.
-   * If values is a map, it returns the attr field, values itself it its a
+   * If values is a map, it returns the attr field, values itself if its a
    * primitive object, and defValue if values is undefined.
    * @param {object} values - set of objects
    * @param {string} attr - attr to look for in the values
@@ -82,11 +82,11 @@ class Functions {
     return Math.atan2 (yDiff, xDiff) * (180 / Math.PI);
   }
 
-  static group (arr, groupSize, f) {
+  static group (arr, groupSize, fun) {
     let returnVals = [];
     arr.forEach (function (point, i) {
       if (i >= (groupSize-1)) {
-        returnVals.push(f([arr[i-(groupSize-1)],arr[i]], i));
+        returnVals.push(fun([arr[i-(groupSize-1)],arr[i]], i));
       }
     });
     return returnVals;

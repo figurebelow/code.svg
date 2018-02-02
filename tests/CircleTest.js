@@ -1,6 +1,6 @@
 /**
 * @license
-* Copyright 2016 Ruben Afonso, ruben@figurebelow.com
+* Copyright 2016 Ruben Afonso, rubenaf.com
 *
 * This source code is licensed under the Apache license found in the
 * LICENSE file in the root directory of this source tree.
@@ -37,7 +37,7 @@ describe ("Circle", function ()
 
   it ("clones", function () {
     var newCircle = circle.clone();
-    assert (circle.equals(newCircle));
+    assert.deepEqual (circle, newCircle);
   });
 
 })

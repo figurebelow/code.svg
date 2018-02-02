@@ -1,6 +1,6 @@
 /**
 * @license
-* Copyright 2016 Ruben Afonso, ruben@figurebelow.com
+* Copyright 2016 Ruben Afonso, rubenaf.com
 * This source code is licensed under the Apache license (see LICENSE file)
 **/
 
@@ -8,6 +8,7 @@
 
 let SVGBase = require ("./SVGBase.js").SVGBase;
 let Rect = require ("./Rect.js").Rect;
+let Filter = require("./utils/Filters.js").Filter;
 
 const DEFAULT_WIDTH = 800;
 const DEFAULT_HEIGHT = 600;
@@ -27,6 +28,8 @@ class Scene extends SVGBase {
       baseAttrs["width"] = DEFAULT_WIDTH;
     if (baseAttrs["height"] === undefined)
       baseAttrs["height"] = DEFAULT_HEIGHT;
+    if (baseAttrs["z"] === undefined)
+      baseAttrs["z"] = 1000;
     super ("svg", baseAttrs);
     this.background = new Rect(baseAttrs);
     this.masks = {};
@@ -122,6 +125,15 @@ class Scene extends SVGBase {
         this.children.push(arguments[i]);
       arguments[i].innerAttributes.innerDefs.forEach (elem => this.add(elem));
     }
+    this.children.sort(function (a,b) {
+      let fa = a.getAttr("z") || 0;
+      let fb = b.getAttr("z") || 0;
+      if (fa > fb)
+        return -1;
+      else if (fa < fb)
+        return +1;
+      return 0;
+    });
   }
 
   addFrame (height, color) {
@@ -133,3 +145,4 @@ class Scene extends SVGBase {
 };
 
 module.exports.Scene = Scene;
+module.exports.Filter = Filter;

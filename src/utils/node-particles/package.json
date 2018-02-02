@@ -9,19 +9,19 @@
   "repository": {
     "name": "node-particles",
     "type": "git",
-    "url": "git+https://github.com/figurebelow/node-particles.git"
+    "url": "git+https://github.com/rubenafo/node-particles.git"
   },
   "keywords": [
     "particle-system",
     "particles",
     "physics"
   ],
-  "author": "Ruben <ruben@figurebelow.com>",
+  "author": "Ruben <rubenaf.com>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/figurebelow/node-particles/issues"
+    "url": "https://github.com/rubenafo/node-particles/issues"
   },
-  "homepage": "https://github.com/figurebelow/node-particles#readme",
+  "homepage": "https://github.com/rubenafo/node-particles#readme",
   "scripts": {
     "gendoc": "docco ./js/*.js",
     "test": "mocha ./tests"
