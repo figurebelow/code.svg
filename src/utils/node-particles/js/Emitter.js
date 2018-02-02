@@ -42,7 +42,7 @@ class Emitter {
     pPosition.x += this.rand.random() * this.xsize;
     pPosition.y += this.rand.random() * this.ysize;
     var particle = new Particle (pPosition,
-                                 Point.fromAngle(this.velocity.getAngle() + this.spread * this.rand.random()
+                                 Point.fromAngle(this.velocity.getAngle() - this.spread * this.rand.random()
                                                   - (0 * this.spread * 2),
                                   this.velocity.getMagnitude())
     );
