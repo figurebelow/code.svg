@@ -49,8 +49,8 @@ class ParticleSystem {
   }
 
   // Adds a new Field, given a point in space and its mass
-  addField (point, mass) {
-    this.fields.push (new Field(point, mass));
+  addField (point, mass, decay) {
+    this.fields.push (new Field(point, mass, decay));
     return this;
   }
 
@@ -133,6 +133,7 @@ class ParticleSystem {
         part.submitToFields(fields);
         part.move();
       });
+      fields.forEach(f => f.decay());
     };
     return this.clean();
   }
