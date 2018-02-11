@@ -5,6 +5,9 @@
 # code.svg
 A JavaScript library to manipulate the SVG DOM from Nodejs in a object-oriented way
 
+## Features
+
+
 ## Usage 
 
 ```javascript
