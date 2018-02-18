@@ -1,4 +1,6 @@
 ./node_modules
 ./src/utils/node-particles/node_modules/
 *.svg
+*.png
+*.jpeg
 samples

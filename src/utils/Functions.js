@@ -39,6 +39,16 @@ class Functions {
   }
 
   /*
+   * Removes an element from a map
+   */
+  static remove (map, value) {
+    if (map !== undefined & map[value] !== undefined) {
+      delete map[value];
+    }
+    return map;
+  }
+
+  /*
   * Center of a non-intersecting polygon,
   * as described in http://en.wikipedia.org/wiki/Centroid#Centroid_of_polygon
   * - parameters: vertices: {x,y} vertices list

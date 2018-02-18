@@ -30,6 +30,9 @@ class Scene extends SVGBase {
       baseAttrs["height"] = DEFAULT_HEIGHT;
     if (baseAttrs["z"] === undefined)
       baseAttrs["z"] = 1000;
+    let scale = baseAttrs["scale"];
+    if (scale !== undefined)
+      Functions.remove(baseAttrs, "scale")
     super ("svg", baseAttrs);
     this.background = new Rect(baseAttrs);
     this.masks = {};
@@ -37,6 +40,7 @@ class Scene extends SVGBase {
     this.sceneAttr = {};
     this.sceneAttr["width"] = baseAttrs["width"];
     this.sceneAttr["height"] = baseAttrs["height"];
+    this.sceneAttr["scale"] = scale
     this.initScene();
   }
 
@@ -57,7 +61,13 @@ class Scene extends SVGBase {
     super.setAttr({"standalone": "no"});
     super.setAttr({"width": this.sceneAttr["width"] || DEFAULT_WIDTH});
     super.setAttr({"height": this.sceneAttr["height"] || DEFAULT_HEIGHT});
-
+    if (this.sceneAttr["scale"] !== undefined) {
+      let scale = this.sceneAttr["scale"];
+      let width = this.getAttr("width");
+      let height = this.getAttr("height");
+      super.setAttr({"viewBox": "0 0 " + width + " " + height})
+      super.setAttr({"width": width * scale, "height": height * scale});
+    }
     for (var maskId in this.masks) {
       var maskRoot = defs.append ("mask").attr ("id", maskId);
       var mask = this.masks[maskId];
