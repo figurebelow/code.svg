@@ -3,7 +3,7 @@
 [![npm version](https://badge.fury.io/js/code.svg.svg)](https://badge.fury.io/js/code.svg)
 
 # code.svg
-A JavaScript library to create SVG art, aiming to improve the artistic process rather than focusing on the SVG standard.
+A JavaScript library to create SVG art aiming to improve the artistic side of the thing.
 
 ## Features
 

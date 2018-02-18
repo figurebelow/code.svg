@@ -1,6 +1,6 @@
 {
   "name": "code.svg",
-  "version": "0.6.6",
+  "version": "0.7.0",
   "description": "A JavaScript library to manipulate the SVG DOM in a object-oriented way.",
   "main": "codesvg.js",
   "directories": {
@@ -21,7 +21,8 @@
     "nodejs",
     "d3",
     "art",
-    "generative"
+    "generative",
+    "particles"
   ],
   "author": "Ruben Afonso <rbfrancos@gmail.com>",
   "license": "Apache-2.0",
