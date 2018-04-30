@@ -39,13 +39,8 @@ class FeOffset  extends SVGBase {
 
 class FeTurbulence extends SVGBase {
 
-    constructor() { // type:turbulence|fractalNoise , result:noise|turbulence
-        super("feTurbulence", {
-            type: "fractalNoise",
-            baseFrequency: 0.04,
-            numOctaves: 5,
-            result: "noise"
-        });
+    constructor(attrs) { // type:turbulence|fractalNoise , result:noise|turbulence
+        super("feTurbulence", attrs);
     }
 }
 
@@ -61,7 +56,6 @@ class FeSpecularLighting extends SVGBase {
 }
 
 class FeDiffuseLighting extends SVGBase {
-
     constructor() {
         super("feDiffuseLighting", { in: "noise",
             "lighting-color": "#95c1c3",
@@ -107,14 +101,14 @@ class FeGaussianBlur extends SVGBase {
     }
 };
 
-class FeMerge extends SVGBase {
+class FeMerge extends SVGBase { // attr
   constructor (attrs) {
-    super ("feMerge", attrs);
-  }
-
-  addFeMergeNode (attrs) {
-    this.append(new SVGBase("feMergeNode", attrs));
-    return this;
+    var nodes = attrs["nodes"] || []
+    var n = Functions.remove(attrs, "nodes")
+    super ("feMerge", n);
+    for (var node of nodes) {
+      this.append(new SVGBase("feMergeNode", {in:node}))
+    }
   }
 };
 
@@ -158,7 +152,7 @@ function RoughPaper() {
 }
 
 function DropShadow (attrs) {
-  let filter = new SVGBase("filter", {x:"-10%", y:"-10%", width:"140%", height:"140%"});
+  let filter = new SVGBase("filter", {x:"-50%", y:"-50%", width:"400%", height:"400%"});
   let ats = attrs || {};
   ats.dx = Functions.resolve (attrs,"dx",10);
   ats.dy = Functions.resolve (attrs,"dy",10);
@@ -170,15 +164,58 @@ function DropShadow (attrs) {
   return filter;
 }
 
-module.exports.Filter = Filter;
-module.exports.FeFlood = FeFlood;
-module.exports.FeMorphology = FeMorphology;
-module.exports.FeComposite = FeComposite;
-module.exports.FeSpecularLighting = FeSpecularLighting;
-module.exports.FeMerge = FeMerge;
-module.exports.RoughPaper = RoughPaper;
-module.exports.FeComponentTransfer = FeComponentTransfer;
-module.exports.FeDiffuseLighting = FeDiffuseLighting;
+///////////////////////////////////////
+
+function filter(at) {
+  return new Filter(at)
+}
+
+function flood(at) {
+  return new FeFlood(at)
+}
+
+function morphology (at) {
+  return new FeMorphology(at)
+}
+
+function composite(at) {
+  return new FeComposite(at)
+}
+
+function specular(at) {
+  return new FeSpecularLighting(at)
+}
+
+function merge (at) {
+  return new FeMerge(at)
+}
+
+function transfer(at) {
+  return new FeComponentTransfer(at)
+}
+
+function diffuse (at) {
+  return new FeDiffuseLighting(at)
+}
+
+function blur (at) {
+  return new FeGaussianBlur(at)
+}
+
+function turbulence(at) {
+  return new FeTurbulence(at)
+}
+
+module.exports.filter = filter
+module.exports.flood = flood
+module.exports.morphology = morphology
+module.exports.composite = composite;
+module.exports.specular = specular
+module.exports.merge = merge
+module.exports.turbulence = turbulence
+//module.exports.RoughPaper = RoughPaper;
+module.exports.transfer = transfer
+module.exports.diffuse = diffuse;
 module.exports.SimpleLight = SimpleLight;
 module.exports.DropShadow = DropShadow;
-module.exports.FeGaussianBlur = FeGaussianBlur
+module.exports.blur = blur

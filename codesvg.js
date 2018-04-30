@@ -42,7 +42,14 @@ class CodeSvg {
     return new Buffer(compressed).toString('base64');
   }
 
+  refs () {
+    this.Scene = Scene
+    this.Circle = Circle
+    this.Rect = Rect
+  }
+
   constructor () {
+    this.refs()
     var params = process.argv;
     var mainFile = params[1];
     this.mainFile = mainFile;

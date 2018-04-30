@@ -147,10 +147,10 @@ class Scene extends SVGBase {
   }
 
   addFrame (height, color) {
-    this.add(new Rect({x:0, y:0, width:this.sceneAttr["width"], height: height, fill:color}));
-    this.add(new Rect({x:this.sceneAttr["width"] - height, y:0, width:height, height: this.sceneAttr["height"], fill:color}));
-    this.add(new Rect({x:0, y:this.sceneAttr["height"] - height, width:this.sceneAttr["width"], height: height, fill:color}));
-    this.add(new Rect({x:0, y:0, width:height, height: this.sceneAttr["height"], fill:color}));
+    this.add(new Rect({x:0, y:0, width:this.sceneAttr["width"], height: height, fill:color, z:-1}));
+    this.add(new Rect({x:this.sceneAttr["width"] - height, y:0, width:height, height: this.sceneAttr["height"], fill:color, z:-1}));
+    this.add(new Rect({x:0, y:this.sceneAttr["height"] - height, width:this.sceneAttr["width"], height: height, fill:color, z:-1}));
+    this.add(new Rect({x:0, y:0, width:height, height: this.sceneAttr["height"], fill:color, z:-1}));
   }
 };
 
