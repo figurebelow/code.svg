@@ -6,9 +6,12 @@
 
 "use strict";
 
+var fs = require ("fs");
+
 let SVGBase = require ("./SVGBase.js").SVGBase;
-let Rect = require ("./Rect.js").Rect;
-let Filter = require("./utils/Filters.js").Filter;
+let Filter = require("./Filters.js").Filter;
+let Rect  = require ( "./Rect.js").Rect;
+let Circle = require ( "./Circle.js").Circle;
 
 const DEFAULT_WIDTH = 800;
 const DEFAULT_HEIGHT = 600;
@@ -22,7 +25,7 @@ const DEFAULT_BACKGROUND_FILL = "#f0e9a4";
  */
 class Scene extends SVGBase {
 
-  constructor (attrs) {
+  constructor (attrs, codesvg) {
     var baseAttrs = attrs || {};
     if (baseAttrs["width"] === undefined)
       baseAttrs["width"] = DEFAULT_WIDTH;
@@ -34,6 +37,7 @@ class Scene extends SVGBase {
     if (scale !== undefined)
       Functions.remove(baseAttrs, "scale")
     super ("svg", baseAttrs);
+    this.codesvg = codesvg;
     this.background = new Rect(baseAttrs);
     this.masks = {};
     this.defs = new SVGBase("defs");
@@ -151,6 +155,23 @@ class Scene extends SVGBase {
     this.add(new Rect({x:this.sceneAttr["width"] - height, y:0, width:height, height: this.sceneAttr["height"], fill:color, z:-1}));
     this.add(new Rect({x:0, y:this.sceneAttr["height"] - height, width:this.sceneAttr["width"], height: height, fill:color, z:-1}));
     this.add(new Rect({x:0, y:0, width:height, height: this.sceneAttr["height"], fill:color, z:-1}));
+  }
+
+  rect (params) {
+    let rect = new Rect(params)
+    this.add(rect)
+    return rect
+  }
+
+  circle (params) {
+    let circle = new Circle(params)
+    this.add(circle)
+    return circle
+  }
+
+  save () {
+    var svgContent = this.exportContent()
+    this.codesvg.save(svgContent)
   }
 };
 

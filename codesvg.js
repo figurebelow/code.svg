@@ -1,16 +1,14 @@
 "use strict";
 
-global.Scene         = require ( "./src/Scene.js").Scene;
-global.Rect          = require ( "./src/Rect.js").Rect;
-global.Circle        = require ( "./src/Circle.js").Circle;
+let Scene = require ( "./src/Scene.js").Scene;
 global.Line          = require ( "./src/Line.js").Line;
 global.Path          = require ( "./src/Path.js").Path;
 global.Ellipse       = require ( "./src/Ellipse.js").Ellipse;
 global.Polyline      = require ( "./src/Polyline.js").Polyline;
 global.Rnd           = require ( "./src/utils/Rnd.js").Rnd;
 global.Layout        = require ( "./src/utils/Layout.js").Layout;
-global.Gradients     = require ( "./src/utils/Gradients.js");
-global.Filters       = require ( "./src/utils/Filters.js");
+global.Gradients     = require ( "./src/Gradients.js");
+global.Filters       = require ( "./src/Filters.js");
 global.Pattern       = require ( "./src/Pattern.js").Pattern;
 global.PS            = require ( "./src/utils/node-particles/js/ParticleSystem.js");
 global.Colors        = require ( "./src/utils/Colors.js").Colors;
@@ -42,14 +40,7 @@ class CodeSvg {
     return new Buffer(compressed).toString('base64');
   }
 
-  refs () {
-    this.Scene = Scene
-    this.Circle = Circle
-    this.Rect = Rect
-  }
-
   constructor () {
-    this.refs()
     var params = process.argv;
     var mainFile = params[1];
     this.mainFile = mainFile;
@@ -74,18 +65,24 @@ class CodeSvg {
     global.Rand = new Rnd(seed);
   }
 
-  save (scene) {
+  save (svgContent) {
     var inputSrcCode = fs.readFileSync(this.mainFile);
     var srcLength = inputSrcCode;
-    scene.setDesc({"xmlns:description": this.compressSource(inputSrcCode)});
-    fs.writeFileSync(this.outputFile, scene.exportContent());
-    var raw = scene.exportContent();
+    this.baseScene.setDesc({"xmlns:description": this.compressSource(inputSrcCode)});
+    fs.writeFileSync(this.outputFile, svgContent);
     var srcLength = (inputSrcCode.length/1000);
-    var svgLength = (raw.length/1000);
+    var svgLength = (svgContent.length/1000);
     console.log("Src file size    : " + srcLength.toFixed(2) + " KB");
     console.log("SVG content size : " + svgLength.toFixed(2) + " KB");
     console.log("Total: " + (svgLength + srcLength).toFixed(2) + " KB written to " + this.outputFile);
   }
+
+  scene(attrs) {
+    let scene = new Scene(attrs, this)
+    this.baseScene = scene
+    return scene
+  }
+
 };
 
 module.exports = new CodeSvg();

@@ -6,8 +6,8 @@
 
 "use strict";
 
-let SVGBase = require("../SVGBase.js").SVGBase;
-let Functions = require ("./Functions.js").Functions;
+let SVGBase = require("./SVGBase.js").SVGBase;
+let Functions = require ("./utils/Functions.js").Functions;
 
 class Filter extends SVGBase {
 

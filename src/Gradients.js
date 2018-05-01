@@ -6,7 +6,7 @@
 
 "use strict";
 
-let SVGBase = require ("../SVGBase.js").SVGBase;
+let SVGBase = require ("./SVGBase.js").SVGBase;
 
 /**
  * @class
