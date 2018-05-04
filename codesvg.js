@@ -1,14 +1,11 @@
 "use strict";
 
 let Scene = require ( "./src/Scene.js").Scene;
-global.Line          = require ( "./src/Line.js").Line;
-global.Path          = require ( "./src/Path.js").Path;
-global.Ellipse       = require ( "./src/Ellipse.js").Ellipse;
-global.Polyline      = require ( "./src/Polyline.js").Polyline;
+
 global.Rnd           = require ( "./src/utils/Rnd.js").Rnd;
 global.Layout        = require ( "./src/utils/Layout.js").Layout;
 global.Gradients     = require ( "./src/Gradients.js");
-global.Filters       = require ( "./src/Filters.js");
+
 global.Pattern       = require ( "./src/Pattern.js").Pattern;
 global.PS            = require ( "./src/utils/node-particles/js/ParticleSystem.js");
 global.Colors        = require ( "./src/utils/Colors.js").Colors;

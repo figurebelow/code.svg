@@ -12,6 +12,10 @@ let SVGBase = require ("./SVGBase.js").SVGBase;
 let Filter = require("./Filters.js").Filter;
 let Rect  = require ( "./Rect.js").Rect;
 let Circle = require ( "./Circle.js").Circle;
+let Line = require ( "./Line.js").Line;
+let Path = require ( "./Path.js").Path;
+let Ellipse = require ( "./Ellipse.js").Ellipse;
+let Polyline = require ( "./Polyline.js").Polyline;
 
 const DEFAULT_WIDTH = 800;
 const DEFAULT_HEIGHT = 600;

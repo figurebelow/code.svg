@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "mocha ./tests",
+    "test": "mocha ./tests --recursive",
     "test-travis": "./node_modules/istanbul/lib/cli.js cover -x '**/grammars/**' -x '**/node-particles/**' ./node_modules/mocha/bin/_mocha -- -R spec ./tests/",
     "gendocs": "./node_modules/.bin/jsdoc -r src -d docs/out/ -t docs/template/"
   },

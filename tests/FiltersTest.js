@@ -7,7 +7,7 @@
 **/
 
 var assert = require ("assert");
-var Filters = require ("../src/utils/Filters.js");
+var Filters = require ("../src/Filters.js");
 
 describe ("DiffuseLight", function () {
 
