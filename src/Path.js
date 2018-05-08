@@ -9,6 +9,9 @@
 let SVGBase = require ("./SVGBase.js").SVGBase;
 let Functions = require ("./utils/Functions.js").Functions;
 let PointsParser = require ("./grammars/PathGrammar.js");
+let Gradient = require ( "./Gradients.js");
+let Pattern  = require ( "./Pattern.js").Pattern;
+
 let D3 = require ("d3");
 
 /**

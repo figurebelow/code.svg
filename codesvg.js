@@ -2,11 +2,7 @@
 
 let Scene = require ( "./src/Scene.js").Scene;
 
-global.Rnd           = require ( "./src/utils/Rnd.js").Rnd;
 global.Layout        = require ( "./src/utils/Layout.js").Layout;
-global.Gradients     = require ( "./src/Gradients.js");
-
-global.Pattern       = require ( "./src/Pattern.js").Pattern;
 global.PS            = require ( "./src/utils/node-particles/js/ParticleSystem.js");
 global.Colors        = require ( "./src/utils/Colors.js").Colors;
 global.Curves        = require ("./src/utils/Parametrics.js").Parametrics;
@@ -16,9 +12,6 @@ global.Noise         = require ("./src/utils/Noise.js").Noise;
 global.StrokeBuilder = require ("./src/utils/StrokeBuilder.js").StrokeBuilder;
 global.PListBuilder  = require ("./src/utils/PListBuilder.js").PListBuilder;
 global.Bezier        = require ("./src/Bezier.js").Bezier;
-
-// Global function to return random numbers
-global.Rand          = new Rnd(new Date().getMilliseconds());
 
 var fs = require ("fs");
 var compressjs = require('compressjs');
@@ -56,10 +49,6 @@ class CodeSvg {
       else
         this.outputFile = mainFile.substr (0, dot) + ".svg";
     }
-  }
-
-  setSeed(seed) {
-    global.Rand = new Rnd(seed);
   }
 
   save (svgContent) {

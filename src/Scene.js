@@ -16,6 +16,10 @@ let Line = require ( "./Line.js").Line;
 let Path = require ( "./Path.js").Path;
 let Ellipse = require ( "./Ellipse.js").Ellipse;
 let Polyline = require ( "./Polyline.js").Polyline;
+let Rnd = require ("./utils/Rnd.js").Rnd;
+
+// Global function to return random numbers
+global.Rand          = new Rnd(new Date().getMilliseconds());
 
 const DEFAULT_WIDTH = 800;
 const DEFAULT_HEIGHT = 600;
@@ -176,6 +180,10 @@ class Scene extends SVGBase {
   save () {
     var svgContent = this.exportContent()
     this.codesvg.save(svgContent)
+  }
+
+  setSeed(seed) {
+    global.Rand = new Rnd(seed);
   }
 };
 
