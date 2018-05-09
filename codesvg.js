@@ -3,11 +3,9 @@
 let Scene = require ( "./src/Scene.js").Scene;
 
 global.Layout        = require ( "./src/utils/Layout.js").Layout;
-global.PS            = require ( "./src/utils/node-particles/js/ParticleSystem.js");
+global.PS            = require ( "node-particles");
 global.Colors        = require ( "./src/utils/Colors.js").Colors;
-global.Curves        = require ("./src/utils/Parametrics.js").Parametrics;
 global.Functions     = require ("./src/utils/Functions.js").Functions;
-global.Boids         = require ("./src/utils/node-particles/js/Boids.js");
 global.Noise         = require ("./src/utils/Noise.js").Noise;
 global.StrokeBuilder = require ("./src/utils/StrokeBuilder.js").StrokeBuilder;
 global.PListBuilder  = require ("./src/utils/PListBuilder.js").PListBuilder;

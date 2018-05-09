@@ -1,5 +1,5 @@
 node_modules/
-src/utils/node-particles/node_modules/*
+docs/
 *.svg
 *.png
 *.jpeg
