@@ -9,6 +9,7 @@
 let SVGBase = require ("./SVGBase.js").SVGBase;
 let Functions = require ("./utils/Functions.js").Functions;
 let PointsParser = require ("./grammars/PathGrammar.js");
+let PolygonParser = require ("./grammars/PolygonGrammar.js");
 let Gradient = require ( "./Gradients.js");
 let Pattern  = require ( "./Pattern.js").Pattern;
 
@@ -36,7 +37,18 @@ class Path extends SVGBase {
   }
 
   parsePoints (dStr) {
-    this.parsedPoints = PointsParser.parse (dStr);
+    let d = dStr
+    if (!d.startsWith("M")) { // array of points
+      var pts  = PolygonParser.parse(d);
+      d = "M" + pts[0].x + "," + pts[0].y + " ";
+      pts.forEach (function (point, i) {
+        if (i > 0) {
+          d += "L" + point.x + "," + point.y + " "
+        }
+      });
+      d += " z";
+    }
+    this.parsedPoints = PointsParser.parse (d);
     this.updateD();
   }
 
@@ -219,11 +231,6 @@ class Path extends SVGBase {
       .y (function (d) { return d.y})
       .curve(fun);
     return gen(input);
-  }
-
-  static fromPoints (points) {
-    var path = new Path ({d:Path.lineFromPoints(points)});
-    return path;
   }
 };
 

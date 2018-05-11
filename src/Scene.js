@@ -177,6 +177,18 @@ class Scene extends SVGBase {
     return circle
   }
 
+  ellipse (params) {
+    let ellipse = new Ellipse(params)
+    this.add(ellipse)
+    return ellipse
+  }
+
+  path (params) {
+    let path = new Path(params)
+    this.add(path)
+    return path
+  }
+
   save () {
     var svgContent = this.exportContent()
     this.codesvg.save(svgContent)
