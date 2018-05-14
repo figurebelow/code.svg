@@ -20,6 +20,7 @@ let Rnd = require ("./utils/Rnd.js").Rnd;
 
 // Global function to return random numbers
 global.Rand          = new Rnd(new Date().getMilliseconds());
+global.print         = console.log
 
 const DEFAULT_WIDTH = 800;
 const DEFAULT_HEIGHT = 600;
