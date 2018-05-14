@@ -10,6 +10,8 @@ global.Noise         = require ("./src/utils/Noise.js").Noise;
 global.StrokeBuilder = require ("./src/utils/StrokeBuilder.js").StrokeBuilder;
 global.PListBuilder  = require ("./src/utils/PListBuilder.js").PListBuilder;
 global.Bezier        = require ("./src/Bezier.js").Bezier;
+global.Paths         = require ("./src/utils/PathUtils.js").PathUtils;
+global.Cfg           = require ("./src/utils/Cfg.js").Cfg;
 
 var fs = require ("fs");
 var compressjs = require('compressjs');
