@@ -2,9 +2,6 @@
 [![Coverage Status](https://coveralls.io/repos/github/rubenafo/code.svg/badge.svg?branch=master)](https://coveralls.io/github/rubenafo/code.svg?branch=master)
 [![npm version](https://badge.fury.io/js/code.svg.svg)](https://badge.fury.io/js/code.svg)
 
-### This repository is not maintained anymore :( 
-### All this good stuff can be found in Python at https://github.com/rubenafo/easel.py
-
 # code.svg
 A JavaScript library to create SVG art.
 
