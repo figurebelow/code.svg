@@ -50,4 +50,29 @@ describe ("Layout tests", function () {
     assert.deepEqual ({x:100, y:100}, points[0]);
     assert.deepEqual ({x:100, y:500}, points[1]);
   });
+
+  it ("generates Butterfly points", function () {
+    let points = Layout.ButterflyCurve({x:200, y:200}, 200, 1, 0.4);
+    assert (points.length > 0);
+  });
+
+  it ("generates Hypocycloid points", function () {
+    let points = Layout.Hypocycloid ({x:200, y:200}, 200, 2, 3, 4);
+    assert (points.length > 0);
+  });
+
+  it ("generates Rose points", function () {
+    let points = Layout.Rose({x:200, y:200}, 200, (6/2));
+    assert (points.length > 0);
+  });
+
+  it ("generates Rossler points", function () {
+    let points = Layout.Rossler({x:200, y:200}, 200, 1000, 0.2, 0.2, 0.4, 3);
+    assert.equal(points.length, 1000);
+  });
+
+  it ("generates Lorentz points", function () {
+    let points = Layout.Lorentz({x:200, y:200}, 200, 1000, 0.1, 0.1, 0.1, 0.2, 0.2, 0.3, 3);
+    assert.equal(points.length, 1000);
+  });
 });

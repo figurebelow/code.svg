@@ -3,10 +3,23 @@
 [![npm version](https://badge.fury.io/js/code.svg.svg)](https://badge.fury.io/js/code.svg)
 
 # code.svg
-A JavaScript library to manipulate the SVG DOM from Nodejs in a object-oriented way
+A JavaScript library to create SVG art.
 
 ## Features
 
+Among other things, code.svg provides things like:
+
+* Abstraction layer on top of SVG
+* SVG shapes and Path manipulation
+* SVG gradients and filter support
+* Positional Layouts
+  * Attractors
+  * Rossler
+  * Spiral
+  * Grid, columns and rows
+* Masonry layout
+* ColourLovers API integration to reuse palettes and colours
+* Particle system
 
 ## Usage 
 

@@ -170,7 +170,8 @@ class SVGBase {
   }
 
   /**
-   * Sets the inner attribute values.
+   * Sets the inner attribute values, those attributes that should not be
+   * part of the SVG output.
    * @param {object} attrs {key:value} map with the attributes
    */
   setInnerAttr (attrs) {

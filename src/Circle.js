@@ -23,10 +23,10 @@ class Circle extends Path {
     var cx = Functions.resolve(values, "cx", 0);
     var cy = Functions.resolve(values, "cy", 0);
     var r = Functions.resolve(values, "r", 5);
-    var p0 = "M" + cx + "," + cy + " ";
-    var p1 = "m" + (-r) + "," + 0 + " ";
-    var p2 = "a" + r + "," + r + "," + 0 + "," + "1,0," + (r * 2) + ",0 ";
-    var p3 = "a" + r + "," + r + "," + 0 + "," + "1,0," + -(r * 2) + ",0 ";
+    var p0 = "M" + cx + "," + cy;
+    var p1 = "m" + (-r) + "," + 0;
+    var p2 = "a" + r + "," + r + "," + 0 + "," + "1,0," + (r * 2) + ",0";
+    var p3 = "a" + r + "," + r + "," + 0 + "," + "1,0," + -(r * 2) + ",0";
     var d = p0 + " " + p1 + " " + p2 + " " + p3;
     var procParams = values;
     procParams["d"] = d;
@@ -65,10 +65,6 @@ class Circle extends Path {
     this.parsedPoints.splice(3,1);
     this.updateD();
     return this;
-  }
-
-  setAttr(attrs) {
-    return constructor(attrs);
   }
 };
 

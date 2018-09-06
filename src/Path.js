@@ -9,6 +9,10 @@
 let SVGBase = require ("./SVGBase.js").SVGBase;
 let Functions = require ("./utils/Functions.js").Functions;
 let PointsParser = require ("./grammars/PathGrammar.js");
+let PolygonParser = require ("./grammars/PolygonGrammar.js");
+let Gradient = require ( "./Gradients.js");
+let Pattern  = require ( "./Pattern.js").Pattern;
+
 let D3 = require ("d3");
 
 /**
@@ -33,7 +37,18 @@ class Path extends SVGBase {
   }
 
   parsePoints (dStr) {
-    this.parsedPoints = PointsParser.parse (dStr);
+    let d = dStr
+    if (!d.startsWith("M")) { // array of points
+      var pts  = PolygonParser.parse(d);
+      d = "M" + pts[0].x + "," + pts[0].y + " ";
+      pts.forEach (function (point, i) {
+        if (i > 0) {
+          d += "L" + point.x + "," + point.y + " "
+        }
+      });
+      d += " z";
+    }
+    this.parsedPoints = PointsParser.parse (d);
     this.updateD();
   }
 
@@ -206,42 +221,6 @@ class Path extends SVGBase {
     this.updateD();
     return this;
   }
-
-  static d(points, fun) {
-    let input = points;
-    if (points.getPoints != undefined)
-      input = points.getPoints();
-    var gen = D3.line()
-      .x (function (d) { return d.x})
-      .y (function (d) { return d.y})
-      .curve(fun);
-    return gen(input);
-  }
-
-  static fromPoints (points) {
-    var path = new Path ({d:Path.lineFromPoints(points)});
-    return path;
-  }
 };
 
 module.exports.Path = Path;
-module.exports.Path.UP = -1;
-module.exports.Path.RIGHT = -2;
-module.exports.Path.DOWN = -3;
-module.exports.Path.LEFT = -4;
-
-module.exports.Path.Type = {}
-module.exports.Path.Type.BASIS = D3.curveBasis
-module.exports.Path.Type.BASIS_OPEN = D3.curveBasisOpen
-module.exports.Path.Type.BASIS_CLOSED = D3.curveBasisClosed
-module.exports.Path.Type.BUNDLE= D3.curveBundle
-module.exports.Path.Type.CARDINAL_CLOSED = D3.curveCardinalClosed
-module.exports.Path.Type.CARDINAL_OPEN = D3.curveCardinalOpen
-module.exports.Path.Type.CARDINAL = D3.curveCardinal
-module.exports.Path.Type.CATMUL_CLOSED = D3.curveCatmullRomClosed
-module.exports.Path.Type.CATMUL_OPEN = D3.curveCatmullRomOpen
-module.exports.Path.Type.CATMUL = D3.curveCatmullRom
-module.exports.Path.Type.LINEAR_CLOSED = D3.curveLinearClosed
-module.exports.Path.Type.LINEAR = D3.curveLinear
-module.exports.Path.Type.LINEAR_OPEN = D3.curveLinearOpen
-module.exports.Path.Type.NATURAL = D3.curveNatural
